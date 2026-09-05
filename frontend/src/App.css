@@ -1,0 +1,2 @@
+/* App-specific styles override defaults from CRA */
+.App { text-align: left; }

@@ -1,0 +1,159 @@
+{
+  "theme": "light",
+  "brand_name": "Wick & Pour",
+  "typography": {
+    "heading_font": "Cormorant Garamond",
+    "body_font": "Manrope",
+    "rules": {
+      "headings": "Use tight letter spacing (tracking-tighter) for massive headings. Weight contrast is key: use font-light for elegance or font-bold for impact. DO NOT USE INTER OR ROBOTO FOR HEADINGS.",
+      "overlines": "Uppercase, tiny, wide spacing (tracking-[0.2em]) for labels and categories.",
+      "body": "leading-relaxed for body copy.",
+      "hierarchy": {
+        "h1": "text-5xl md:text-6xl+ (Never exceed text-6xl)",
+        "h2": "text-3xl md:text-4xl",
+        "h3": "text-2xl",
+        "body": "text-base",
+        "labels": "text-xs uppercase tracking-widest"
+      }
+    }
+  },
+  "colors": {
+    "archetype": "ORGANIC & EARTHY",
+    "palette": {
+      "background": "#FDFBF7",
+      "surface": "#F4EFE6",
+      "surface_alt": "#EBE4D5",
+      "primary": "#C86B4F",
+      "primary_hover": "#A6543C",
+      "secondary": "#687864",
+      "text_primary": "#2A2624",
+      "text_secondary": "#5C5652",
+      "border": "#E8E2D6",
+      "error": "#B0413E",
+      "success": "#4A6B53"
+    },
+    "rules": {
+      "tints": "Never use pure #000000 or #FFFFFF. Use #2A2624 for blacks and #FDFBF7 for whites.",
+      "gradients": "No generic digital gradients. Rely on flat earthy tones.",
+      "contrast": "Ensure minimum 4.5:1 ratio for text. Always explicitly set hover text colors."
+    }
+  },
+  "visual_enhancers": {
+    "surfaces": "Use flat solid surfaces. Minimal glassmorphism to preserve the tactile, organic, and artisanal feel of candlemaking. Avoid 'tech' glows.",
+    "borders": "1px delicate borders (border-[#E8E2D6]) to structure content instead of heavy drop shadows.",
+    "textures": "Incorporate subtle grain overlays or SVG noise to break the digital flatness and evoke physical craft materials."
+  },
+  "components": {
+    "strategy": "Hybrid: Use pure HTML/Tailwind for marketing/hero sections to achieve asymmetrical art direction. Use customized Shadcn for forms, dialogs, and interactive e-commerce logic.",
+    "buttons": "Pill-shaped or sharp rectangular with subtle interaction animations. Use background-color shifts on hover (e.g., primary to primary_hover).",
+    "cards": "Cardless where possible. Use generous whitespace and borders to delineate products rather than floating white boxes.",
+    "inputs": "Use Shadcn inputs but override borders to match the earthy palette (border-[#E8E2D6]) and focus rings to #C86B4F."
+  },
+  "grids": {
+    "marketing": "Use 'Bento' Mode A (Tetris Grid) for educational content and brand storytelling. Mix 3+ shapes (Hero, Square, Tall, Filler). Leave negative space.",
+    "ecommerce": "Spacious 2, 3, or 4 column grids for product catalogs (grid-cols-1 md:grid-cols-2 lg:grid-cols-3) with gap-8 to gap-12.",
+    "rules": "Grid items must be direct children. Override default stretch with align-items: start if needed."
+  },
+  "layouts": {
+    "spacing": "Generous Spacing Philosophy. Use 2-3x more spacing (p-12, p-16, p-24) to create a premium, calm, artisanal vibe.",
+    "alignment": "Left-align paragraphs, inputs, and dense content for readability. Headings can be centered for editorial effect.",
+    "mobile": "Mobile-first. Images must not exceed 80vh on mobile."
+  },
+  "motion": {
+    "libraries": "framer-motion for interactions. lenis for premium smooth momentum scrolling.",
+    "rules": "Subtle entrance animations for product lists (staggered fade-up). Image hover reveals (slight scale up of image within overflow-hidden container). Disable/reduce animations for prefers-reduced-motion."
+  },
+  "accessibility": {
+    "contrast": "Meet APCA or WCAG AA minimum 4.5:1 for normal text.",
+    "focus": "High contrast focus states for all interactive elements.",
+    "testing": "All interactive elements MUST include a data-testid attribute in kebab-case based on role (e.g., data-testid='add-to-cart-button')."
+  },
+  "media": {
+    "icons": "Use @phosphor-icons/react (Duotone or Light weight) for an elegant, high-end feel.",
+    "images": "Use realistic, high-quality artisanal imagery. Avoid placeholders."
+  },
+  "3d_libraries": {
+    "decision": "Not required for MVP, rely on high-quality 2D photography and Framer Motion for parallax to maintain the artisanal, organic aesthetic. (No R3F needed unless adding a 3D candle customizer in the future)."
+  },
+  "image_urls": {
+    "hero_brand": [
+      {
+        "url": "https://images.unsplash.com/photo-1612293905607-b003de9e54fb",
+        "description": "Hand lighting an artisanal candle in an amber glass jar. Use for Hero or Our Story."
+      }
+    ],
+    "candles_category": [
+      {
+        "url": "https://images.unsplash.com/photo-1603905179139-db12ab535ca9",
+        "description": "Three aesthetic candles (black, white, tan) on a wooden holder. Ideal for the Candles product category cover."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7",
+        "description": "Amber glass containers glowing. Good for product page banners or category images."
+      }
+    ],
+    "essential_oils_category": [
+      {
+        "url": "https://images.unsplash.com/photo-1787878513774-662084c59582",
+        "description": "Amber glass dropper bottles on a wooden table. Perfect for Fragrance/Essential Oils category."
+      }
+    ],
+    "wicks_category": [
+      {
+        "url": "https://images.unsplash.com/photo-1647107251148-8b8ab1516346",
+        "description": "Macro shot of a lit wick with melting wax. Great for Wicks category."
+      }
+    ],
+    "wax_category": [
+      {
+        "url": "https://images.unsplash.com/photo-1706167754779-0764d9b7f412",
+        "description": "Bowl filled with white flakes. Use for Soy/Beeswax category."
+      }
+    ],
+    "containers_category": [
+      {
+        "url": "https://images.unsplash.com/photo-1610701596007-11502861dcfa",
+        "description": "Ceramic candle jars/containers. Use for Containers \u0026 Vessels category."
+      }
+    ],
+    "educational_content": [
+      {
+        "url": "https://images.unsplash.com/photo-1770734331757-f40d64eafbc2",
+        "description": "Pouring hot liquid wax into a metal cup. Essential for the 'Candle Making Methods \u0026 Techniques' guide pages."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: framer-motion, @phosphor-icons/react, lenis, sonner.",
+    "Implement Google Auth \u0026 JWT Email/Password for the backend.",
+    "Create a browsable E-commerce catalog with search \u0026 filter, and a mock checkout flow.",
+    "Develop the Educational content section (Candle-making methods, recipes, tools list) using editorial, asymmetric layouts (Phase 1).",
+    "Use 'Cormorant Garamond' for headings. Never use Inter or standard sans-serif for H1/H2.",
+    "Do not use transparent headers without a backdrop blur or solid backing.",
+    "Integrate provided image_urls for categories and features. Do not use dummy placeholders.",
+    "Ensure the e-commerce structure has a robust database schema for products, categories, orders, and users."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy and overlap.",
+    "You MUST NOT apply universal transition (e.g., transition: all). Always add transitions for specific interactive elements.",
+    "You MUST NOT center align the app container, i.e. do not add .App { text-align: center; } in the css file.",
+    "Always use modern button styles with interaction animations \u0026 color relevant to the app style.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Main agent relies on these image URLs. Missing categories = main agent will use placeholder text which is FORBIDDEN.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Use 'sonner' for toasts (located in /app/src/components/ui/sonner.tsx)."
+  ],
+  "GENERAL_UI_UX_DESIGN_GUIDELINES": [
+    "Mobile-first responsive design is strictly required.",
+    "Optical alignment over geometrical alignment (e.g., adjust padding for rounded icons).",
+    "Ensure content must be visible with increased contrast on :hover/:active/:focus.",
+    "All interactive and key informational elements MUST include a data-testid attribute for testing.",
+    "Do not use complete transparent background in header, overlays, or any surface that has content under it.",
+    "Customize scrollbars to match the earthy theme; NO native gutter.",
+    "Use HTML/Tailwind over Shadcn 'Card' for highly custom editorial marketing sections to maintain creative freedom."
+  ]
+}

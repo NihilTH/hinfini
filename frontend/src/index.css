@@ -116,3 +116,20 @@ img.product-image { transition: transform 600ms cubic-bezier(0.2,0.6,0.2,1); }
 
 input, textarea { color-scheme: dark; }
 input::placeholder, textarea::placeholder { color: var(--wp-text-2); opacity: 0.7; }
+
+.focus-ring:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--wp-primary);
+  outline-offset: 2px;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+.admin-input { width: 100%; background: var(--wp-bg); border: 1px solid var(--wp-border); padding: 0.55rem 0.75rem; border-radius: 2px; font-size: 0.875rem; color: var(--wp-text); }
+.admin-input:focus { outline: none; border-color: var(--wp-primary); }
+.admin-label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--wp-text-2); margin-bottom: 0.35rem; }
+.admin-help { font-size: 0.72rem; color: #8a826f; margin-top: 0.25rem; }
+.admin-card { background: var(--wp-surface); border: 1px solid var(--wp-border); }
+.badge { display: inline-flex; align-items: center; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; border: 1px solid var(--wp-border); color: var(--wp-text-2); }
+.badge-gold { border-color: var(--wp-primary); color: var(--wp-primary); }
+.badge-green { border-color: #4f9a6a; color: #7cc79a; }
+.badge-red { border-color: #B0413E; color: #d9736f; }

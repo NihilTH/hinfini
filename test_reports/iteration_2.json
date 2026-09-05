@@ -1,0 +1,31 @@
+{
+  "summary": "Comprehensive backend + frontend testing of H'INFINI Candles post-overhaul. 41/41 pytest cases pass covering products, categories, orders, SimplePay start + signed IPN → PAID, admin CRUD (products, categories, media, orders ship/cancel with stock restore + email logs, invoice, newsletter, email resend), newsletter subscribe/consent/dup, admin auth (correct/wrong). Frontend Playwright covered: home HU (brand-section, Kosárba, no forbidden EN words, category HU names), HU↔EN switch persisted after reload, header search focus, shop sort/count (28 termék), product detail (pd-stock/description/related/back/add-to-cart), cart persistence across reload+navigation (localStorage hi_cart_v1), checkout summary + ship-home checked + ship-pickup disabled with 'Fejlesztés alatt' badge + co-total, admin login (wrong token toast, correct token → stats + all 6 tabs + signout), all legal pages render legal-template-note, unknown route → 404, mobile-menu toggle+close+Escape, footer newsletter (error without consent, footer-newsletter-done with consent).",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "server.py is 679 lines — approaching the 700-line split threshold; consider extracting admin router, payments, and seeding into separate modules for maintainability.",
+    "In-memory _fails dict for admin brute-force protection resets on backend restart and is per-worker only; if the app is ever scaled to >1 worker/replica the 8-attempt lockout will not be enforced globally. Fine for MVP.",
+    "create_order does not use a transaction; stock decrement happens after order insert. If a concurrent order over-consumes stock, the second order will still be inserted with items whose stock went negative (check happens once, decrement is $inc unconditional). Consider using findOneAndUpdate({stock: {$gte: qty}}, {$inc: {stock: -qty}}) atomically.",
+    "GET /api/orders/{id} correctly hides ipn/simplepay_response/history/admin_note but still exposes full customer PII (email, phone, address) with only the order_id as a guessing key. Consider adding a per-order lookup token (e.g. order_ref last-6) or short-lived signed link.",
+    "Public /api/products/random has limit param defaulting to 100 but fetches up to 1000 first — fine for now; ensure not abused."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py (new)"
+  ],
+  "success_rate": { "backend": "100%", "frontend": "100%" },
+  "test_credentials": "Admin token: hinfini-admin-2026 (header X-Admin-Token). SimplePay sandbox key FxDa5w314kLlNseq2sKuVwaqZshZT5d6.",
+  "seed_data_creation": "Tests create ephemeral TEST_* products, categories, media, newsletter subscribers, and orders. Draft/archived product created via admin API is left archived (not deleted) — harmless. One order (TestOrdersAndPayments.last_order_id) is marked PAID via signed IPN. One SHIPPED-then-CANCELLED order is created in admin ship/cancel flow (stock restored). Cleanup could be improved by DELETE endpoints, but the schema hides them intentionally.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Existing pytest file at /app/backend/tests/backend_test.py is idempotent and self-seeding — safe to re-run. Requires Pillow (already installed). Frontend passes all data-testid checks. If flaky payments_start (SimplePay sandbox latency), test tolerates RESERVED via skip. Do NOT run admin verify-wrong more than 6 more times within 10 min from the same IP or you will trigger the 429 lockout (test uses only 1 wrong attempt).",
+  "rca of the issue": "No blocking issues discovered in this iteration."
+}

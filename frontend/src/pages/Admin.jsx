@@ -1,182 +1,111 @@
-import { useEffect, useState } from "react";
-import api from "@/lib/api";
-import { formatPrice, useLang } from "@/context/LangContext";
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import { Trash, PencilSimple, Plus } from "@phosphor-icons/react";
+import { Package, Tag, Receipt, Images, EnvelopeSimple, ListChecks, SignOut, Question } from "@phosphor-icons/react";
+import { useLang } from "@/context/LangContext";
+import { useCatalog } from "@/context/CatalogContext";
+import { adminApi, getToken, setToken, useA } from "@/admin/adminApi";
+import AdminProducts from "@/admin/AdminProducts";
+import AdminCategories from "@/admin/AdminCategories";
+import AdminOrders from "@/admin/AdminOrders";
+import { MediaGrid } from "@/admin/Media";
+import { AdminNewsletter, AdminEmailLog } from "@/admin/AdminMisc";
+import Seo from "@/components/Seo";
 
-const TKEY = "hi_admin_token";
-
-const input = "w-full bg-[#1A1917] border border-[#3d3835] px-3 py-2 rounded-sm focus:outline-none focus:border-[#D4AF6E] text-sm";
+const TABS = [
+  { id: "orders", icon: Receipt, key: "orders" }, { id: "products", icon: Package, key: "products" }, { id: "categories", icon: Tag, key: "categories" },
+  { id: "media", icon: Images, key: "media" }, { id: "newsletter", icon: ListChecks, key: "newsletter" }, { id: "emails", icon: EnvelopeSimple, key: "emails" },
+];
 
 export default function Admin() {
   const { t } = useLang();
-  const [token, setToken] = useState(() => localStorage.getItem(TKEY) || "");
+  const a = useA();
+  const { reload: reloadPublic } = useCatalog();
+  const [params, setParams] = useSearchParams();
+  const [token, setTok] = useState("");
   const [authed, setAuthed] = useState(false);
-  const [tab, setTab] = useState("prods");
-  const [prods, setProds] = useState([]);
+  const [checking, setChecking] = useState(!!getToken());
+  const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState(params.get("order") ? "orders" : params.get("tab") || "orders");
   const [cats, setCats] = useState([]);
-  const [editing, setEditing] = useState(null); // product being edited
-  const [editingCat, setEditingCat] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [help, setHelp] = useState(false);
 
-  useEffect(() => { if (token) tryAuth(); }, []);
+  const loadCats = useCallback(() => adminApi.categories().then(({ data }) => setCats(data)).catch(() => {}), []);
+  const loadStats = useCallback(() => adminApi.stats().then(({ data }) => setStats(data)).catch(() => {}), []);
+  const refresh = useCallback(() => { loadCats(); loadStats(); reloadPublic(); }, [loadCats, loadStats, reloadPublic]);
 
-  const tryAuth = async () => {
-    try {
-      await api.post("/admin/verify", null, { headers: { "X-Admin-Token": token } });
-      localStorage.setItem(TKEY, token);
-      setAuthed(true);
-      reload();
-    } catch { toast.error("Bad token"); setAuthed(false); }
+  useEffect(() => {
+    const saved = getToken();
+    if (!saved) return;
+    adminApi.verify(saved).then(() => setAuthed(true)).catch(() => setToken("")).finally(() => setChecking(false));
+  }, []);
+  useEffect(() => { if (authed) refresh(); }, [authed, refresh]);
+
+  const login = async (e) => {
+    e?.preventDefault();
+    if (!token.trim()) return;
+    setBusy(true);
+    try { await adminApi.verify(token.trim()); setToken(token.trim()); setAuthed(true); setTok(""); }
+    catch (err) { toast.error(err?.response?.status === 429 ? err.response.data.detail : t("admin.badToken")); }
+    finally { setBusy(false); }
   };
-  const reload = async () => {
-    const p = await api.get("/products");
-    const c = await api.get("/categories");
-    setProds(p.data); setCats(c.data);
-  };
+  const logout = () => { setToken(""); setAuthed(false); };
+  const switchTab = (id) => { setTab(id); const n = new URLSearchParams(); n.set("tab", id); setParams(n, { replace: true }); };
+
+  if (checking) return <div className="py-24 text-center text-[#B8AE95]">…</div>;
 
   if (!authed) {
     return (
-      <div className="max-w-md mx-auto px-6 py-24">
+      <div className="max-w-md mx-auto px-6 py-24" data-testid="admin-login">
+        <Seo title={t("admin.title")} />
         <div className="overline mb-3">{t("admin.title")}</div>
-        <h1 className="font-serif-display text-4xl mb-8">Admin</h1>
-        <input data-testid="admin-token-input" type="password" value={token} onChange={(e) => setToken(e.target.value)} placeholder={t("admin.token")} className={input + " mb-4"} />
-        <button onClick={tryAuth} data-testid="admin-enter-btn" className="btn-primary w-full justify-center">{t("admin.enter")}</button>
-        <p className="mt-4 text-xs text-[#B8AE95]">Default demo token: <code>hinfini-admin-2026</code></p>
+        <h1 className="font-serif-display text-4xl mb-8">H'INFINI Admin</h1>
+        <form onSubmit={login} className="space-y-4">
+          <label htmlFor="admin-token" className="admin-label">{t("admin.token")}</label>
+          <input id="admin-token" data-testid="admin-token-input" type="password" autoComplete="current-password" value={token} onChange={(e) => setTok(e.target.value)} className="admin-input !py-3" />
+          <button type="submit" disabled={busy || !token} data-testid="admin-enter-btn" className="btn-primary w-full justify-center focus-ring disabled:opacity-50">{t("admin.enter")}</button>
+        </form>
       </div>
     );
   }
 
-  const empty = (kind) => kind === "cat"
-    ? { name: "", image: "", tagline: "" }
-    : { slug: "", name: "", category: cats[0]?.name || "Candles", subcategory: "", price: 0, unit: "", image: "", description: "", long_description: "", stock: 100, featured: false, tags: [] };
-
-  const saveProd = async () => {
-    try {
-      const body = { ...editing, price: parseInt(editing.price) || 0, stock: parseInt(editing.stock) || 0, tags: Array.isArray(editing.tags) ? editing.tags : (editing.tags || "").split(",").map((s) => s.trim()).filter(Boolean) };
-      if (editing.product_id) await api.put(`/admin/products/${editing.product_id}`, body, { headers: { "X-Admin-Token": token } });
-      else await api.post("/admin/products", body, { headers: { "X-Admin-Token": token } });
-      toast.success("Saved");
-      setEditing(null); reload();
-    } catch (e) { toast.error(e?.response?.data?.detail || "Failed"); }
-  };
-  const delProd = async (id) => {
-    if (!window.confirm("Delete?")) return;
-    await api.delete(`/admin/products/${id}`, { headers: { "X-Admin-Token": token } });
-    toast.success("Deleted"); reload();
-  };
-  const saveCat = async () => {
-    try {
-      const body = { name: editingCat.name, image: editingCat.image, tagline: editingCat.tagline };
-      if (editingCat._original) await api.put(`/admin/categories/${editingCat._original}`, body, { headers: { "X-Admin-Token": token } });
-      else await api.post("/admin/categories", body, { headers: { "X-Admin-Token": token } });
-      toast.success("Saved"); setEditingCat(null); reload();
-    } catch (e) { toast.error(e?.response?.data?.detail || "Failed"); }
-  };
-  const delCat = async (name) => {
-    if (!window.confirm(`Delete '${name}'?`)) return;
-    try { await api.delete(`/admin/categories/${name}`, { headers: { "X-Admin-Token": token } }); toast.success("Deleted"); reload(); }
-    catch (e) { toast.error(e?.response?.data?.detail || "Failed"); }
-  };
-
   return (
-    <div data-testid="admin-page" className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-serif-display text-4xl">{t("admin.title")}</h1>
-        <button onClick={() => { localStorage.removeItem(TKEY); setAuthed(false); setToken(""); }} className="text-sm text-[#B8AE95] hover:text-[#D4AF6E]">Sign out</button>
+    <div data-testid="admin-page" className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-10 py-8">
+      <Seo title={t("admin.title")} />
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div><div className="overline mb-1">H'INFINI</div><h1 className="font-serif-display text-3xl sm:text-4xl">{t("admin.title")}</h1></div>
+        <div className="flex items-center gap-2">
+          <button onClick={() => setHelp((h) => !h)} className="btn-outline !py-2 !px-4 text-sm focus-ring" data-testid="admin-help-btn"><Question size={16} /> {a("help")}</button>
+          <button onClick={logout} className="btn-outline !py-2 !px-4 text-sm focus-ring" data-testid="admin-signout"><SignOut size={16} /> {t("admin.signOut")}</button>
+        </div>
       </div>
-      <div className="flex gap-3 mb-8 border-b border-[#3d3835]">
-        {["prods", "cats"].map((k) => (
-          <button key={k} onClick={() => setTab(k)} data-testid={`admin-tab-${k}`} className={`pb-3 px-2 text-sm border-b-2 ${tab === k ? "border-[#D4AF6E] text-[#D4AF6E]" : "border-transparent text-[#B8AE95]"}`}>
-            {k === "prods" ? t("admin.prods") : t("admin.cats")}
+      {help && <div className="admin-card p-4 mb-6 text-sm text-[#B8AE95] leading-relaxed" data-testid="admin-help">{a("helpText")}</div>}
+
+      {stats && (
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8" data-testid="admin-stats">
+          {[["dash_orders", stats.orders_new], ["dash_products", stats.products], ["dash_low", stats.low_stock], ["dash_subs", stats.subscribers]].map(([k, v]) => (
+            <div key={k} className="admin-card p-4"><div className="overline">{a(k)}</div><div className="font-serif-display text-3xl text-[#D4AF6E] mt-1">{v}</div></div>
+          ))}
+          <div className="admin-card p-4 col-span-2 lg:col-span-1"><div className="overline">{a("env")}</div><div className="text-xs mt-2 space-y-0.5 text-[#B8AE95]"><div>{stats.payment_mode === "sandbox" ? a("sandbox") : a("live")}</div><div>E-mail: {stats.email_provider}</div><div>Storage: {stats.storage}</div></div></div>
+        </div>
+      )}
+
+      <nav className="flex gap-1 mb-8 border-b border-[#3d3835] overflow-x-auto" aria-label="Admin">
+        {TABS.map((tb) => (
+          <button key={tb.id} onClick={() => switchTab(tb.id)} data-testid={`admin-tab-${tb.id}`} aria-current={tab === tb.id ? "page" : undefined}
+            className={`flex items-center gap-2 pb-3 px-3 text-sm border-b-2 whitespace-nowrap focus-ring ${tab === tb.id ? "border-[#D4AF6E] text-[#D4AF6E]" : "border-transparent text-[#B8AE95] hover:text-[#F0EAD6]"}`}>
+            <tb.icon size={16} /> {a(tb.key)}
           </button>
         ))}
-      </div>
+      </nav>
 
-      {tab === "prods" && (
-        <div>
-          <button onClick={() => setEditing(empty("prod"))} data-testid="admin-add-product" className="btn-primary mb-6"><Plus size={16} /> {t("admin.add")}</button>
-          <div className="border border-[#3d3835]">
-            <div className="grid grid-cols-12 gap-3 p-3 bg-[#24221E] text-xs uppercase tracking-widest text-[#B8AE95]">
-              <div className="col-span-4">Név / Name</div><div className="col-span-3">Kategória</div><div className="col-span-2">Ár</div><div className="col-span-1">Stock</div><div className="col-span-2 text-right">Műv.</div>
-            </div>
-            {prods.map((p) => (
-              <div key={p.product_id} data-testid={`admin-row-${p.product_id}`} className="grid grid-cols-12 gap-3 p-3 border-t border-[#3d3835] text-sm items-center">
-                <div className="col-span-4">{p.name}</div>
-                <div className="col-span-3 text-[#B8AE95]">{p.category}</div>
-                <div className="col-span-2 text-[#D4AF6E]">{formatPrice(p.price)}</div>
-                <div className="col-span-1">{p.stock}</div>
-                <div className="col-span-2 flex justify-end gap-2">
-                  <button onClick={() => setEditing({ ...p, tags: p.tags.join(", ") })} data-testid={`admin-edit-${p.product_id}`} className="w-8 h-8 flex items-center justify-center border border-[#3d3835] hover:border-[#D4AF6E]"><PencilSimple size={14} /></button>
-                  <button onClick={() => delProd(p.product_id)} data-testid={`admin-del-${p.product_id}`} className="w-8 h-8 flex items-center justify-center border border-[#3d3835] hover:border-[#B0413E]"><Trash size={14} /></button>
-                </div>
-              </div>
-            ))}
-          </div>
-          {editing && (
-            <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={() => setEditing(null)}>
-              <div className="bg-[#1A1917] border border-[#3d3835] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
-                <h2 className="font-serif-display text-2xl mb-4">{editing.product_id ? t("admin.edit") : t("admin.add")}</h2>
-                <div className="grid md:grid-cols-2 gap-3">
-                  <label className="block"><div className="overline mb-1">Slug</div><input className={input} value={editing.slug} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Name</div><input className={input} value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Category</div>
-                    <select className={input} value={editing.category} onChange={(e) => setEditing({ ...editing, category: e.target.value })}>
-                      {cats.map((c) => <option key={c.name} value={c.name}>{c.name}</option>)}
-                    </select>
-                  </label>
-                  <label className="block"><div className="overline mb-1">Subcategory</div><input className={input} value={editing.subcategory || ""} onChange={(e) => setEditing({ ...editing, subcategory: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Price (Ft)</div><input type="number" className={input} value={editing.price} onChange={(e) => setEditing({ ...editing, price: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Unit</div><input className={input} value={editing.unit} onChange={(e) => setEditing({ ...editing, unit: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Stock</div><input type="number" className={input} value={editing.stock} onChange={(e) => setEditing({ ...editing, stock: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Featured</div><input type="checkbox" checked={!!editing.featured} onChange={(e) => setEditing({ ...editing, featured: e.target.checked })} /></label>
-                  <label className="block md:col-span-2"><div className="overline mb-1">Image URL</div><input className={input} value={editing.image} onChange={(e) => setEditing({ ...editing, image: e.target.value })} /></label>
-                  <label className="block md:col-span-2"><div className="overline mb-1">Description</div><textarea rows={2} className={input} value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></label>
-                  <label className="block md:col-span-2"><div className="overline mb-1">Long description</div><textarea rows={4} className={input} value={editing.long_description || ""} onChange={(e) => setEditing({ ...editing, long_description: e.target.value })} /></label>
-                  <label className="block md:col-span-2"><div className="overline mb-1">Tags (comma-separated)</div><input className={input} value={editing.tags} onChange={(e) => setEditing({ ...editing, tags: e.target.value })} /></label>
-                </div>
-                <div className="flex justify-end gap-3 mt-6">
-                  <button onClick={() => setEditing(null)} className="btn-outline">{t("admin.cancel")}</button>
-                  <button onClick={saveProd} data-testid="admin-save-product" className="btn-primary">{t("admin.save")}</button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {tab === "cats" && (
-        <div>
-          <button onClick={() => setEditingCat({ name: "", image: "", tagline: "" })} data-testid="admin-add-cat" className="btn-primary mb-6"><Plus size={16} /> {t("admin.add")}</button>
-          <div className="grid md:grid-cols-3 gap-4">
-            {cats.map((c) => (
-              <div key={c.name} className="border border-[#3d3835] p-4">
-                <div className="font-serif-display text-xl">{c.name}</div>
-                <div className="text-xs text-[#B8AE95] mt-1">{c.count} products · {c.tagline}</div>
-                <div className="flex gap-2 mt-4">
-                  <button onClick={() => setEditingCat({ ...c, _original: c.name })} className="text-xs uppercase tracking-widest text-[#D4AF6E]">{t("admin.edit")}</button>
-                  <button onClick={() => delCat(c.name)} className="text-xs uppercase tracking-widest text-[#B0413E]">{t("admin.del")}</button>
-                </div>
-              </div>
-            ))}
-          </div>
-          {editingCat && (
-            <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={() => setEditingCat(null)}>
-              <div className="bg-[#1A1917] border border-[#3d3835] max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
-                <h2 className="font-serif-display text-2xl mb-4">{editingCat._original ? t("admin.edit") : t("admin.add")}</h2>
-                <div className="space-y-3">
-                  <label className="block"><div className="overline mb-1">Name</div><input className={input} value={editingCat.name} onChange={(e) => setEditingCat({ ...editingCat, name: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Tagline</div><input className={input} value={editingCat.tagline || ""} onChange={(e) => setEditingCat({ ...editingCat, tagline: e.target.value })} /></label>
-                  <label className="block"><div className="overline mb-1">Image URL</div><input className={input} value={editingCat.image || ""} onChange={(e) => setEditingCat({ ...editingCat, image: e.target.value })} /></label>
-                </div>
-                <div className="flex justify-end gap-3 mt-6">
-                  <button onClick={() => setEditingCat(null)} className="btn-outline">{t("admin.cancel")}</button>
-                  <button onClick={saveCat} data-testid="admin-save-cat" className="btn-primary">{t("admin.save")}</button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+      {tab === "orders" && <AdminOrders initialOrder={params.get("order")} onChanged={loadStats} />}
+      {tab === "products" && <AdminProducts categories={cats} onChanged={refresh} />}
+      {tab === "categories" && <AdminCategories categories={cats} reload={refresh} />}
+      {tab === "media" && <div data-testid="admin-media"><p className="admin-help mb-4">{a("storageNote", { d: stats?.storage || "-" })}</p><MediaGrid /></div>}
+      {tab === "newsletter" && <AdminNewsletter />}
+      {tab === "emails" && <AdminEmailLog provider={stats?.email_provider} />}
     </div>
   );
 }

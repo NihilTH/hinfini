@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import api from "@/lib/api";
 import { ArrowRight, Clock } from "@phosphor-icons/react";
 import { useLang } from "@/context/LangContext";
+import Seo from "@/components/Seo";
+import SmartImage from "@/components/SmartImage";
 
 export default function Learn() {
   const [guides, setGuides] = useState([]);
@@ -12,6 +14,7 @@ export default function Learn() {
 
   return (
     <div data-testid="learn-page">
+      <Seo title={t("nav.learn")} description={t("learn.desc")} />
       <section className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 pb-12">
         <div className="overline mb-4">{t("learn.overline")}</div>
         <h1 className="font-serif-display text-5xl md:text-7xl leading-[0.95] max-w-4xl">
@@ -24,15 +27,15 @@ export default function Learn() {
           <div className="overline mb-8">{cat}</div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
             {list.map((g) => (
-              <Link key={g.guide_id} to={`/learn/${g.slug}`} data-testid={`guide-card-${g.slug}`} className="group">
+              <Link key={g.guide_id} to={`/learn/${g.slug}`} data-testid={`guide-card-${g.slug}`} className="group focus-ring">
                 <div className="aspect-[4/3] overflow-hidden bg-[#24221E] border border-[#3d3835]">
-                  <img src={g.image} alt={g.title} className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" />
+                  <SmartImage src={g.image} alt={g.title} className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" />
                 </div>
                 <div className="mt-5">
-                  <div className="flex items-center gap-3 text-xs text-[#B8AE95] mb-2"><Clock size={12} /> {g.read_minutes} min</div>
+                  <div className="flex items-center gap-3 text-xs text-[#B8AE95] mb-2"><Clock size={12} /> {g.read_minutes} {t("learn.min")}</div>
                   <h3 className="font-serif-display text-2xl leading-snug">{g.title}</h3>
                   <p className="mt-2 text-sm text-[#B8AE95]">{g.excerpt}</p>
-                  <div className="mt-4 inline-flex items-center gap-2 text-sm text-[#D4AF6E]">→ <ArrowRight size={14} weight="bold" /></div>
+                  <div className="mt-4 inline-flex items-center gap-2 text-sm text-[#D4AF6E]">{t("learn.read")} <ArrowRight size={14} weight="bold" /></div>
                 </div>
               </Link>
             ))}

@@ -74,7 +74,8 @@ const A = {
     history: "Előzmények", emailsForOrder: "Kiküldött e-mailek", noOrders: "Nincs rendelés.",
     // emails
     event: "Esemény", recipient: "Címzett", subject: "Tárgy", sentAt: "Időpont", resend: "Újraküldés", resendConfirm: "Biztosan újraküldöd ezt az e-mailt a címzettnek?",
-    es_SENT: "Elküldve", es_FAILED: "Sikertelen", es_SKIPPED: "Kihagyva (nincs szolgáltató)", providerNote: "E-mail szolgáltató: {p}. „none” esetén a rendszer naplóz, de nem küld.",
+    paymentReview: "A fizetés kézi ellenőrzést igényel: törlés után vagy több tranzakcióból érkezett sikeres fizetés. Ellenőrizd a SimplePay-fiókot és az esetleges visszatérítést.",
+    es_QUEUED: "Küldésre vár", es_SENDING: "Küldés folyamatban", es_SENT: "Elküldve", es_FAILED: "Sikertelen", es_SKIPPED: "Kihagyva (nincs szolgáltató)", providerNote: "E-mail szolgáltató: {p}. „none” esetén a rendszer naplóz, de nem küld.",
     // newsletter
     subscribers: "Feliratkozók", consentedAt: "Hozzájárulás", source: "Forrás", removeSub: "Eltávolítás", removeSubConfirm: "Eltávolítod ezt a feliratkozót?", noSubs: "Nincs feliratkozó.",
     // dashboard
@@ -116,7 +117,8 @@ const A = {
     inv_NONE: "None", inv_NOT_CONFIGURED: "Provider not configured", inv_PENDING_PROVIDER: "Pending at provider", inv_ISSUED: "Issued", inv_ERROR: "Error", inv_MANUAL: "Recorded manually",
     history: "History", emailsForOrder: "Sent emails", noOrders: "No orders.",
     event: "Event", recipient: "Recipient", subject: "Subject", sentAt: "Time", resend: "Resend", resendConfirm: "Resend this email to the recipient?",
-    es_SENT: "Sent", es_FAILED: "Failed", es_SKIPPED: "Skipped (no provider)", providerNote: "Email provider: {p}. With “none” the system logs but does not send.",
+    paymentReview: "Payment needs review: a successful payment arrived after cancellation or from multiple transactions. Check SimplePay and any required refund.",
+    es_QUEUED: "Queued", es_SENDING: "Sending", es_SENT: "Sent", es_FAILED: "Failed", es_SKIPPED: "Skipped (no provider)", providerNote: "Email provider: {p}. With “none” the system logs but does not send.",
     subscribers: "Subscribers", consentedAt: "Consent", source: "Source", removeSub: "Remove", removeSubConfirm: "Remove this subscriber?", noSubs: "No subscribers.",
     dash_products: "Active products", dash_orders: "Orders to handle", dash_low: "Low stock", dash_subs: "Newsletter subscribers", env: "Environment", sandbox: "SimplePay: test (sandbox)", live: "SimplePay: live",
     help: "How to use", helpText: "Add a product: Products → New product → fill basics, price, stock, pick an image from the Media library or upload → Save & publish. Category: Categories → New category. Order: Orders → Details → Change status. Full guide in README.",

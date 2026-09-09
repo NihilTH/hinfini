@@ -89,3 +89,9 @@ credentials.json
 frontend/node_modules/.cache/default-development/0.pack
 
 backend/uploads/
+
+backend-php/config.local.php
+backend-php/uploads/
+backend-php/vendor/
+frontend/build/
+release/

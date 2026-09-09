@@ -86,6 +86,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
     <Modal title={`${a("orderId")} ${o.order_id}`} onClose={onClose} wide testId="order-detail">
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 space-y-5">
+          {o.payment_review_required && <p role="alert" className="border border-[#D4AF6E] p-4 text-[#D4AF6E]">{a("paymentReview")}</p>}
           <Section title={a("items")}>
             <table className="w-full text-sm"><tbody>
               {o.items.map((i) => <tr key={i.product_id} className="border-b border-[#3d3835]"><td className="py-2">{i.name}</td><td className="py-2 text-[#B8AE95] text-right whitespace-nowrap">{i.quantity} × {formatPrice(i.price)}</td><td className="py-2 text-right whitespace-nowrap">{formatPrice(i.line_total)}</td></tr>)}

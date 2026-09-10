@@ -37,8 +37,8 @@ function tx(callable $fn): mixed {
     catch (Throwable $e) { if (db()->inTransaction()) db()->rollBack(); throw $e; }
 }
 // Core fields have SQL columns/indexes; bilingual content and snapshots retain the API's JSON shape.
-const IDS = ['products'=>'product_id','categories'=>'name','guides'=>'slug','orders'=>'order_id','media'=>'media_id','newsletter'=>'email','email_logs'=>'log_id'];
-const COLS = ['products'=>['slug','category','price','stock','status','featured'], 'categories'=>['sort_order','active'], 'orders'=>['payment_status','fulfillment_status','total','created_at'], 'email_logs'=>['order_id','idempotency_key','status','created_at'], 'guides'=>[], 'media'=>[], 'newsletter'=>[]];
+const IDS = ['products'=>'product_id','categories'=>'name','guides'=>'slug','orders'=>'order_id','media'=>'media_id','newsletter'=>'email','email_logs'=>'log_id','coupons'=>'code','settings'=>'key','custom_requests'=>'request_id','events'=>'event_id'];
+const COLS = ['products'=>['slug','category','price','stock','status','featured'], 'categories'=>['sort_order','active'], 'orders'=>['payment_status','fulfillment_status','total','created_at'], 'email_logs'=>['order_id','idempotency_key','status','created_at'], 'guides'=>[], 'media'=>[], 'newsletter'=>[], 'coupons'=>[], 'settings'=>[], 'custom_requests'=>['created_at'], 'events'=>['starts_at','active']];
 function table(string $table): string { if (!isset(IDS[$table])) throw new LogicException('Unknown table'); return '`'.$table.'`'; }
 function one(string $table, string $id, bool $lock = false): ?array {
     $s = sql('SELECT document FROM '.table($table).' WHERE `'.IDS[$table].'`=?'.($lock?' FOR UPDATE':''), [$id]);
@@ -89,4 +89,5 @@ require __DIR__.'/mail.php';
 require __DIR__.'/orders.php';
 require __DIR__.'/payments.php';
 require __DIR__.'/media.php';
+require __DIR__.'/studio.php';
 require __DIR__.'/routes.php';

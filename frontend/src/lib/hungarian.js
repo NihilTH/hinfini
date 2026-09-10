@@ -1,4 +1,5 @@
 const HU_CONTENT = {
+ "custom_received":"Egyedi ajánlatkérés visszaigazolása", "admin_custom":"Új egyedi ajánlatkérés", "custom_quote":"Egyedi ajánlat", "invoice_ready":"Számla elküldése", "php_mail":"Tárhelyi levélküldés",
   "Candles": "Gyertyák",
   "Wax": "Viaszok",
   "Fragrance Oils": "Illatolajok",

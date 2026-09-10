@@ -72,5 +72,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: hinfini-felulet-frissites
+          name: hinfini-webshop-frissites
           path: release-update/

@@ -23,7 +23,7 @@ test("mobile menu escapes the filtered header, navigates and restores its trigge
   const menu = document.querySelector('[data-testid="mobile-menu"]');
   expect(menu).not.toBeNull();
   expect(menu.closest("header")).toBeNull();
-  expect(menu.textContent).toContain("Gyertyák");
+  expect(menu.textContent).toContain("Egyedi gyertyák");
   expect(menu.textContent).not.toContain("Candles");
   await click('[data-testid="mobile-nav-shop"]');
   expect(document.querySelector('[data-testid="mobile-menu"]')).toBeNull();

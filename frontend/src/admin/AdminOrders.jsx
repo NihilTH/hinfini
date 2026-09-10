@@ -1,3 +1,5 @@
+import api from "@/lib/api";
+import { getToken } from "@/admin/adminApi";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ArrowsClockwise } from "@phosphor-icons/react";
@@ -135,6 +137,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
             <Field label={a("invoiceNo")} id="od-inv-no"><input id="od-inv-no" className="admin-input" value={inv.number || ""} onChange={(e) => setInv({ ...inv, number: e.target.value })} data-testid="od-inv-no" /></Field>
             <Field label={a("invoiceUrl")} id="od-inv-url"><input id="od-inv-url" className="admin-input" value={inv.url || ""} onChange={(e) => setInv({ ...inv, url: e.target.value })} data-testid="od-inv-url" /></Field>
             <button onClick={saveInvoice} className="btn-outline w-full justify-center !py-2 text-sm focus-ring" data-testid="od-save-invoice">{a("save")}</button>
+            <button className="btn-outline w-full justify-center !py-2 text-sm" onClick={async()=>{try{await api.post(`/admin/orders/${o.order_id}/invoice/send`,{}, {headers:{'X-Admin-Token':getToken()}});toast.success('A számla e-mailje küldésre vár.');}catch(e){toast.error(e.response?.data?.detail||'Nem sikerült a küldés.');}}}>Mentett számla küldése e-mailben</button>
           </Section>
         </aside>
       </div>

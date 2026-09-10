@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { formatPrice, useLang } from "@/context/LangContext";
@@ -15,13 +15,16 @@ export default function Checkout() {
   const { t, tr, lang } = useLang();
   const { shippingFee, config } = useCatalog();
   const nav = useNavigate();
+  const [coupon,setCoupon]=useState(''),[couponResult,setCouponResult]=useState(null),[couponError,setCouponError]=useState(''),[couponBusy,setCouponBusy]=useState(false);
+  useEffect(()=>{setCouponResult(null);},[items]);
+  const applyCoupon=async()=>{setCouponBusy(true);setCouponResult(null);setCouponError('');try{const {data}=await api.post('/coupons/validate',{code:coupon,items:items.map(i=>({product_id:i.product_id,quantity:i.quantity}))});setCouponResult(data);}catch(e){setCouponError(e.response?.data?.detail||'A kupon nem ellenőrizhető.');}finally{setCouponBusy(false);}};
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({ full_name: "", email: "", phone: "", address: "", city: "", postal_code: "", country: "Magyarország", notes: "" });
   const [shipMethod] = useState("home");
   const [terms, setTerms] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
   const shipping = shippingFee(subtotal, shipMethod);
-  const total = subtotal + shipping;
+  const total = subtotal + shipping - (couponResult?.discount || 0);
   const on = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   const errorMsg = (detail) => {
@@ -30,6 +33,7 @@ export default function Checkout() {
     if (detail.startsWith("unavailable:")) return t("co.unavailable");
     if (detail === "terms_required") return t("co.termsReq");
     if (detail === "cart_empty") return t("co.emptyCart");
+    if (detail.includes("kupon")) return detail;
     return t("co.failed");
   };
 
@@ -40,7 +44,7 @@ export default function Checkout() {
     setBusy(true);
     let order;
     try {
-      const res = await api.post("/orders", { ...form, shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })) });
+      const res = await api.post("/orders", { ...form, coupon_code: couponResult?.coupon_code || "", shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })) });
       order = res.data;
     } catch (err) { toast.error(errorMsg(err?.response?.data?.detail)); setBusy(false); return; }
     clear();
@@ -107,12 +111,13 @@ export default function Checkout() {
           </div>
 
           <div className="p-4 bg-[#24221E] border border-[#3d3835] text-sm text-[#B8AE95] leading-relaxed flex gap-3" data-testid="co-pay-info">
-            <LockSimple size={18} className="text-[#D4AF6E] shrink-0 mt-0.5" /> <span>{t("co.payInfo")}{config.payment_mode === "sandbox" ? "" : ""}</span>
+            <LockSimple size={18} className="text-[#D4AF6E] shrink-0 mt-0.5" /> <span>{lang === "hu" ? "Bankkártyás fizetés a SimplePay rendszerén keresztül, forintban." : "Pay by card via SimplePay, in HUF."} {config.payment_mode === "sandbox" ? (lang === "hu" ? "Jelenleg tesztüzemmódban." : "Currently in test mode.") : ""}</span>
           </div>
         </div>
 
         <aside className="bg-[#24221E] border border-[#3d3835] p-8 h-fit" aria-label={t("co.summary")}>
           <div className="overline mb-4">{t("co.summary")}</div>
+          <div className="mb-6"><label htmlFor="coupon-code" className="block mb-2">Kuponkód</label><div className="flex gap-2"><input id="coupon-code" className="admin-input min-w-0" maxLength={40} value={coupon} onChange={e=>{setCoupon(e.target.value);setCouponResult(null);setCouponError('');}}/><button type="button" className="btn-outline !px-3" disabled={couponBusy||!coupon.trim()} onClick={applyCoupon}>{couponBusy?'…':'Beváltás'}</button></div>{couponError&&<p role="alert" className="text-red-300 mt-2">{couponError}</p>}{couponResult&&<p role="status" className="text-[#D4AF6E] mt-2">Érvényes kupon: −{formatPrice(couponResult.discount)}</p>}</div>
           <table className="w-full text-sm" data-testid="co-items">
             <thead className="sr-only"><tr><th>{t("co.item")}</th><th>{t("co.quantity")}</th><th>{t("cart.total")}</th></tr></thead>
             <tbody>
@@ -123,6 +128,7 @@ export default function Checkout() {
           </table>
           <div className="border-t border-[#3d3835] mt-4 pt-4 space-y-2 text-sm">
             <div className="flex justify-between"><span>{t("cart.subtotal")}</span><span data-testid="co-subtotal">{formatPrice(subtotal)}</span></div>
+            {couponResult&&<div className="flex justify-between"><span>Kuponkedvezmény</span><span>−{formatPrice(couponResult.discount)}</span></div>}
             <div className="flex justify-between"><span>{t("cart.shipping")}</span><span data-testid="co-shipping">{shipping === 0 ? t("cart.free") : formatPrice(shipping)}</span></div>
             <div className="flex justify-between font-serif-display text-xl pt-2 border-t border-[#3d3835]"><span>{t("cart.total")}</span><span data-testid="co-total" className="text-[#D4AF6E]">{formatPrice(total)}</span></div>
           </div>

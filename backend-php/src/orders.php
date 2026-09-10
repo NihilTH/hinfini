@@ -3,6 +3,7 @@ declare(strict_types=1);
 function order_create(array $b): array {
     if(!boolean($b,'accepted_terms')) fail(400,'terms_required');
     $o=['email'=>email_value($b)];
+    $code=text_field($b,'coupon_code','',40);
     foreach(['full_name','address','city','postal_code'] as $k) $o[$k]=required($b,$k);
     foreach(['phone','notes'] as $k) $o[$k]=isset($b[$k])?text_field($b,$k):null;
     $o['country']=text_field($b,'country','Magyarország'); $o['lang']=text_field($b,'lang','hu');
@@ -18,7 +19,7 @@ function order_create(array $b): array {
         if($qty[$id]>10000) fail(422,'invalid_quantity');
     }
     ksort($qty); // All concurrent checkouts lock products in a stable order.
-    return tx(function() use($o,$qty) {
+    return tx(function() use($o,$qty,$code) {
         $subtotal=0; $lines=[]; $low=[];
         foreach($qty as $id=>$count) {
             $p=need('products',$id,true);
@@ -30,7 +31,8 @@ function order_create(array $b): array {
             if($p['stock']<=(int)cfg('LOW_STOCK_THRESHOLD',5)) $low[]=$p;
         }
         $shipping=$subtotal>=(int)cfg('FREE_SHIPPING_FROM',25000)?0:(int)cfg('SHIPPING_FEE_HOME',1990);
-        $o+=['order_id'=>uid('ord'),'items'=>$lines,'subtotal'=>$subtotal,'shipping'=>$shipping,'total'=>$subtotal+$shipping,'accepted_terms_at'=>now(),
+        $discount=coupon_discount($code,$subtotal,true);if($subtotal-$discount['discount']+$shipping<=0)fail(400,'A kuponnal a fizetendő összegnek pozitívnak kell maradnia.');$o+=$discount;
+        $o+=['order_id'=>uid('ord'),'items'=>$lines,'subtotal'=>$subtotal,'shipping'=>$shipping,'total'=>$subtotal-$discount['discount']+$shipping,'accepted_terms_at'=>now(),
             'status'=>'PENDING','payment_status'=>'UNPAID','fulfillment_status'=>'AWAITING_PAYMENT','invoice'=>['status'=>'NONE'],
             'history'=>[['at'=>now(),'event'=>'created']],'created_at'=>now(),'stock_released'=>false];
         save('orders',$o,true);
@@ -42,7 +44,7 @@ function order_create(array $b): array {
 }
 function public_order(array $o): array {
     // Guest URLs are unguessable bearer references. Never expose addresses or admin data.
-    return array_intersect_key($o,array_flip(['order_id','items','subtotal','shipping','total','status','payment_status','fulfillment_status','shipping_method','created_at']));
+    return array_intersect_key($o,array_flip(['order_id','items','subtotal','discount','coupon_code','shipping','total','status','payment_status','fulfillment_status','shipping_method','created_at']));
 }
 function invoice_check(array &$o,string $trigger): void {
     if($trigger!==cfg('INVOICE_TRIGGER','paid')||in_array($o['invoice']['status']??'', ['ISSUED','MANUAL','PENDING_PROVIDER'],true)) return;
@@ -59,6 +61,7 @@ function order_status(string $id,array $b): array {
         if($next==='CANCELLED'&&empty($o['stock_released'])) {
             $lines=$o['items']; usort($lines,fn($a,$b)=>strcmp($a['product_id'],$b['product_id']));
             foreach($lines as $li) { $p=one('products',$li['product_id'],true); if($p) { $p['stock']+=$li['quantity']; save('products',$p); } }
+            if(!empty($o['coupon_code'])){$c=one('coupons',$o['coupon_code'],true);if($c){$c['used']=max(0,$c['used']-1);save('coupons',$c);}}
             $o['stock_released']=true;
         }
         $o['fulfillment_status']=$next; $o['updated_at']=now();

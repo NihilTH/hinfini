@@ -2,6 +2,7 @@
 declare(strict_types=1);
 function route(string $method,string $path,array $b): mixed {
     $admin=str_starts_with($path,'/admin/'); if($admin) admin_auth();
+    $studio=studio_route($method,$path,$b);if($studio!==null)return $studio;
     if($method==='GET'&&$path==='/') return ['message'=>"H'INFINI Candles PHP API",'status'=>'ok'];
     if($method==='GET'&&$path==='/config') return ['free_shipping_from'=>(int)cfg('FREE_SHIPPING_FROM',25000),'shipping_home'=>(int)cfg('SHIPPING_FEE_HOME',1990),
         'shipping_pickup'=>(int)cfg('SHIPPING_FEE_PICKUP',1290),'payment_mode'=>str_contains((string)cfg('SIMPLEPAY_BASE_URL','https://sandbox.simplepay.hu/payment/v2'),'sandbox')?'sandbox':'live','support_email'=>cfg('SUPPORT_EMAIL')];
@@ -14,8 +15,8 @@ function route(string $method,string $path,array $b): mixed {
         $p=public_product($p); $p['related']=array_map('public_product',array_slice($related,0,4)); return $p;
     }
     if($method==='GET'&&$path==='/categories') return category_list();
-    if($method==='GET'&&$path==='/guides') return array_map(function($d) { unset($d['sections']); return $d; },rows('guides'));
-    if($method==='GET'&&preg_match('~^/guides/([^/]+)$~',$path,$m)) return need('guides',$m[1]);
+    if($method==='GET'&&$path==='/guides') return [];
+    if($method==='GET'&&preg_match('~^/guides/([^/]+)$~',$path,$m)) fail(404,'Not found');
     if($method==='POST'&&$path==='/newsletter/subscribe') return subscribe($b);
     if($method==='POST'&&$path==='/orders') return order_create($b);
     if($method==='GET'&&preg_match('~^/orders/([^/]+)$~',$path,$m)) return public_order(need('orders',$m[1]));
@@ -80,12 +81,13 @@ function route(string $method,string $path,array $b): mixed {
         $o=need('orders',$m[1],true); $status=required($b,'status'); if(!in_array($status,['NONE','NOT_CONFIGURED','PENDING_PROVIDER','PENDING','ISSUED','MANUAL','ERROR','CANCELLED'],true)) fail(422,'invalid_invoice_status');
         $o['invoice']=['status'=>$status,'number'=>text_field($b,'number'),'url'=>web_url(text_field($b,'url')),'provider'=>'manual','issued_at'=>now()]; save('orders',$o); return ['ok'=>true];
     });
+    if($method==='POST'&&preg_match('~^/admin/orders/([^/]+)/invoice/send$~',$path,$m)) return tx(function()use($m){$o=need('orders',$m[1],true);if(empty($o['invoice']['number'])||empty($o['invoice']['url']))fail(422,'Előbb add meg a számlaszámot és a számla letöltési címét.');if(cfg('EMAIL_PROVIDER','none')==='none')fail(422,'Az e-mail-küldés nincs beállítva.');queue_event('invoice_ready',$o,null,false,':'.$o['invoice']['number']);return ['ok'=>true];});
     if($method==='GET'&&$path==='/admin/newsletter') return array_reverse(rows('newsletter'));
     if($method==='DELETE'&&preg_match('~^/admin/newsletter/(.+)$~',$path,$m)) { remove('newsletter',strtolower($m[1])); return ['ok'=>true]; }
     if($method==='GET'&&$path==='/admin/emails') return array_map('mail_public',rows('email_logs',empty($_GET['order_id'])?'1':'order_id=?',empty($_GET['order_id'])?[]:[(string)$_GET['order_id']],'created_at DESC'));
     if($method==='POST'&&preg_match('~^/admin/emails/([^/]+)/resend$~',$path,$m)) {
         $log=need('email_logs',$m[1]); if($log['event']==='admin_low_stock') fail(400,'not_resendable');
-        $o=need('orders',$log['order_id']); return mail_public(queue_event($log['event'],$o,$log['recipient'],true)??['ok'=>false]);
+        $o=str_starts_with($log['order_id']??'','custom_')?custom_mail_entity(need('custom_requests',$log['order_id'])):need('orders',$log['order_id']); return mail_public(queue_event($log['event'],$o,$log['recipient'],true)??['ok'=>false]);
     }
     fail(404,'Not found');
 }

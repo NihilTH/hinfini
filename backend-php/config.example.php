@@ -1,6 +1,8 @@
 <?php
 // Copy to config.local.php OUTSIDE public_html. Never commit actual secrets.
 return [
+ 'BANK_ACCOUNT_NAME'=>'',
+ 'BANK_ACCOUNT_NUMBER'=>'',
  'APP_ENV'=>'production',
  'DB_HOST'=>'localhost', 'DB_PORT'=>3306, 'DB_NAME'=>'cpaneluser_hinfini',
  'DB_USER'=>'cpaneluser_shop', 'DB_PASSWORD'=>'',

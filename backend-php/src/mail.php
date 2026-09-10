@@ -13,15 +13,23 @@ function http_request(string $url,string $body,array $headers=[],string $method=
 function mail_template(string $event,array $e): array {
     $titles=['order_created'=>'Rendelésed megérkezett','payment_success'=>'Sikeres fizetés','payment_failed'=>'A fizetés nem fejeződött be',
         'shipped'=>'Úton van a rendelésed','cancelled'=>'Rendelés törölve','admin_new_order'=>'Új rendelés','admin_paid'=>'Sikeres fizetés',
-        'admin_payment_failed'=>'Sikertelen fizetés','admin_cancel_request'=>'Törölt rendelés','admin_low_stock'=>'Alacsony készlet'];
+        'admin_payment_failed'=>'Sikertelen fizetés','admin_cancel_request'=>'Törölt rendelés','admin_low_stock'=>'Alacsony készlet','custom_received'=>'Megkaptuk az egyedi ajánlatkérésedet','admin_custom'=>'Új egyedi gyertya ajánlatkérés','custom_quote'=>'Ajánlat az egyedi gyertyádra','invoice_ready'=>'Elkészült a számlád'];
     if(!isset($titles[$event])) throw new LogicException('Unknown email event');
     $title=$titles[$event]; $id=$e['order_id']??$e['product_id'];
     $text=$title." – H'INFINI #".$id."\n\n";
-    if($event==='admin_low_stock') $text.=$e['name'].' — készlet: '.$e['stock'];
+    if(in_array($event,['custom_received','admin_custom','custom_quote'],true)) {
+        $text.='Név: '.$e['full_name']."\nE-mail: ".$e['email']."\nIllat: ".$e['scent']."\nTartó: ".$e['container']."\nFelirat: ".$e['text']."\nSzövegszín: ".$e['color']."\nElképzelés: ".$e['idea']."\n";
+        if($event==='custom_quote')$text.="\nAjánlat: ".$e['quote']['amount']." Ft (teljes fizetendő összeg)\n".$e['quote']['message']."\n\nFizetés kizárólag átutalással.\nKedvezményezett: ".cfg('BANK_ACCOUNT_NAME')."\nBankszámlaszám: ".cfg('BANK_ACCOUNT_NUMBER')."\nKözlemény: ".$id;
+        elseif($event==='custom_received')$text.="\nEz egy ajánlatkérés. Az árat és az átutalási adatokat külön e-mailben küldjük; most még nem kell fizetned.";
+        else $text.="\nA vásárló képét és az ajánlatküldést a kezelőfelületen találod: ".rtrim((string)cfg('PUBLIC_SITE_URL'),'/').'/admin?tab=custom';
+    }
+    elseif($event==='admin_low_stock') $text.=$e['name'].' — készlet: '.$e['stock'];
     else {
         if(!str_starts_with($event,'admin_')) $text.='Kedves '.$e['full_name']."!\n\n";
         foreach($e['items'] as $i) $text.=$i['name'].' × '.$i['quantity'].' — '.number_format($i['line_total'],0,',',' ')." Ft\n";
-        $text.="\nSzállítás: ".$e['shipping']." Ft\nVégösszeg: ".$e['total']." Ft\nFizetési állapot: ".$e['payment_status']."\n";
+        if(!empty($e['discount']))$text.="\nKuponkedvezmény (".$e['coupon_code']."): -".$e['discount']." Ft\n";
+        if($event==='invoice_ready')$text.="\nSzámlaszám: ".$e['invoice']['number']."\nSzámla letöltése: ".$e['invoice']['url']."\n";
+        $text.="\nSzállítás: ".$e['shipping']." Ft\nVégösszeg: ".$e['total']." Ft\nFizetési állapot: ".(['PAID'=>'Fizetve','UNPAID'=>'Fizetésre vár','FAILED'=>'Sikertelen fizetés','RESERVED'=>'Fizetés nélkül rögzítve'][$e['payment_status']]??'Feldolgozás alatt')."\n";
         if($event==='order_created') $text.="A rendelés rögzítése nem igazolja a sikeres fizetést. A fizetésről külön értesítést küldünk.\n";
         if($event==='payment_success') $text.="A SimplePay visszaigazolta a fizetést. A csomag feladásáról külön értesítést küldünk.\n";
         if($event==='payment_failed') $text.="A rendelésed megmaradt. A fizetés folytatásához kérd ügyfélszolgálatunk segítségét.\n";
@@ -63,6 +71,12 @@ function mail_worker(int $limit=50): int {
                     $payload=['from'=>cfg('EMAIL_FROM_NAME',"H'INFINI Candles").' <'.cfg('EMAIL_FROM').'>','to'=>[$log['recipient']],'subject'=>$log['subject'],'html'=>$log['html_body'],'text'=>$log['text_body']];
                     if(cfg('EMAIL_REPLY_TO')) $payload['reply_to']=cfg('EMAIL_REPLY_TO');
                     $r=http_request('https://api.resend.com/emails',json($payload),['Content-Type: application/json','Authorization: Bearer '.cfg('RESEND_API_KEY'),'Idempotency-Key: '.$log['idempotency_key']]);
+                } elseif($p==='php_mail') {
+                    $from=(string)cfg('EMAIL_FROM');$reply=(string)cfg('EMAIL_REPLY_TO',$from);
+                    if(!filter_var($from,FILTER_VALIDATE_EMAIL)||!filter_var($reply,FILTER_VALIDATE_EMAIL)||!filter_var($log['recipient'],FILTER_VALIDATE_EMAIL))throw new RuntimeException('Invalid email address');
+                    $ok=mail($log['recipient'],'=?UTF-8?B?'.base64_encode($log['subject']).'?=',$log['html_body'],['From'=>$from,'Reply-To'=>$reply,'MIME-Version'=>'1.0','Content-Type'=>'text/html; charset=UTF-8']);
+                    if(!$ok)throw new RuntimeException('A tárhely nem fogadta el a levelet.');
+                    $r=['status'=>202,'body'=>'{}','headers'=>[]];
                 } elseif($p==='sendgrid') {
                     $payload=['personalizations'=>[['to'=>[['email'=>$log['recipient']]]]],'from'=>['email'=>cfg('EMAIL_FROM'),'name'=>cfg('EMAIL_FROM_NAME',"H'INFINI Candles")],
                         'subject'=>$log['subject'],'content'=>[['type'=>'text/plain','value'=>$log['text_body']],['type'=>'text/html','value'=>$log['html_body']]]];

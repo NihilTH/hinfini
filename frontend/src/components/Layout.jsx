@@ -7,7 +7,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Sheet, SheetTrigger, SheetPortal, SheetOverlay, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import NewsletterForm from "@/components/NewsletterForm";
 
-export const LOGO_URL = "https://customer-assets-agu9un31.emergentagent.net/job_candle-craft-hub-1/artifacts/59vqaxxs_image.png";
+export const LOGO_URL = "/hinfini-logo.png";
 
 const LEGAL = [
   { to: "/szallitas", key: "legal.shipping" }, { to: "/elallas", key: "legal.returns" }, { to: "/aszf", key: "legal.terms" },
@@ -54,12 +54,12 @@ export default function Layout({ children }) {
   }, []);
 
   const NAV = [
+    { to: "/bemutatkozas", id: "about", label: t("nav.about") },
     { to: "/shop", id: "shop", label: t("nav.shop") },
-    { to: "/shop?category=Candles", id: "candles", label: t("nav.candles") },
-    { to: "/shop?category=Fragrance%20Oils", id: "fragrances", label: t("nav.fragrances") },
-    { to: "/shop?category=Tools", id: "tools", label: t("nav.tools") },
-    { to: "/learn", id: "learn", label: t("nav.learn") },
+    { to: "/egyedi-gyertyak", id: "custom", label: t("nav.custom") },
     { to: "/discover", id: "discover", label: t("nav.discover") },
+    { to: "/esemenyek", id: "events", label: t("nav.events") },
+    { to: "/kapcsolat", id: "contact", label: t("nav.contact") },
   ];
   const isAdmin = loc.pathname.startsWith("/admin");
 
@@ -72,7 +72,7 @@ export default function Layout({ children }) {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 h-20 flex items-center justify-between gap-2">
           <Link to="/" data-testid="brand-logo" className="focus-ring rounded-full min-w-0 [&_img]:h-9 [&_img]:w-9 [&_span.font-serif-display]:text-xl" aria-label="H'INFINI – kezdőlap"><Logo /></Link>
 
-          <nav className="hidden lg:flex items-center gap-7 text-sm" aria-label="Fő navigáció">
+          <nav className="hidden lg:flex items-center gap-4 text-sm" aria-label="Fő navigáció">
             {NAV.map((n) => (
               <Link key={n.id} to={n.to} data-testid={`nav-${n.id}`} className="link-underline text-[#F0EAD6] hover:text-[#D4AF6E] focus-ring">{n.label}</Link>
             ))}
@@ -132,9 +132,7 @@ export default function Layout({ children }) {
             <div>
               <div className="overline mb-4 text-[#D4AF6E]">{t("footer.shop")}</div>
               <ul className="space-y-2 text-sm">
-                {NAV.slice(0, 4).map((n) => <li key={n.id}><Link to={n.to} className="link-underline focus-ring">{n.label}</Link></li>)}
-                <li><Link to="/discover" className="link-underline focus-ring">{t("nav.discover")}</Link></li>
-                <li><Link to="/learn" className="link-underline focus-ring">{t("nav.learn")}</Link></li>
+                {NAV.map((n) => <li key={n.id}><Link to={n.to} className="link-underline focus-ring">{n.label}</Link></li>)}
               </ul>
             </div>
             <div>

@@ -69,6 +69,35 @@ try {
  assert.equal((await request('POST','/newsletter/subscribe',{email:'test@example.test',consent:false})).status,400);checks++;
  const form=new FormData();form.append('file',new Blob(['<?php echo 1; ?>'],{type:'image/png'}),'bad.png');
  const upload=await fetch(base+'/admin/media/upload',{method:'POST',headers:{'X-Admin-Token':process.env.ADMIN_TOKEN},body:form});assert.equal(upload.status,400);checks++;
+
+ const cp=await ok('POST','/admin/products',{slug:'coupon-'+tag,name:'Kupon teszt',category:cats[0].name,price:10000,stock:20},true);
+ const cb={...checkout,items:[{product_id:cp.product_id,quantity:1}]};
+ await ok('POST','/admin/coupons',{code:'LIMIT'+tag,type:'percent',value:10,minimum:0,limit:1,active:true},true);
+ const code='LIMIT'+tag;
+ const preview=await ok('POST','/coupons/validate',{code,items:cb.items});assert.equal(preview.discount,1000);assert.equal(preview.total,10990);
+ const discounted=await Promise.all([request('POST','/orders',{...cb,coupon_code:code}),request('POST','/orders',{...cb,coupon_code:code})]);
+ assert.deepEqual(discounted.map(x=>x.status).sort(),[200,400]);const did=discounted.find(x=>x.status===200).data.order_id;
+ assert.equal((await ok('GET','/orders/'+did)).discount,1000);checks++;
+ await ok('PATCH','/admin/orders/'+did+'/status',{fulfillment_status:'CANCELLED'},true);
+ assert.equal((await ok('POST','/coupons/validate',{code,items:cb.items})).discount,1000);checks++;
+ await ok('POST','/admin/coupons',{code:'OLD'+tag,type:'fixed',value:500,ends_at:'2020-01-01T00:00:00Z'},true);
+ assert.equal((await request('POST','/orders',{...cb,coupon_code:'OLD'+tag})).status,400);checks++;
+ await ok('POST','/admin/coupons',{code:'MIN'+tag,type:'fixed',value:500,minimum:20000},true);
+ assert.equal((await request('POST','/coupons/validate',{code:'MIN'+tag,items:cb.items})).status,400);checks++;
+ const options=await ok('GET','/studio');
+ const customForm=()=>{const f=new FormData();for(const [k,v]of Object.entries({full_name:'Egyedi Teszt',email:'custom@example.test',scent:options.scents[0],container:options.containers[0],idea:'Halloween stílusú',consent:'1'}))f.append(k,v);return f;};
+ let cr=await fetch(base+'/custom-requests',{method:'POST',body:customForm()});assert.equal(cr.status,200);const cid=(await cr.json()).request_id;
+ assert.equal((await request('GET','/admin/custom-requests')).status,401);
+ const customs=await ok('GET','/admin/custom-requests',undefined,true);assert(customs.some(c=>c.request_id===cid));checks++;
+ const bad=customForm();bad.append('image',new Blob(['<?php echo 1; ?>'],{type:'image/png'}),'bad.png');assert.equal((await fetch(base+'/custom-requests',{method:'POST',body:bad})).status,422);checks++;
+ const good=customForm();good.append('image',new Blob([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lZkAAAAASUVORK5CYII=','base64')],{type:'image/png'}),'plan.png');
+ cr=await fetch(base+'/custom-requests',{method:'POST',body:good});assert.equal(cr.status,200);const imageId=(await cr.json()).request_id;
+ assert.equal((await fetch(base+'/admin/custom-requests/'+imageId+'/image')).status,401);
+ assert.equal((await fetch(base+'/admin/custom-requests/'+imageId+'/image',{headers:{'X-Admin-Token':process.env.ADMIN_TOKEN}})).status,200);checks++;
+ assert.equal((await request('POST','/admin/custom-requests/'+cid+'/quote',{amount:5000,message:'Teszt ajánlat'},true)).status,422);checks++;
+ const logs=await ok('GET','/admin/emails?order_id='+cid,undefined,true);assert(logs.some(e=>e.event==='custom_received'));assert(logs.some(e=>e.event==='admin_custom'));checks++;
+ const event=await ok('POST','/admin/events',{title:'Teszt esemény',location:'Debrecen',starts_at:'2027-10-01T10:00:00Z',active:true},true);
+ assert((await ok('GET','/events')).some(e=>e.event_id===event.event_id));await ok('PUT','/admin/events/'+event.event_id,{...event,active:false},true);assert(!(await ok('GET','/events')).some(e=>e.event_id===event.event_id));checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

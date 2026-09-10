@@ -70,7 +70,7 @@ if (config.enableHealthCheck) {
 }
 
 let webpackConfig = {
-  jest: { configure: { moduleNameMapper: { "^@/(.*)$": "<rootDir>/src/$1", "^react-router-dom$": require.resolve("react-router-dom"), "^react-router$": require.resolve("react-router"), "^react-router/dom$": require.resolve("react-router/dom") } } },
+  jest: { configure: { transformIgnorePatterns: ["node_modules/(?!react-router(?:-dom)?/)"], moduleNameMapper: { "^@/(.*)$": "<rootDir>/src/$1", "^react-router-dom$": require.resolve("react-router-dom"), "^react-router$": require.resolve("react-router"), "^react-router/dom$": require.resolve("react-router/dom") } } },
   eslint: {
     configure: {
       extends: ["plugin:react-hooks/recommended"],

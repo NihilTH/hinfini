@@ -95,3 +95,5 @@ backend-php/uploads/
 backend-php/vendor/
 frontend/build/
 release/
+
+release-update/

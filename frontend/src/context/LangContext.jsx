@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
+import { hungarian } from "@/lib/hungarian";
+
 const LangContext = createContext(null);
 const KEY = "hi_lang";
 
 const HU = {
   "nav.shop": "Bolt", "nav.candles": "Gyertyák", "nav.fragrances": "Illatok", "nav.tools": "Eszközök",
-  "nav.learn": "Tanulj", "nav.discover": "Felfedezés", "nav.admin": "Admin", "nav.cart": "Kosár",
+  "nav.learn": "Tanulj", "nav.discover": "Felfedezés", "nav.admin": "Kezelőfelület", "nav.cart": "Kosár",
   "nav.menu": "Menü", "nav.close": "Bezárás", "nav.search": "Keresés", "nav.lang": "Nyelv",
   "banner": "INGYENES SZÁLLÍTÁS 25.000 FT FELETT — KÉZZEL ÖNTÖTT KIS SZÉRIÁKBAN",
   "hero.overline": "Kis szériás · Alapítva 2026", "hero.title1": "A gyertyakészítés", "hero.title2": "végtelen mesterei.",
@@ -16,11 +18,11 @@ const HU = {
   "brand.p2": "Nem csak gyertyát adunk — az egész mesterséget: viaszt, kanócot, edényt, illatot és a tudást, hogyan válik ezekből valami tartós.",
   "brand.who": "Kiknek szól", "brand.whoDesc": "Otthonukat tudatosan berendezőknek, ajándékot keresőknek és mindenkinek, aki maga szeretne gyertyát önteni — kezdőtől a haladóig.",
   "brand.what": "Mit kínálunk", "brand.whatDesc": "Kész gyertyák, prémium viaszok, ftalátmentes illatolajok, 100% tiszta illóolajok, kanócok, edények, eszközök és kezdő szettek.",
-  "brand.why": "Mitől különleges", "brand.whyDesc": "Kis szériák, kézi öntés, természetes alapanyagok, HUF-ban árazott átlátható kínálat és ingyenes, részletes útmutatók minden módszerhez.",
+  "brand.why": "Mitől különleges", "brand.whyDesc": "Kis szériák, kézi öntés, természetes alapanyagok, forintban árazott átlátható kínálat és ingyenes, részletes útmutatók minden módszerhez.",
   "featured.overline": "Kiemelt", "featured.title": "Kedvenceink", "featured.all": "Összes termék",
   "cats.overline": "Kategóriák", "cats.title": "Minden, ami a készítőnek kell.", "cats.desc": "Viasztól, kanóctól, illatoktól a hőmérőkig — gonddal válogatva.",
-  "methods.overline": "Módszerek & technikák", "methods.title1": "Edény, mártott, pillér, gél —", "methods.title2": "útmutató minden öntéshez.",
-  "methods.desc": "Hét részletes útmutató végigvezet minden módszeren, kanóc méretezésen és biztonságon.", "methods.cta": "Fedezd fel az útmutatókat",
+  "methods.overline": "Módszerek és technikák", "methods.title1": "Edényes, mártott, tömb- és gélgyertyák —", "methods.title2": "útmutató minden öntéshez.",
+  "methods.desc": "Hét részletes útmutató végigvezet minden módszeren, kanócméretezésen és biztonságon.", "methods.cta": "Fedezd fel az útmutatókat",
   "tile.add": "Kosárba", "tile.soldOut": "Elfogyott", "tile.low": "Utolsó darabok",
   "stock.in": "Készleten", "stock.low": "Kevés készleten", "stock.out": "Elfogyott",
   "shop.title": "Minden a gyertyakészítéshez", "shop.all": "Összes", "shop.search": "Termékek keresése...", "shop.searchBtn": "Keres",
@@ -38,7 +40,7 @@ const HU = {
   "co.title": "Hova küldjük?", "co.name": "Teljes név", "co.email": "E-mail", "co.phone": "Telefon", "co.address": "Cím (utca, házszám)",
   "co.city": "Város", "co.zip": "Irányítószám", "co.country": "Ország", "co.notes": "Megjegyzés (opcionális)",
   "co.submit": "Fizetés SimplePay-jel", "co.submitting": "Feldolgozás...", "co.summary": "A megrendelésed",
-  "co.payInfo": "A fizetés a SimplePay biztonságos rendszerén keresztül történik, bankkártyával, HUF-ban. Jelenleg teszt (sandbox) mód.",
+  "co.payInfo": "A fizetés a SimplePay biztonságos rendszerén keresztül történik, bankkártyával, forintban. Jelenleg tesztüzemmódban.",
   "co.shipMethod": "Szállítási mód", "co.ship.home": "Házhozszállítás", "co.ship.homeDesc": "Futárral a megadott címre, 2–4 munkanap.",
   "co.ship.pickup": "Csomagpont", "co.ship.pickupDesc": "Csomagpontos átvétel — fejlesztés alatt, egyelőre nem választható.", "co.ship.soon": "Fejlesztés alatt",
   "co.terms": "Elolvastam és elfogadom az", "co.termsLink": "ÁSZF-et", "co.and": "és az", "co.privacyLink": "Adatkezelési tájékoztatót", "co.termsReq": "A továbblépéshez el kell fogadnod az ÁSZF-et és az Adatkezelési tájékoztatót.",
@@ -53,19 +55,19 @@ const HU = {
   "order.failed": "A fizetés nem fejeződött be", "order.failedDesc": "A fizetés megszakadt vagy sikertelen volt. A rendelésed rögzítve maradt — írj nekünk, és segítünk.",
   "order.summary": "Összegzés", "order.continue": "Vásárlás folytatása", "order.status": "Állapot", "order.payment": "Fizetés",
   "order.pay.UNPAID": "Fizetésre vár", "order.pay.PAID": "Fizetve", "order.pay.FAILED": "Sikertelen", "order.pay.RESERVED": "Fizetés nélkül rögzítve",
-  "order.notFound": "A rendelés nem található.", "order.ship": "Szállítási mód", "order.emailSent": "A rendelés visszaigazolását e-mailben elküldtük.",
+  "order.notFound": "A rendelés nem található.", "order.ship": "Szállítási mód", "order.emailSent": "A rendelés-visszaigazolást a megadott e-mail-címre küldjük.",
   "learn.overline": "A könyvtár", "learn.title1": "Tanuld meg a", "learn.title2": "gyertyakészítés mesterségét.",
   "learn.desc": "Készítők írták, stúdióban tesztelt. Módszerek, technikák, biztonság.", "learn.min": "perc", "learn.back": "Útmutatók", "learn.read": "Elolvasom",
   "disc.overline": "Felfedezés", "disc.title": "Bogarászd át a katalógust.", "disc.desc": "Véletlenszerű sorrend, minden termék megjelenik.", "disc.shuffle": "Új keverés",
-  "footer.tagline": "Kis szériás gyertyakészítő kellékek és lassú mesterség oktatás.", "footer.shop": "Bolt", "footer.learn": "Tanulj", "footer.info": "Információk",
-  "footer.notes": "Hírek a stúdióból", "footer.notesDesc": "Receptek, tippek és megjelenés bejelentések — havonta kétszer.", "footer.join": "Feliratkozás",
+  "footer.tagline": "Kézműves gyertyák, gyertyakészítő kellékek és részletes útmutatók.", "footer.shop": "Bolt", "footer.learn": "Tanulj", "footer.info": "Információk",
+  "footer.notes": "Hírek a stúdióból", "footer.notesDesc": "Receptek, tippek és termékújdonságok — havonta kétszer.", "footer.join": "Feliratkozás",
   "footer.consent": "Hozzájárulok, hogy a megadott e-mail-címre hírlevelet küldjetek. Bármikor leiratkozhatok.", "footer.emailPh": "e-mail címed",
   "footer.subscribed": "Köszönjük, feliratkoztál!", "footer.already": "Ez az e-mail már fel van iratkozva.", "footer.consentReq": "A feliratkozáshoz add meg a hozzájárulást.",
   "footer.invalid": "Érvénytelen e-mail cím.", "footer.tagline2": "Lassan, tudatosan.",
   "legal.shipping": "Szállítás és fizetés", "legal.returns": "Elállás és visszaküldés", "legal.terms": "ÁSZF", "legal.privacy": "Adatkezelési tájékoztató", "legal.contact": "Kapcsolat",
   "legal.template": "Szerkeszthető sablon — a szögletes zárójelben lévő adatokat a cég valós adataival kell kitölteni, jogi ellenőrzés után.",
   "err.generic": "Hiba történt. Kérlek próbáld újra.", "err.notFound": "Az oldal nem található.",
-  "admin.title": "Admin felület", "admin.enter": "Belépés", "admin.token": "Admin hozzáférési kulcs", "admin.badToken": "Sikertelen belépés. Ellenőrizd a hozzáférési kulcsot.",
+  "admin.title": "Kezelőfelület", "admin.enter": "Belépés", "admin.token": "Admin hozzáférési kulcs", "admin.badToken": "Sikertelen belépés. Ellenőrizd a hozzáférési kulcsot.",
   "admin.signOut": "Kilépés", "admin.prods": "Termékek", "admin.cats": "Kategóriák", "admin.orders": "Rendelések", "admin.media": "Médiatár",
   "admin.newsletter": "Hírlevél", "admin.emails": "E-mail napló", "admin.add": "Hozzáadás", "admin.edit": "Szerkesztés", "admin.del": "Törlés",
   "admin.save": "Mentés", "admin.cancel": "Mégse", "admin.saved": "Sikeresen mentve.", "admin.failed": "A mentés nem sikerült.",
@@ -74,7 +76,7 @@ const HU = {
 
 const EN = {
   "nav.shop": "Shop", "nav.candles": "Candles", "nav.fragrances": "Fragrances", "nav.tools": "Tools",
-  "nav.learn": "Learn", "nav.discover": "Discover", "nav.admin": "Admin", "nav.cart": "Cart",
+  "nav.learn": "Learn", "nav.discover": "Discover", "nav.admin": "Kezelőfelület", "nav.cart": "Cart",
   "nav.menu": "Menu", "nav.close": "Close", "nav.search": "Search", "nav.lang": "Language",
   "banner": "FREE SHIPPING OVER 25,000 FT — HAND-POURED IN SMALL BATCHES",
   "hero.overline": "Small batch · Est. 2026", "hero.title1": "The infinite", "hero.title2": "craft of candle making.",
@@ -144,7 +146,7 @@ const EN = {
 const DICT = { hu: HU, en: EN };
 
 export const LangProvider = ({ children }) => {
-  const [lang, setLang] = useState(() => localStorage.getItem(KEY) || "hu");
+  const [lang, setLang] = useState(() => localStorage.getItem(KEY) === "en" ? "en" : "hu");
   useEffect(() => { localStorage.setItem(KEY, lang); document.documentElement.lang = lang; }, [lang]);
   const t = useCallback((k, vars) => {
     let s = DICT[lang][k] ?? DICT.hu[k] ?? k;
@@ -154,15 +156,16 @@ export const LangProvider = ({ children }) => {
   const tr = useCallback((obj, field) => {
     if (!obj) return "";
     if (lang === "en" && obj[`${field}_en`]) return obj[`${field}_en`];
-    return obj[field] || "";
+    return lang === "hu" ? hungarian(obj[`${field}_hu`] || obj[field]) : obj[field] || "";
   }, [lang]);
   const catName = useCallback((c) => {
     if (!c) return "";
-    if (typeof c === "string") return c;
-    return (lang === "hu" ? c.name_hu : c.name_en) || c.name;
+    if (typeof c === "string") return lang === "hu" ? hungarian(c) : c;
+    return (lang === "hu" ? c.name_hu : c.name_en) || (lang === "hu" ? hungarian(c.name) : c.name);
   }, [lang]);
+  const label = useCallback((value) => lang === "hu" ? hungarian(value) : value, [lang]);
   const toggle = () => setLang((l) => (l === "hu" ? "en" : "hu"));
-  return <LangContext.Provider value={{ lang, t, tr, catName, toggle, setLang }}>{children}</LangContext.Provider>;
+  return <LangContext.Provider value={{ lang, t, tr, catName, label, toggle, setLang }}>{children}</LangContext.Provider>;
 };
 
 export const useLang = () => useContext(LangContext);

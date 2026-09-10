@@ -11,7 +11,7 @@ const PAGES = {
       ["Szállítási módok", "Házhozszállítás futárszolgálattal Magyarország területén. Csomagpontos átvétel bevezetése folyamatban — jelenleg nem választható."],
       ["Szállítási díj", "Házhozszállítás: 1 990 Ft. 25 000 Ft feletti rendelés esetén a szállítás ingyenes. [Díjak a cég döntése szerint módosítandók.]"],
       ["Szállítási idő", "A rendelést a sikeres fizetést követő 2–4 munkanapon belül adjuk fel. [Pontos vállalás beállítandó.]"],
-      ["Fizetési módok", "Bankkártyás fizetés a SimplePay (OTP Mobil Kft.) rendszerén keresztül, forintban. A kártyaadatok nem jutnak el hozzánk. Jelenleg a fizetés teszt (sandbox) üzemmódban működik."],
+      ["Fizetési módok", "Bankkártyás fizetés a SimplePay (OTP Mobil Kft.) rendszerén keresztül, forintban. A kártyaadatok nem jutnak el hozzánk. Jelenleg a fizetés tesztüzemmódban működik."],
       ["Számlázás", "A számlát NAV-kompatibilis számlázó rendszer állítja ki és küldi el e-mailben. [Számlázó szolgáltató neve.]"],
     ],
     en: [
@@ -95,7 +95,7 @@ export default function Legal() {
   const { t, lang } = useLang();
   const data = PAGES[page];
   if (!data) return <div className="max-w-3xl mx-auto px-6 py-24 text-center text-[#B8AE95]" data-testid="legal-missing">{t("err.notFound")} <Link to="/" className="text-[#D4AF6E] underline ml-2">H'INFINI</Link></div>;
-  const sections = data[lang] || data.hu;
+  const sections = (data[lang] || data.hu).map(([h, body]) => [h, lang === "hu" ? body.replaceAll("[SUPPORT_EMAIL]", "[ÜGYFÉLSZOLGÁLATI E-MAIL-CÍM]") : body]);
   return (
     <article data-testid={`legal-${page}`} className="max-w-3xl mx-auto px-6 py-16">
       <Seo title={t(data.key)} description={sections[0]?.[1]} />

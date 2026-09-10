@@ -1,3 +1,4 @@
+import { historyLabel } from "@/lib/hungarian";
 import api from "@/lib/api";
 import { useLang } from "@/context/LangContext";
 
@@ -75,7 +76,7 @@ const A = {
     // emails
     event: "Esemény", recipient: "Címzett", subject: "Tárgy", sentAt: "Időpont", resend: "Újraküldés", resendConfirm: "Biztosan újraküldöd ezt az e-mailt a címzettnek?",
     paymentReview: "A fizetés kézi ellenőrzést igényel: törlés után vagy több tranzakcióból érkezett sikeres fizetés. Ellenőrizd a SimplePay-fiókot és az esetleges visszatérítést.",
-    es_QUEUED: "Küldésre vár", es_SENDING: "Küldés folyamatban", es_SENT: "Elküldve", es_FAILED: "Sikertelen", es_SKIPPED: "Kihagyva (nincs szolgáltató)", providerNote: "E-mail szolgáltató: {p}. „none” esetén a rendszer naplóz, de nem küld.",
+    es_QUEUED: "Küldésre vár", es_SENDING: "Küldés folyamatban", es_SENT: "Elküldve", es_FAILED: "Sikertelen", es_SKIPPED: "Kihagyva (nincs szolgáltató)", providerNote: "E-mail szolgáltató: {p}. Kikapcsolt szolgáltatónál a rendszer naplóz, de nem küld.",
     // newsletter
     subscribers: "Feliratkozók", consentedAt: "Hozzájárulás", source: "Forrás", removeSub: "Eltávolítás", removeSubConfirm: "Eltávolítod ezt a feliratkozót?", noSubs: "Nincs feliratkozó.",
     // dashboard
@@ -128,7 +129,7 @@ const A = {
 export const useA = () => {
   const { lang } = useLang();
   return (k, vars) => {
-    let s = A[lang]?.[k] ?? A.hu[k] ?? k;
+    let s = A[lang]?.[k] ?? A.hu[k] ?? (lang === "hu" ? historyLabel(k, lang) : k);
     if (vars) Object.entries(vars).forEach(([kk, v]) => { s = s.replace(`{${kk}}`, v); });
     return s;
   };
@@ -143,7 +144,7 @@ export const errText = (err, a) => {
   if (d === "unsupported_type") return a("badType");
   if (d === "category_exists") return a("catExists");
   if (d === "slug_exists") return a("slug") + ": " + a("catExists").toLowerCase();
-  return d.length < 120 ? d : a("failed");
+  return a("failed");
 };
 
 export const fmtDate = (iso) => (iso ? new Date(iso).toLocaleString("hu-HU", { dateStyle: "short", timeStyle: "short" }) : "-");

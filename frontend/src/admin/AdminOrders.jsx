@@ -105,12 +105,12 @@ function OrderDetail({ orderId, onClose, onChanged }) {
           <Section title={a("emailsForOrder")}>
             {(o.emails || []).length === 0 ? <p className="text-sm text-[#B8AE95]">—</p> : (
               <table className="w-full text-xs"><tbody>
-                {o.emails.map((e) => <tr key={e.log_id} className="border-b border-[#3d3835]"><td className="py-2">{e.event}</td><td className="py-2 text-[#B8AE95]">{e.recipient}</td><td className="py-2"><Badge value={e.status} label={a("es_" + e.status)} /></td><td className="py-2 text-[#B8AE95] whitespace-nowrap">{fmtDate(e.created_at)}</td><td className="py-2 text-right"><button onClick={() => setResend(e)} className="underline text-[#D4AF6E] focus-ring" data-testid={`od-resend-${e.log_id}`}>{a("resend")}</button></td></tr>)}
+                {o.emails.map((e) => <tr key={e.log_id} className="border-b border-[#3d3835]"><td className="py-2">{a(e.event)}</td><td className="py-2 text-[#B8AE95]">{e.recipient}</td><td className="py-2"><Badge value={e.status} label={a("es_" + e.status)} /></td><td className="py-2 text-[#B8AE95] whitespace-nowrap">{fmtDate(e.created_at)}</td><td className="py-2 text-right"><button onClick={() => setResend(e)} className="underline text-[#D4AF6E] focus-ring" data-testid={`od-resend-${e.log_id}`}>{a("resend")}</button></td></tr>)}
               </tbody></table>
             )}
           </Section>
           <Section title={a("history")}>
-            <ul className="text-xs text-[#B8AE95] space-y-1">{(o.history || []).map((h, i) => <li key={i}>{fmtDate(h.at)} — {h.event}</li>)}</ul>
+            <ul className="text-xs text-[#B8AE95] space-y-1">{(o.history || []).map((h, i) => <li key={i}>{fmtDate(h.at)} — {a(h.event)}</li>)}</ul>
           </Section>
         </div>
         <aside className="space-y-5">

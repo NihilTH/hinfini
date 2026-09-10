@@ -14,7 +14,7 @@ const STOCK_STYLE = { in: "text-emerald-400 border-emerald-400/40", low: "text-[
 export default function ProductDetail() {
   const { slug } = useParams();
   const { add } = useCart();
-  const { t, tr } = useLang();
+  const { t, tr, label } = useLang();
   const { catLabel } = useCatalog();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
@@ -58,7 +58,7 @@ export default function ProductDetail() {
           )}
         </div>
         <div className="pt-2">
-          <div className="overline mb-4">{catLabel(product.category)}{product.subcategory ? ` · ${product.subcategory}` : ""}</div>
+          <div className="overline mb-4">{catLabel(product.category)}{product.subcategory ? ` · ${label(product.subcategory)}` : ""}</div>
           <h1 className="font-serif-display text-4xl md:text-5xl leading-tight">{name}</h1>
           <div className="mt-6 flex items-baseline gap-4 flex-wrap">
             <div className="font-serif-display text-3xl text-[#D4AF6E]" data-testid="pd-price">{formatPrice(product.price)}</div>
@@ -87,7 +87,7 @@ export default function ProductDetail() {
             <div className="mt-10 border-t border-[#3d3835] pt-8">
               <div className="overline mb-3">{t("pd.details")}</div>
               {tr(product, "long_description") && <p className="text-[#B8AE95] leading-relaxed whitespace-pre-line" data-testid="pd-long-description">{tr(product, "long_description")}</p>}
-              {(product.tags || []).length > 0 && <div className="mt-4 flex flex-wrap gap-2">{product.tags.map((tg) => <Link key={tg} to={`/shop?q=${encodeURIComponent(tg)}`} className="text-xs px-3 py-1 border border-[#3d3835] rounded-full text-[#B8AE95] hover:border-[#D4AF6E] focus-ring">#{tg}</Link>)}</div>}
+              {(product.tags || []).length > 0 && <div className="mt-4 flex flex-wrap gap-2">{product.tags.map((tg) => <Link key={tg} to={`/shop?q=${encodeURIComponent(tg)}`} className="text-xs px-3 py-1 border border-[#3d3835] rounded-full text-[#B8AE95] hover:border-[#D4AF6E] focus-ring">#{label(tg)}</Link>)}</div>}
             </div>
           )}
         </div>

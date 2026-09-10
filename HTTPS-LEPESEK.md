@@ -38,3 +38,15 @@ a jelszót és a táblák importját külön is el kell végezni.
 
 Források: [cPanel SSL/TLS Status](https://docs.cpanel.net/cpanel/security/ssl-tls-status/),
 [cPanel Domains](https://docs.cpanel.net/cpanel/domains/domains/).
+
+## Ha a domained alias és nincs külön HTTPS-kapcsoló
+
+Ha a saját HTTPS-címed már tanúsítványhiba nélkül megnyílik, a `public_html/.htaccess` fájlban közvetlenül a `RewriteEngine On` sor után illeszd be:
+
+```apache
+RewriteCond %{HTTP_HOST} ^(?:www\.)?hinfinicandles\.hu$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://hinfinicandles.hu%{REQUEST_URI} [R=308,L,NE]
+```
+
+A meglévő API- és oldalkezelő szabályokat hagyd meg ez alatt. Mentés után próbáld ki a `http://hinfinicandles.hu` címet: a HTTPS-változatra kell kerülnöd. Ez csak a saját domain HTTP-forgalmát irányítja át. A `https://www.hinfinicandles.hu` használatához a tanúsítványnak külön a www nevet is le kell fednie.

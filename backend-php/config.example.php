@@ -17,7 +17,7 @@ return [
  // Local files stay in backend-php/uploads, served by the PHP image endpoint.
  'S3_ENDPOINT_URL'=>'', 'S3_REGION'=>'auto', 'S3_BUCKET'=>'',
  'S3_ACCESS_KEY_ID'=>'', 'S3_SECRET_ACCESS_KEY'=>'', 'S3_PUBLIC_BASE_URL'=>'',
- 'EMAIL_PROVIDER'=>'none', // none | resend | sendgrid
+ 'EMAIL_PROVIDER'=>'none', // none | php_mail | resend | sendgrid
  'EMAIL_FROM'=>'', 'EMAIL_FROM_NAME'=>"H'INFINI Candles", 'EMAIL_REPLY_TO'=>'',
  'RESEND_API_KEY'=>'', 'SENDGRID_API_KEY'=>'', 'ORDER_NOTIFY_EMAIL'=>'', 'SUPPORT_EMAIL'=>'',
  'INVOICE_PROVIDER'=>'none', 'INVOICE_TRIGGER'=>'paid',

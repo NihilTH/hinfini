@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 if(!process.env.DB_NAME?.endsWith('_test')) throw Error('DB_NAME must end with _test');
 const root=resolve(import.meta.dirname,'../..');
 const php=process.env.PHP_BINARY||'php';
-const server=spawn(php,['-S','127.0.0.1:8001','backend-php/router.php'],{cwd:root,env:{...process.env,PHP_CLI_SERVER_WORKERS:'4'},stdio:['ignore','ignore','pipe'],detached:true});
+const server=spawn(php,['-S','127.0.0.1:8001','backend-php/router.php'],{cwd:root,env:{...process.env,PHP_CLI_SERVER_WORKERS:'4',EMAIL_PROVIDER:'resend',BANK_ACCOUNT_NAME:'Test Merchant',BANK_ACCOUNT_NUMBER:'TEST-ACCOUNT'},stdio:['ignore','ignore','pipe'],detached:true});
 let stderr=''; server.stderr.on('data',d=>stderr+=d);
 const base='http://127.0.0.1:8001/api';
 async function request(method,path,body,admin=false,headers={}) {
@@ -94,10 +94,19 @@ try {
  cr=await fetch(base+'/custom-requests',{method:'POST',body:good});assert.equal(cr.status,200);const imageId=(await cr.json()).request_id;
  assert.equal((await fetch(base+'/admin/custom-requests/'+imageId+'/image')).status,401);
  assert.equal((await fetch(base+'/admin/custom-requests/'+imageId+'/image',{headers:{'X-Admin-Token':process.env.ADMIN_TOKEN}})).status,200);checks++;
- assert.equal((await request('POST','/admin/custom-requests/'+cid+'/quote',{amount:5000,message:'Teszt ajánlat'},true)).status,422);checks++;
- const logs=await ok('GET','/admin/emails?order_id='+cid,undefined,true);assert(logs.some(e=>e.event==='custom_received'));assert(logs.some(e=>e.event==='admin_custom'));checks++;
+ assert.equal((await request('POST','/admin/custom-requests/'+cid+'/quote',{amount:0,message:'Teszt ajánlat'},true)).status,422);checks++;
+ await ok('POST','/admin/custom-requests/'+cid+'/quote',{amount:5000,message:'Teszt ajánlat, szállítással együtt'},true);
+ await ok('PATCH','/admin/custom-requests/'+cid,{status:'PAID'},true);
+ assert.equal((await request('POST','/admin/custom-requests/'+cid+'/quote',{amount:6000,message:'Új ajánlat'},true)).status,409);
+ const logs=await ok('GET','/admin/emails?order_id='+cid,undefined,true);assert(logs.some(e=>e.event==='custom_quote')); assert(logs.some(e=>e.event==='custom_received'));assert(logs.some(e=>e.event==='admin_custom'));checks++;
  const event=await ok('POST','/admin/events',{title:'Teszt esemény',location:'Debrecen',starts_at:'2027-10-01T10:00:00Z',active:true},true);
  assert((await ok('GET','/events')).some(e=>e.event_id===event.event_id));await ok('PUT','/admin/events/'+event.event_id,{...event,active:false},true);assert(!(await ok('GET','/events')).some(e=>e.event_id===event.event_id));checks++;
+ await ok('POST','/admin/categories',{name:'Wax',name_hu:'Régi alapanyag'},true);
+ const retired=await ok('POST','/admin/products',{slug:'retired-'+tag,name:'Régi alapanyag',category:'Wax',price:1000,stock:3},true);
+ sqlPHP("db()->exec(file_get_contents('backend-php/database/update-studio.sql'));");
+ assert.equal((await request('GET','/products/'+retired.slug)).status,404);
+ assert.deepEqual((await ok('GET','/categories')).map(c=>c.name),['gyertyak','illatviasz','forma-gyertyak','asztali-disz','egyeb']);
+ assert.equal((await ok('GET','/orders/'+paid.order_id)).payment_status,'PAID');checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

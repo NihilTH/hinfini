@@ -54,6 +54,7 @@ export default function Layout({ children }) {
   }, []);
 
   const NAV = [
+    { to: "/", id: "home", label: t("nav.home") },
     { to: "/bemutatkozas", id: "about", label: t("nav.about") },
     { to: "/shop", id: "shop", label: t("nav.shop") },
     { to: "/egyedi-gyertyak", id: "custom", label: t("nav.custom") },

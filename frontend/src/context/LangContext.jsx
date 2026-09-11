@@ -6,7 +6,7 @@ const LangContext = createContext(null);
 const KEY = "hi_lang";
 
 const HU = {
-  "nav.about": "Bemutatkozás", "nav.custom": "Egyedi gyertyák", "nav.events": "Események", "nav.contact": "Elérhetőségek",
+  "nav.home": "Főoldal", "nav.about": "Bemutatkozás", "nav.custom": "Egyedi gyertyák", "nav.events": "Események", "nav.contact": "Elérhetőségek",
   "nav.shop": "Termékek", "nav.candles": "Gyertyák", "nav.fragrances": "Illatok", "nav.tools": "Eszközök",
    "nav.discover": "Felfedezés", "nav.admin": "Kezelőfelület", "nav.cart": "Kosár",
   "nav.menu": "Menü", "nav.close": "Bezárás", "nav.search": "Keresés", "nav.lang": "Nyelv",
@@ -76,7 +76,7 @@ const HU = {
 };
 
 const EN = {
-  "nav.about": "About us", "nav.custom": "Custom candles", "nav.events": "Events", "nav.contact": "Contact",
+  "nav.home": "Home", "nav.about": "About us", "nav.custom": "Custom candles", "nav.events": "Events", "nav.contact": "Contact",
   "nav.shop": "Shop", "nav.candles": "Candles", "nav.fragrances": "Fragrances", "nav.tools": "Tools",
    "nav.discover": "Discover", "nav.admin": "Kezelőfelület", "nav.cart": "Cart",
   "nav.menu": "Menu", "nav.close": "Close", "nav.search": "Search", "nav.lang": "Language",

@@ -27,7 +27,7 @@ export default function Home() {
     <div data-testid="home-page">
       <Seo title={t("hero.title1") + " " + t("hero.title2")} description={t("hero.desc")} />
       <section className="relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 grid lg:grid-cols-12 gap-10 items-center">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-6 relative z-10">
             <img src="/hinfini-logo.png" alt="H’INFINI Candles" className="w-44 h-44 sm:w-56 sm:h-56 object-cover rounded-full mx-auto mb-8 border border-[#D4AF6E]/30" />
             <div className="overline mb-6">{t("hero.overline")}</div>

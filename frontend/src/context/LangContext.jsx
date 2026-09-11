@@ -7,7 +7,7 @@ const KEY = "hi_lang";
 
 const HU = {
   "nav.about": "Bemutatkozás", "nav.custom": "Egyedi gyertyák", "nav.events": "Események", "nav.contact": "Elérhetőségek",
-  "nav.shop": "Bolt", "nav.candles": "Gyertyák", "nav.fragrances": "Illatok", "nav.tools": "Eszközök",
+  "nav.shop": "Termékek", "nav.candles": "Gyertyák", "nav.fragrances": "Illatok", "nav.tools": "Eszközök",
    "nav.discover": "Felfedezés", "nav.admin": "Kezelőfelület", "nav.cart": "Kosár",
   "nav.menu": "Menü", "nav.close": "Bezárás", "nav.search": "Keresés", "nav.lang": "Nyelv",
   "banner": "INGYENES SZÁLLÍTÁS 25.000 FT FELETT — KÉZZEL ÖNTÖTT KIS SZÉRIÁKBAN",
@@ -34,7 +34,7 @@ const HU = {
   "pd.desc": "Leírás", "pd.related": "Kapcsolódó termékek", "pd.add": "Kosárba", "pd.qty": "Mennyiség", "pd.notFound": "A termék nem található.",
   "pd.details": "Részletek", "pd.tags": "Címkék",
   "cart.overline": "A kosarad", "cart.emptyTitle": "A kosarad még üres.", "cart.emptyDesc": "Válassz egy gyertyát vagy díszt a termékek közül.",
-  "cart.browse": "Böngészd a boltot", "cart.ready": "A kiválasztott termékeid", "cart.subtotal": "Részösszeg", "cart.shipping": "Szállítási díj",
+  "cart.browse": "Böngészd a termékeket", "cart.ready": "A kiválasztott termékeid", "cart.subtotal": "Részösszeg", "cart.shipping": "Szállítási díj",
   "cart.free": "Ingyenes", "cart.total": "Végösszeg", "cart.freeMsg": "Adj hozzá még {n} Ft-ért az ingyenes szállításhoz.",
   "cart.checkout": "Tovább a pénztárhoz", "cart.remove": "Eltávolítás", "cart.qty": "Mennyiség", "cart.items": "Termékek", "cart.added": "kosárba téve",
   "cart.soldOut": "Ez a termék elfogyott.", "cart.maxStock": "Csak {n} db érhető el.", "cart.dec": "Kevesebb", "cart.inc": "Több",
@@ -60,7 +60,7 @@ const HU = {
 
 
   "disc.overline": "Felfedezés", "disc.title": "Bogarászd át a katalógust.", "disc.desc": "Véletlenszerű sorrend, minden termék megjelenik.", "disc.shuffle": "Új keverés",
-  "footer.tagline": "Kézzel öntött gyertyák és személyre szabott ajándékok.", "footer.shop": "Bolt",  "footer.info": "Információk",
+  "footer.tagline": "Kézzel öntött gyertyák és személyre szabott ajándékok.", "footer.shop": "Termékek",  "footer.info": "Információk",
   "footer.notes": "Hírek a stúdióból", "footer.notesDesc": "Termékújdonságok, események és különleges ajánlatok.", "footer.join": "Feliratkozás",
   "footer.consent": "Hozzájárulok, hogy a megadott e-mail-címre hírlevelet küldjetek. Bármikor leiratkozhatok.", "footer.emailPh": "e-mail címed",
   "footer.subscribed": "Köszönjük, feliratkoztál!", "footer.already": "Ez az e-mail már fel van iratkozva.", "footer.consentReq": "A feliratkozáshoz add meg a hozzájárulást.",

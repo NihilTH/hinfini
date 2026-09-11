@@ -40,6 +40,7 @@ jobs:
         with:
           node-version: '22'
       - run: find backend-php deploy -name '*.php' -exec php -l {} \;
+      - run: php backend-php/tests/mail-template.php
       - run: php backend-php/bin/console.php migrate
       - run: php backend-php/bin/console.php seed
       - run: node backend-php/tests/integration.mjs

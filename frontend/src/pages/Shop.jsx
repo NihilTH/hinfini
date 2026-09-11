@@ -10,7 +10,7 @@ import { useCatalog } from "@/context/CatalogContext";
 const SORTS = ["recommended", "price_asc", "price_desc", "newest"];
 
 export default function Shop() {
-  const { t, catName } = useLang();
+  const { t, catName, lang } = useLang();
   const { categories, catLabel } = useCatalog();
   const [params, setParams] = useSearchParams();
   const category = params.get("category") || "All";
@@ -18,17 +18,22 @@ export default function Shop() {
   const sort = params.get("sort") || "recommended";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [retry, setRetry] = useState(0);
   const [query, setQuery] = useState(q);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef(null);
 
   useEffect(() => {
+    let active = true;
     setLoading(true);
+    setLoadError(false);
     const p = { sort };
     if (category !== "All") p.category = category;
     if (q) p.q = q;
-    api.get("/products", { params: p }).then(({ data }) => setProducts(data)).catch(() => setProducts([])).finally(() => setLoading(false));
-  }, [category, q, sort]);
+    api.get("/products", { params: p }).then(({ data }) => { if (!Array.isArray(data)) throw new Error("Invalid catalog response"); if (active) setProducts(data); }).catch(() => { if (active) { setProducts([]); setLoadError(true); } }).finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [category, q, sort, retry]);
 
   useEffect(() => {
     if (params.get("focus")) {
@@ -86,6 +91,7 @@ export default function Shop() {
       {filtersOpen && <div className="md:hidden mb-10 p-4 border border-[#3d3835] bg-[#24221E]" data-testid="shop-filters-mobile"><Filters /></div>}
 
       {loading ? <div className="text-center py-24 text-[#B8AE95]" aria-live="polite">{t("shop.loading")}</div> :
+        loadError ? <div role="alert" className="text-center py-24 text-[#B8AE95]"><p>{lang === "hu" ? "A termékeket most nem sikerült betölteni. Kérjük, próbáld újra." : "We could not load the products. Please try again."}</p><button onClick={() => setRetry((n) => n + 1)} className="btn-outline mt-6">{lang === "hu" ? "Újrapróbálás" : "Try again"}</button></div> :
         products.length === 0 ? <div data-testid="shop-empty" className="text-center py-24 text-[#B8AE95]">{t("shop.empty")}</div> :
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-14">{products.map((p) => <ProductTile key={p.product_id} product={p} />)}</div>}
     </div>

@@ -27,8 +27,9 @@ export default function Home() {
     <div data-testid="home-page">
       <Seo title={t("hero.title1") + " " + t("hero.title2")} description={t("hero.desc")} />
       <section className="relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 grid lg:grid-cols-12 gap-10 items-center">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-6 relative z-10">
+            <img src="/hinfini-logo.png" alt="H’INFINI Candles" className="w-44 h-44 sm:w-56 sm:h-56 object-cover rounded-full mx-auto mb-8 border border-[#D4AF6E]/30" />
             <div className="overline mb-6">{t("hero.overline")}</div>
             <h1 className="font-serif-display text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95] tracking-tight">
               {t("hero.title1")} <em className="text-[#D4AF6E] not-italic">{t("hero.title2")}</em>
@@ -94,7 +95,7 @@ export default function Home() {
             {categories.map((c, i) => (
               <Link key={c.name} to={`/shop?category=${encodeURIComponent(c.name)}`} data-testid={`category-tile-${c.name.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`group relative overflow-hidden bg-[#1A1917] border border-[#3d3835] focus-ring ${i % 5 === 0 ? "row-span-2 aspect-[4/5]" : "aspect-square"}`}>
-                <SmartImage src={c.image} alt={c.image_alt || catName(c)} className="w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90" />
+                <SmartImage src={c.image || "/hinfini-logo.png"} alt={c.image_alt || catName(c)} className="w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1917] via-[#1A1917]/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <div className="overline text-[#D4AF6E]">{tr(c, "description") || c.tagline}</div>
@@ -106,25 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#0F0E0C] py-24">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-5 order-2 lg:order-1">
-            <div className="aspect-[4/5] overflow-hidden border border-[#3d3835]">
-              <SmartImage src="https://images.unsplash.com/photo-1770734331757-f40d64eafbc2?w=1000&q=80" alt="Viasz öntése edénybe a műhelyben" className="w-full h-full object-cover opacity-90" />
-            </div>
-          </div>
-          <div className="lg:col-span-7 lg:pl-12 order-1 lg:order-2">
-            <div className="overline text-[#D4AF6E] mb-4">{t("methods.overline")}</div>
-            <h2 className="font-serif-display text-4xl md:text-5xl leading-tight">
-              {t("methods.title1")}<br /><em className="text-[#D4AF6E] not-italic">{t("methods.title2")}</em>
-            </h2>
-            <p className="mt-6 text-[#B8AE95] max-w-xl leading-relaxed">{t("methods.desc")}</p>
-            <Link to="/learn" data-testid="methods-cta" className="mt-8 inline-flex items-center gap-2 text-[#D4AF6E] link-underline text-lg focus-ring">
-              {t("methods.cta")} <ArrowRight size={18} weight="bold" />
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }

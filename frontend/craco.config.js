@@ -70,6 +70,20 @@ if (config.enableHealthCheck) {
 }
 
 let webpackConfig = {
+  jest: {
+    configure: (config) => ({
+      ...config,
+      transform: { "^.+\\.mjs$": "<rootDir>/jest-esm-transform.cjs", ...config.transform },
+      transformIgnorePatterns: ["node_modules/(?!react-router(?:-dom)?/)"],
+      moduleNameMapper: {
+        ...config.moduleNameMapper,
+        "^@/(.*)$": "<rootDir>/src/$1",
+        "^react-router-dom$": require.resolve("react-router-dom"),
+        "^react-router$": require.resolve("react-router"),
+        "^react-router/dom$": require.resolve("react-router/dom"),
+      },
+    }),
+  },
   eslint: {
     configure: {
       extends: ["plugin:react-hooks/recommended"],

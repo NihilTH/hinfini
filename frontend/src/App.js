@@ -8,8 +8,8 @@ import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import Shop from "@/pages/Shop";
 import ProductDetail from "@/pages/ProductDetail";
-import Learn from "@/pages/Learn";
-import GuideDetail from "@/pages/GuideDetail";
+import { About, Events, CustomCandles } from "@/pages/Studio";
+
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import OrderSuccess from "@/pages/OrderSuccess";
@@ -41,8 +41,9 @@ function App() {
                   <Route path="/shop" element={<Shop />} />
                   <Route path="/shop/:slug" element={<ProductDetail />} />
                   <Route path="/discover" element={<Discover />} />
-                  <Route path="/learn" element={<Learn />} />
-                  <Route path="/learn/:slug" element={<GuideDetail />} />
+                  <Route path="/bemutatkozas" element={<About />} />
+                  <Route path="/esemenyek" element={<Events />} />
+                  <Route path="/egyedi-gyertyak" element={<CustomCandles />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/order/:orderId" element={<OrderSuccess />} />

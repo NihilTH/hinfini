@@ -21,3 +21,5 @@ await cp(join(root,"frontend/build"),join(update,"public_html"),{recursive:true}
 await cp(join(target,'backend-php'),join(update,'backend-php'),{recursive:true});
 await cp(join(root,'FRISSITES-STUDIO.md'),join(update,'FRISSITES.md'));
 await cp(join(root,'FRISSITES-STUDIO.md'),join(target,'FRISSITES.md'));
+await cp(join(root,'BEALLITAS-ES-HASZNALAT.md'),join(update,'BEALLITAS-ES-HASZNALAT.md'));
+await cp(join(root,'BEALLITAS-ES-HASZNALAT.md'),join(target,'BEALLITAS-ES-HASZNALAT.md'));

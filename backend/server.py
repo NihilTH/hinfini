@@ -295,7 +295,8 @@ async def create_order(payload: CheckoutInput):
 async def get_order(order_id: str):
     o = await db.orders.find_one({"order_id": order_id}, {"_id": 0, "ipn": 0, "simplepay_response": 0, "history": 0, "admin_note": 0})
     if not o: raise HTTPException(404, "Not found")
-    return o
+    public_fields = {"order_id", "items", "subtotal", "shipping", "total", "status", "payment_status", "fulfillment_status", "shipping_method", "created_at"}
+    return {key: value for key, value in o.items() if key in public_fields}
 
 
 # =========== SimplePay ===========

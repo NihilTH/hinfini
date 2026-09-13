@@ -4,10 +4,10 @@ import pytest
 import requests
 from PIL import Image
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://candle-craft-hub-1.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ["REACT_APP_BACKEND_URL"].rstrip("/")
 API = f"{BASE_URL}/api"
-ADMIN_TOKEN = "hinfini-admin-2026"
-SP_KEY = "FxDa5w314kLlNseq2sKuVwaqZshZT5d6"
+ADMIN_TOKEN = os.environ["ADMIN_TOKEN"]
+SP_KEY = os.environ["SIMPLEPAY_SECRET_KEY"]
 AH = {"X-Admin-Token": ADMIN_TOKEN}
 
 

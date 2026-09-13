@@ -22,6 +22,10 @@ let checks=0;
 try {
  for(let i=0;i<50;i++) {try {await fetch(base+'/');break;}catch{await new Promise(r=>setTimeout(r,100));}}
  assert.equal((await request('POST','/admin/verify',{})).status,401); checks++;
+ for(const route of ['/admin/orders','/admin/emails','/admin/newsletter','/admin/custom-requests']) {
+   assert.equal((await request('GET',route)).status,401);
+   await ok('POST','/admin/verify',{},true);
+ }
  await ok('POST','/admin/verify',{},true);
  const cats=await ok('GET','/categories'); assert(cats.length>0);
  const tag=Date.now().toString();

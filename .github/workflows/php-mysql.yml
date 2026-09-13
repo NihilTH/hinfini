@@ -65,6 +65,7 @@ jobs:
           GENERATE_SOURCEMAP: 'false'
           CI: 'false'
       - run: node scripts/package-cpanel.mjs
+      - run: node scripts/check-release-security.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: hinfini-cpanel-php-mysql

@@ -17,7 +17,7 @@ function route(string $method,string $path,array $b): mixed {
     if($method==='GET'&&$path==='/categories') return category_list();
     if($method==='GET'&&$path==='/guides') return [];
     if($method==='GET'&&preg_match('~^/guides/([^/]+)$~',$path,$m)) fail(404,'Not found');
-    if($method==='POST'&&$path==='/newsletter/subscribe') return subscribe($b);
+    if($method==='POST'&&$path==='/newsletter/subscribe') { public_limit('newsletter',10); return subscribe($b); }
     if($method==='POST'&&$path==='/orders') return order_create($b);
     if($method==='GET'&&preg_match('~^/orders/([^/]+)$~',$path,$m)) return public_order(need('orders',$m[1]));
     if($method==='POST'&&$path==='/payments/start') return payment_start($b);

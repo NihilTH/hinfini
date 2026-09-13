@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 function order_create(array $b): array {
+    public_limit('orders',60);
     if(!boolean($b,'accepted_terms')) fail(400,'terms_required');
     $o=['email'=>email_value($b)];
     $code=text_field($b,'coupon_code','',40);

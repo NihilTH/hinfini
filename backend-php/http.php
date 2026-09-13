@@ -2,6 +2,7 @@
 declare(strict_types=1);
 ini_set('display_errors','0');
 require __DIR__.'/src/bootstrap.php';
+header('Referrer-Policy: no-referrer'); header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff'); header('Cache-Control: no-store');
 try {
     $origin=$_SERVER['HTTP_ORIGIN']??'';

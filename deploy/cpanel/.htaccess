@@ -1,3 +1,11 @@
+<IfModule mod_headers.c>
+Header always set Referrer-Policy "no-referrer"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+</IfModule>
+<FilesMatch "(?i)(^\.|\.(sql|log|bak|env|zip)$|^config\..*\.php$)">
+Require all denied
+</FilesMatch>
 Options -Indexes
 DirectoryIndex index.html
 RewriteEngine On

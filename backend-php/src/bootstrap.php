@@ -73,7 +73,7 @@ function web_url(string $v): string { if ($v!=='' && (!filter_var($v,FILTER_VALI
 function admin_auth(): void {
     $key=hash('sha256',$_SERVER['REMOTE_ADDR']??'unknown');
     $status=tx(function() use($key) {
-        sql('INSERT IGNORE INTO auth_attempts (ip_hash, failures, window_start) VALUES (?,0,?)',[$key,time()]);
+        sql('INSERT INTO auth_attempts (ip_hash, failures, window_start) VALUES (?,0,?) ON DUPLICATE KEY UPDATE ip_hash=VALUES(ip_hash)',[$key,time()]);
         $r=sql('SELECT * FROM auth_attempts WHERE ip_hash=? FOR UPDATE',[$key])->fetch();
         if (time()-(int)$r['window_start']>=600) { $r['failures']=0; sql('UPDATE auth_attempts SET failures=0,window_start=? WHERE ip_hash=?',[time(),$key]); }
         if ((int)$r['failures']>=8) return 429;

@@ -8,7 +8,7 @@ function option_list(array $b,string $key): array {
 }
 function public_limit(string $scope,int $limit=10): void {
     $key=hash('sha256',$scope.':'.($_SERVER['REMOTE_ADDR']??'unknown'));
-    $ok=tx(function() use($key,$limit) { sql('INSERT IGNORE INTO public_limits VALUES (?,0,?)',[$key,time()]);
+    $ok=tx(function() use($key,$limit) { sql('INSERT INTO public_limits VALUES (?,0,?) ON DUPLICATE KEY UPDATE ip_hash=VALUES(ip_hash)',[$key,time()]);
         $r=sql('SELECT * FROM public_limits WHERE ip_hash=? FOR UPDATE',[$key])->fetch();
         if(time()-(int)$r['window_start']>=3600) { sql('UPDATE public_limits SET attempts=0,window_start=? WHERE ip_hash=?',[time(),$key]);$r['attempts']=0; }
         if((int)$r['attempts']>=$limit)return false;

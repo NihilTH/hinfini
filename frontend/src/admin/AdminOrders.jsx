@@ -1,3 +1,5 @@
+import api from "@/lib/api";
+import { getToken } from "@/admin/adminApi";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ArrowsClockwise } from "@phosphor-icons/react";
@@ -86,6 +88,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
     <Modal title={`${a("orderId")} ${o.order_id}`} onClose={onClose} wide testId="order-detail">
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 space-y-5">
+          {o.payment_review_required && <p role="alert" className="border border-[#D4AF6E] p-4 text-[#D4AF6E]">{a("paymentReview")}</p>}
           <Section title={a("items")}>
             <table className="w-full text-sm"><tbody>
               {o.items.map((i) => <tr key={i.product_id} className="border-b border-[#3d3835]"><td className="py-2">{i.name}</td><td className="py-2 text-[#B8AE95] text-right whitespace-nowrap">{i.quantity} × {formatPrice(i.price)}</td><td className="py-2 text-right whitespace-nowrap">{formatPrice(i.line_total)}</td></tr>)}
@@ -104,12 +107,12 @@ function OrderDetail({ orderId, onClose, onChanged }) {
           <Section title={a("emailsForOrder")}>
             {(o.emails || []).length === 0 ? <p className="text-sm text-[#B8AE95]">—</p> : (
               <table className="w-full text-xs"><tbody>
-                {o.emails.map((e) => <tr key={e.log_id} className="border-b border-[#3d3835]"><td className="py-2">{e.event}</td><td className="py-2 text-[#B8AE95]">{e.recipient}</td><td className="py-2"><Badge value={e.status} label={a("es_" + e.status)} /></td><td className="py-2 text-[#B8AE95] whitespace-nowrap">{fmtDate(e.created_at)}</td><td className="py-2 text-right"><button onClick={() => setResend(e)} className="underline text-[#D4AF6E] focus-ring" data-testid={`od-resend-${e.log_id}`}>{a("resend")}</button></td></tr>)}
+                {o.emails.map((e) => <tr key={e.log_id} className="border-b border-[#3d3835]"><td className="py-2">{a(e.event)}</td><td className="py-2 text-[#B8AE95]">{e.recipient}</td><td className="py-2"><Badge value={e.status} label={a("es_" + e.status)} /></td><td className="py-2 text-[#B8AE95] whitespace-nowrap">{fmtDate(e.created_at)}</td><td className="py-2 text-right"><button onClick={() => setResend(e)} className="underline text-[#D4AF6E] focus-ring" data-testid={`od-resend-${e.log_id}`}>{a("resend")}</button></td></tr>)}
               </tbody></table>
             )}
           </Section>
           <Section title={a("history")}>
-            <ul className="text-xs text-[#B8AE95] space-y-1">{(o.history || []).map((h, i) => <li key={i}>{fmtDate(h.at)} — {h.event}</li>)}</ul>
+            <ul className="text-xs text-[#B8AE95] space-y-1">{(o.history || []).map((h, i) => <li key={i}>{fmtDate(h.at)} — {a(h.event)}</li>)}</ul>
           </Section>
         </div>
         <aside className="space-y-5">
@@ -134,6 +137,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
             <Field label={a("invoiceNo")} id="od-inv-no"><input id="od-inv-no" className="admin-input" value={inv.number || ""} onChange={(e) => setInv({ ...inv, number: e.target.value })} data-testid="od-inv-no" /></Field>
             <Field label={a("invoiceUrl")} id="od-inv-url"><input id="od-inv-url" className="admin-input" value={inv.url || ""} onChange={(e) => setInv({ ...inv, url: e.target.value })} data-testid="od-inv-url" /></Field>
             <button onClick={saveInvoice} className="btn-outline w-full justify-center !py-2 text-sm focus-ring" data-testid="od-save-invoice">{a("save")}</button>
+            <button className="btn-outline w-full justify-center !py-2 text-sm" onClick={async()=>{try{await api.post(`/admin/orders/${o.order_id}/invoice/send`,{}, {headers:{'X-Admin-Token':getToken()}});toast.success('A számla e-mailje küldésre vár.');}catch(e){toast.error(e.response?.data?.detail||'Nem sikerült a küldés.');}}}>Mentett számla küldése e-mailben</button>
           </Section>
         </aside>
       </div>

@@ -10,9 +10,11 @@ import AdminCategories from "@/admin/AdminCategories";
 import AdminOrders from "@/admin/AdminOrders";
 import { MediaGrid } from "@/admin/Media";
 import { AdminNewsletter, AdminEmailLog } from "@/admin/AdminMisc";
+import AdminStudio from "@/admin/AdminStudio";
 import Seo from "@/components/Seo";
 
 const TABS = [
+  {id:"custom",icon:Package,key:"Egyedi kérések"},{id:"coupons",icon:Tag,key:"Kuponok"},{id:"events",icon:ListChecks,key:"Események"},{id:"studio",icon:Tag,key:"Egyedi lehetőségek"},
   { id: "orders", icon: Receipt, key: "orders" }, { id: "products", icon: Package, key: "products" }, { id: "categories", icon: Tag, key: "categories" },
   { id: "media", icon: Images, key: "media" }, { id: "newsletter", icon: ListChecks, key: "newsletter" }, { id: "emails", icon: EnvelopeSimple, key: "emails" },
 ];
@@ -60,7 +62,7 @@ export default function Admin() {
       <div className="max-w-md mx-auto px-6 py-24" data-testid="admin-login">
         <Seo title={t("admin.title")} />
         <div className="overline mb-3">{t("admin.title")}</div>
-        <h1 className="font-serif-display text-4xl mb-8">H'INFINI Admin</h1>
+        <h1 className="font-serif-display text-4xl mb-8">H'INFINI · {t("admin.title")}</h1>
         <form onSubmit={login} className="space-y-4">
           <label htmlFor="admin-token" className="admin-label">{t("admin.token")}</label>
           <input id="admin-token" data-testid="admin-token-input" type="password" autoComplete="current-password" value={token} onChange={(e) => setTok(e.target.value)} className="admin-input !py-3" />
@@ -87,7 +89,7 @@ export default function Admin() {
           {[["dash_orders", stats.orders_new], ["dash_products", stats.products], ["dash_low", stats.low_stock], ["dash_subs", stats.subscribers]].map(([k, v]) => (
             <div key={k} className="admin-card p-4"><div className="overline">{a(k)}</div><div className="font-serif-display text-3xl text-[#D4AF6E] mt-1">{v}</div></div>
           ))}
-          <div className="admin-card p-4 col-span-2 lg:col-span-1"><div className="overline">{a("env")}</div><div className="text-xs mt-2 space-y-0.5 text-[#B8AE95]"><div>{stats.payment_mode === "sandbox" ? a("sandbox") : a("live")}</div><div>E-mail: {stats.email_provider}</div><div>Storage: {stats.storage}</div></div></div>
+          <div className="admin-card p-4 col-span-2 lg:col-span-1"><div className="overline">{a("env")}</div><div className="text-xs mt-2 space-y-0.5 text-[#B8AE95]"><div>{stats.payment_mode === "sandbox" ? a("sandbox") : a("live")}</div><div>E-mail: {a(stats.email_provider)}</div><div>{a("storage")}: {a(stats.storage)}</div></div></div>
         </div>
       )}
 
@@ -100,6 +102,7 @@ export default function Admin() {
         ))}
       </nav>
 
+      {["custom","coupons","events","studio"].includes(tab) && <AdminStudio key={tab} mode={tab} />}
       {tab === "orders" && <AdminOrders initialOrder={params.get("order")} onChanged={loadStats} />}
       {tab === "products" && <AdminProducts categories={cats} onChanged={refresh} />}
       {tab === "categories" && <AdminCategories categories={cats} reload={refresh} />}

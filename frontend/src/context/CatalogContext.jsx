@@ -16,7 +16,7 @@ export const CatalogProvider = ({ children }) => {
 
   const catLabel = useCallback((name) => {
     const c = categories.find((x) => x.name === name);
-    return c ? catName(c) : name;
+    return catName(c || name);
   }, [categories, catName]);
 
   const shippingFee = useCallback((subtotal, method = "home") => {

@@ -50,6 +50,7 @@ export default function OrderSuccess() {
             {order.items.map((i) => (<div key={i.product_id} className="flex justify-between text-sm py-1"><span>{tr(i, "name")} × {i.quantity}</span><span>{formatPrice(i.line_total)}</span></div>))}
             <div className="mt-3 pt-3 border-t border-[#3d3835] space-y-1 text-sm text-[#B8AE95]">
               <div className="flex justify-between"><span>{t("cart.subtotal")}</span><span>{formatPrice(order.subtotal)}</span></div>
+              {order.discount>0&&<div className="flex justify-between"><span>Kuponkedvezmény</span><span>−{formatPrice(order.discount)}</span></div>}
               <div className="flex justify-between"><span>{t("cart.shipping")}</span><span>{order.shipping === 0 ? t("cart.free") : formatPrice(order.shipping)}</span></div>
             </div>
             <div className="mt-3 pt-3 border-t border-[#3d3835] flex justify-between font-serif-display text-xl"><span>{t("cart.total")}</span><span className="text-[#D4AF6E]" data-testid="order-total">{formatPrice(order.total)}</span></div>

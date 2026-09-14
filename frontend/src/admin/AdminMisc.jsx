@@ -20,7 +20,7 @@ export function AdminNewsletter() {
           <tbody>
             {items.map((s) => (
               <tr key={s.email} className="border-t border-[#3d3835]" data-testid={`nl-row-${s.email}`}>
-                <td className="p-3">{s.email}</td><td className="p-3 text-[#B8AE95]">{fmtDate(s.consented_at)}</td><td className="p-3 text-[#B8AE95]">{s.source}</td><td className="p-3 uppercase text-[#B8AE95]">{s.lang}</td>
+                <td className="p-3">{s.email}</td><td className="p-3 text-[#B8AE95]">{fmtDate(s.consented_at)}</td><td className="p-3 text-[#B8AE95]">{a(s.source)}</td><td className="p-3 uppercase text-[#B8AE95]">{s.lang}</td>
                 <td className="p-3 text-right"><button onClick={() => setDel(s)} aria-label={a("removeSub")} className="w-8 h-8 inline-flex items-center justify-center border border-[#3d3835] hover:border-[#B0413E] focus-ring" data-testid={`nl-del-${s.email}`}><Trash size={14} /></button></td>
               </tr>
             ))}
@@ -45,14 +45,14 @@ export function AdminEmailLog({ provider }) {
   };
   return (
     <div data-testid="admin-emails">
-      <p className="admin-help mb-4">{a("providerNote", { p: provider || "none" })}</p>
+      <p className="admin-help mb-4">{a("providerNote", { p: a(provider || "none") })}</p>
       <div className="admin-card overflow-x-auto">
         <table className="w-full text-sm min-w-[820px]" data-testid="el-table">
           <thead className="text-[10px] uppercase tracking-widest text-[#B8AE95] bg-[#1A1917]"><tr><th className="p-3 text-left">{a("orderId")}</th><th className="p-3 text-left">{a("event")}</th><th className="p-3 text-left">{a("recipient")}</th><th className="p-3 text-left">{a("subject")}</th><th className="p-3 text-left">{a("status")}</th><th className="p-3 text-left">{a("sentAt")}</th><th className="p-3"></th></tr></thead>
           <tbody>
             {items.map((e) => (
               <tr key={e.log_id} className="border-t border-[#3d3835]" data-testid={`el-row-${e.log_id}`}>
-                <td className="p-3 font-mono text-xs">{e.order_id || "-"}</td><td className="p-3">{e.event}</td><td className="p-3 text-[#B8AE95]">{e.recipient}</td><td className="p-3 text-[#B8AE95] max-w-[260px] truncate" title={e.subject}>{e.subject}</td>
+                <td className="p-3 font-mono text-xs">{e.order_id || "-"}</td><td className="p-3">{a(e.event)}</td><td className="p-3 text-[#B8AE95]">{e.recipient}</td><td className="p-3 text-[#B8AE95] max-w-[260px] truncate" title={e.subject}>{e.subject}</td>
                 <td className="p-3"><Badge value={e.status} label={a("es_" + e.status)} />{e.error && <div className="text-[10px] text-[#8a826f] mt-1 max-w-[200px] truncate" title={e.error}>{e.error}</div>}</td>
                 <td className="p-3 text-[#B8AE95] whitespace-nowrap">{fmtDate(e.created_at)}</td>
                 <td className="p-3 text-right">{e.order_id && <button onClick={() => setResend(e)} className="btn-outline !py-1 !px-3 text-xs focus-ring" data-testid={`el-resend-${e.log_id}`}>{a("resend")}</button>}</td>

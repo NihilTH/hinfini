@@ -29,7 +29,7 @@ function route(string $method,string $path,array $b): mixed {
         'low_stock'=>(int)sql("SELECT COUNT(*) FROM products WHERE status<>'archived' AND stock<=?",[(int)cfg('LOW_STOCK_THRESHOLD',5)])->fetchColumn(),
         'subscribers'=>(int)sql('SELECT COUNT(*) FROM newsletter')->fetchColumn(),'email_provider'=>cfg('EMAIL_PROVIDER','none'),'storage'=>cfg('STORAGE_DRIVER','local'),
         'payment_mode'=>str_contains((string)cfg('SIMPLEPAY_BASE_URL','sandbox'),'sandbox')?'sandbox':'live'];
-    if($method==='GET'&&$path==='/admin/products') return array_map('public_product',rows('products',filter_var($_GET['include_archived']??false,FILTER_VALIDATE_BOOLEAN)?'1':"status<>'archived'"));
+    if($method==='GET'&&$path==='/admin/products') return array_map(fn($p)=>public_product($p,true),rows('products',filter_var($_GET['include_archived']??false,FILTER_VALIDATE_BOOLEAN)?'1':"status<>'archived'"));
     if($method==='POST'&&$path==='/admin/products') { $p=product_input($b)+['product_id'=>uid('prd'),'created_at'=>now(),'updated_at'=>now()]; save('products',$p,true); return $p; }
     if($method==='PUT'&&preg_match('~^/admin/products/([^/]+)$~',$path,$m)) return tx(function() use($m,$b) {
         $p=need('products',$m[1],true); $p=array_replace($p,product_input($b),['updated_at'=>now()]); save('products',$p); return ['ok'=>true];

@@ -30,3 +30,5 @@ await cp(join(root,'BEALLITAS-ES-HASZNALAT.md'),join(update,'BEALLITAS-ES-HASZNA
 await cp(join(root,'BEALLITAS-ES-HASZNALAT.md'),join(target,'BEALLITAS-ES-HASZNALAT.md'));
 await cp(join(root,'SECURITY-REVIEW.md'),join(update,'SECURITY-REVIEW.md'));
 await cp(join(root,'SECURITY-REVIEW.md'),join(target,'SECURITY-REVIEW.md'));
+
+for (const dest of [target, update]) await cp(join(root,'TERMEKADATOK.md'),join(dest,'TERMEKADATOK.md'));

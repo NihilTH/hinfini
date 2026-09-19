@@ -4,6 +4,9 @@ import { Plus } from "@phosphor-icons/react";
 import { adminApi, useA, errText, slugify } from "@/admin/adminApi";
 import { Modal, Field, Section } from "@/admin/ui";
 import { ImageField, ImagePickerModal } from "@/admin/Media";
+import ProductAttributesEditor from "@/admin/ProductAttributesEditor";
+import { initialAttributes } from "@/components/ProductAttributes";
+import TextEditor from "@/admin/TextEditor";
 import ProductTile from "@/components/ProductTile";
 
 export const emptyProduct = (cat) => ({
@@ -13,7 +16,7 @@ export const emptyProduct = (cat) => ({
 
 export default function ProductEditor({ product, categories, onClose, onSaved }) {
   const a = useA();
-  const [p, setP] = useState({ ...product, tags: Array.isArray(product.tags) ? product.tags.join(", ") : product.tags || "" });
+  const [p, setP] = useState({ ...product, attributes: initialAttributes(product.attributes), tags: Array.isArray(product.tags) ? product.tags.join(", ") : product.tags || "" });
   const [busy, setBusy] = useState(false);
   const [galleryPick, setGalleryPick] = useState(false);
   const set = (k) => (e) => setP({ ...p, [k]: e?.target ? (e.target.type === "checkbox" ? e.target.checked : e.target.value) : e });
@@ -44,17 +47,11 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
               </Field>
               <Field label={a("category")} id="pe-category">
                 <select id="pe-category" className="admin-input" value={p.category} onChange={set("category")} data-testid="pe-category">
-                  <option value="">—</option>{categories.map((c) => <option key={c.name} value={c.name}>{c.name_hu || c.name}</option>)}
+                  <option value="">—</option>{categories.map((c) => <option key={c.name} value={c.name}>{c.nam…156 tokens truncated…option>)}
                 </select>
               </Field>
-              <Field label={a("subcategory")} id="pe-sub"><input id="pe-sub" className="admin-input" value={p.subcategory || ""} onChange={set("subcategory")} data-testid="pe-subcategory" /></Field>
-              <Field label={a("status")} help={a("statusHelp")} id="pe-status">
-                <select id="pe-status" className="admin-input" value={p.status} onChange={set("status")} data-testid="pe-status">
-                  {["published", "draft", "hidden"].map((s) => <option key={s} value={s}>{a(s)}</option>)}
-                </select>
-              </Field>
-              <Field label={a("shortDesc")} id="pe-desc"><textarea id="pe-desc" rows={2} className="admin-input" value={p.description} onChange={set("description")} data-testid="pe-description" /></Field>
-              <Field label={a("shortDescEn")} id="pe-desc-en"><textarea id="pe-desc-en" rows={2} className="admin-input" value={p.description_en || ""} onChange={set("description_en")} data-testid="pe-description-en" /></Field>
+              <Field label={a("shortDesc")} id="pe-desc"><TextEditor id="pe-desc" rows={2} className="admin-input" value={p.description} onChange={set("description")} data-testid="pe-description" /></Field>
+              <Field label={a("shortDescEn")} id="pe-desc-en"><TextEditor id="pe-desc-en" rows={2} className="admin-input" value={p.description_en || ""} onChange={set("description_en")} data-testid="pe-description-en" /></Field>
             </div>
           </Section>
           <Section title={a("sales")}>
@@ -67,10 +64,13 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
             <label className="flex items-center gap-3 text-sm cursor-pointer"><input type="checkbox" checked={!!p.featured} onChange={set("featured")} className="accent-[#D4AF6E]" data-testid="pe-featured" /> {a("featured")} <span className="admin-help !mt-0">— {a("featuredHelp")}</span></label>
           </Section>
           <Section title={a("content")}>
-            <Field label={a("longDesc")} id="pe-long"><textarea id="pe-long" rows={5} className="admin-input" value={p.long_description || ""} onChange={set("long_description")} data-testid="pe-long-description" /></Field>
-            <Field label={a("longDescEn")} id="pe-long-en"><textarea id="pe-long-en" rows={4} className="admin-input" value={p.long_description_en || ""} onChange={set("long_description_en")} data-testid="pe-long-description-en" /></Field>
+            <p className="admin-help">A hosszú leírás fent, a termékkép mellett jelenik meg. A rövid leírás lejjebb, a Részletek alatt. Üres hosszú leírás esetén fent a rövidet mutatjuk. Mindkettőben használhatsz emojikat.</p>
+            <button type="button" className="btn-outline" onClick={() => setP({ ...p, description: p.long_description || "", long_description: p.description || "", description_en: p.long_description_en || "", long_description_en: p.description_en || "" })}>Rövid és hosszú leírás tartalmának felcserélése (HU és EN)</button>
+            <Field label={a("longDesc")} id="pe-long"><TextEditor id="pe-long" rows={5} className="admin-input" value={p.long_description || ""} onChange={set("long_description")} data-testid="pe-long-description" /></Field>
+            <Field label={a("longDescEn")} id="pe-long-en"><TextEditor id="pe-long-en" rows={4} className="admin-input" value={p.long_description_en || ""} onChange={set("long_description_en")} data-testid="pe-long-description-en" /></Field>
             <Field label={a("tags")} help={a("tagsHelp")} id="pe-tags"><input id="pe-tags" className="admin-input" value={p.tags} onChange={set("tags")} data-testid="pe-tags" /></Field>
           </Section>
+          <ProductAttributesEditor product={p} onChange={setP} />
           <Section title={a("images")}>
             <ImageField label={a("mainImage")} value={p.image} alt={p.image_alt} onChange={({ url, alt }) => setP({ ...p, image: url, image_alt: alt })} testId="pe-main-image" />
             <div>

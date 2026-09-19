@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-function public_product(array $p): array {
+function public_product(array $p, bool $admin=false): array {
+    if (!$admin) $p['attributes']=array_values(array_filter($p['attributes']??[],fn($a)=>($a['enabled']??false)===true));
     $stock=(int)($p['stock']??0); $p['stock_state']=$stock<=0?'out':($stock<=(int)cfg('LOW_STOCK_THRESHOLD',5)?'low':'in'); return $p;
 }
 function product_input(array $b): array {
@@ -8,7 +9,7 @@ function product_input(array $b): array {
     foreach (['slug','name','category'] as $k) $p[$k]=required($b,$k,191);
     if (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/',$p['slug'])) fail(422,'invalid_slug');
     need('categories',$p['category']);
-    foreach (['name_en','unit','unit_en','image','image_alt','description','description_en','long_description','long_description_en'] as $k) $p[$k]=text_field($b,$k);
+    foreach (['name_en','unit','unit_en','image','image_alt','description','description_en','long_description','long_description_en','usage_instructions','usage_instructions_en'] as $k) $p[$k]=text_field($b,$k);
     $p['subcategory']=isset($b['subcategory'])?text_field($b,'subcategory'):null;
     web_url($p['image']);
     $p['price']=integer($b['price']??null,'price'); $p['stock']=integer($b['stock']??0,'stock',0,10000000);
@@ -19,6 +20,20 @@ function product_input(array $b): array {
     foreach($p['tags'] as $tag) if(!is_string($tag)||strlen($tag)>100) fail(422,'invalid_tags');
     if (!is_array($p['images'])||!array_is_list($p['images'])||count($p['images'])>50) fail(422,'invalid_images');
     $p['images']=array_map(function($i) { if(!is_array($i)) fail(422,'invalid_images'); return ['url'=>web_url(required($i,'url',2048)),'alt'=>text_field($i,'alt')]; },$p['images']);
+    if (array_key_exists('attributes',$b)) {
+        if (!is_array($b['attributes']) || !array_is_list($b['attributes']) || count($b['attributes'])>30) fail(422,'invalid_attributes');
+        $seen=[]; $p['attributes']=[];
+        foreach ($b['attributes'] as $a) {
+            if (!is_array($a)) fail(422,'invalid_attributes');
+            $key=required($a,'key',80);
+            if (!preg_match('/^[a-z0-9_]+$/',$key) || isset($seen[$key])) fail(422,'invalid_attribute_key');
+            $seen[$key]=true;
+            $row=['key'=>$key,'enabled'=>boolean($a,'enabled')];
+            foreach (['label','label_en'] as $k) $row[$k]=text_field($a,$k,'',400);
+            foreach (['value','value_en'] as $k) $row[$k]=text_field($a,$k,'',2000);
+            $p['attributes'][]=$row;
+        }
+    }
     return $p;
 }
 function category_input(array $b): array {

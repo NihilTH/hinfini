@@ -7,6 +7,8 @@ import { useCatalog } from "@/context/CatalogContext";
 import { Minus, Plus, ShoppingBag, ArrowLeft, Truck, Package } from "@phosphor-icons/react";
 import ProductTile from "@/components/ProductTile";
 import SmartImage from "@/components/SmartImage";
+import FormattedText, { plainText } from "@/components/FormattedText";
+import ProductAttributes from "@/components/ProductAttributes";
 import Seo from "@/components/Seo";
 
 const STOCK_STYLE = { in: "text-emerald-400 border-emerald-400/40", low: "text-[#D4AF6E] border-[#D4AF6E]/50", out: "text-[#B8AE95] border-[#3d3835]" };
@@ -37,7 +39,7 @@ export default function ProductDetail() {
 
   return (
     <div data-testid="product-detail-page" className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
-      <Seo title={name} description={tr(product, "description")} />
+      <Seo title={name} description={plainText(tr(product, "description"))} />
       <Link to={`/shop?category=${encodeURIComponent(product.category)}`} data-testid="pd-back-category" className="inline-flex items-center gap-2 text-sm text-[#B8AE95] link-underline mb-8 focus-ring">
         <ArrowLeft size={16} /> {t("pd.back", { cat: catLabel(product.category) })}
       </Link>
@@ -65,7 +67,7 @@ export default function ProductDetail() {
             <div className="text-sm text-[#B8AE95]">{tr(product, "unit")}</div>
             <span data-testid="pd-stock" className={`text-[11px] uppercase tracking-[0.2em] px-3 py-1 border rounded-full ${STOCK_STYLE[product.stock_state]}`}>{t(`stock.${product.stock_state}`)}</span>
           </div>
-          <p className="mt-8 text-[#B8AE95] leading-relaxed" data-testid="pd-description">{tr(product, "description")}</p>
+          <FormattedText className="mt-8" data-testid="pd-description" text={tr(product, "long_description") || tr(product, "description")} />
 
           <div className="mt-10 flex items-center gap-6 flex-wrap">
             <div className="flex items-center border border-[#3d3835] rounded-full" role="group" aria-label={t("pd.qty")}>
@@ -83,13 +85,14 @@ export default function ProductDetail() {
             <div className="border border-[#3d3835] p-4 flex gap-3"><Package size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.stock")}</div><p className="text-[#B8AE95]">{t(`stock.${product.stock_state}`)}{product.stock_state !== "out" ? ` · ${product.stock} db` : ""}</p></div></div>
           </div>
 
-          {(tr(product, "long_description") || (product.tags || []).length > 0) && (
+          {((tr(product, "long_description") && tr(product, "description")) || (product.tags || []).length > 0) && (
             <div className="mt-10 border-t border-[#3d3835] pt-8">
               <div className="overline mb-3">{t("pd.details")}</div>
-              {tr(product, "long_description") && <p className="text-[#B8AE95] leading-relaxed whitespace-pre-line" data-testid="pd-long-description">{tr(product, "long_description")}</p>}
+              {tr(product, "long_description") && <FormattedText data-testid="pd-long-description" text={tr(product, "description")} />}
               {(product.tags || []).length > 0 && <div className="mt-4 flex flex-wrap gap-2">{product.tags.map((tg) => <Link key={tg} to={`/shop?q=${encodeURIComponent(tg)}`} className="text-xs px-3 py-1 border border-[#3d3835] rounded-full text-[#B8AE95] hover:border-[#D4AF6E] focus-ring">#{label(tg)}</Link>)}</div>}
             </div>
           )}
+          <ProductAttributes product={product} />
         </div>
       </div>
 

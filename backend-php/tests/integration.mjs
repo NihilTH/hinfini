@@ -74,6 +74,18 @@ try {
  const form=new FormData();form.append('file',new Blob(['<?php echo 1; ?>'],{type:'image/png'}),'bad.png');
  const upload=await fetch(base+'/admin/media/upload',{method:'POST',headers:{'X-Admin-Token':process.env.ADMIN_TOKEN},body:form});assert.equal(upload.status,400);checks++;
 
+ const attributes=[{key:'wax',label:'Viasz 🕯️',label_en:'Wax',value:'Szójaviasz 🌿\nKézzel öntve',value_en:'Soy wax',enabled:true},{key:'color',label:'Szín',value:'Rejtett piros',enabled:false}];
+ const detail=await ok('POST','/admin/products',{slug:'details-'+tag,name:'Részletes gyertya 🕯️',category:cats[0].name,price:1200,stock:1,attributes,usage_instructions:'Óvatosan! 🔥\nHagyd kihűlni.',description:'Rövid',long_description:'Hosszú'},true);
+ const readDetail=await ok('GET','/products/'+detail.slug);
+ assert.deepEqual(readDetail.attributes,[attributes[0]]);assert.equal(readDetail.usage_instructions,'Óvatosan! 🔥\nHagyd kihűlni.');
+ const adminDetails=await ok('GET','/admin/products',undefined,true);
+ assert.equal(adminDetails.find(x=>x.product_id===detail.product_id).attributes[1].value,'Rejtett piros');
+ await ok('PUT','/admin/products/'+detail.product_id,{...detail,attributes:attributes.map(x=>({...x,enabled:false}))},true);
+ assert.deepEqual((await ok('GET','/products/'+detail.slug)).attributes,[]);
+ for(const invalid of [[{...attributes[0],enabled:'yes'}],[attributes[0],attributes[0]],Array(31).fill(attributes[0]),[{...attributes[0],value:{html:'bad'}}]]) {
+   assert.equal((await request('PUT','/admin/products/'+detail.product_id,{...detail,attributes:invalid},true)).status,422);
+ }
+ checks++;
  const cp=await ok('POST','/admin/products',{slug:'coupon-'+tag,name:'Kupon teszt',category:cats[0].name,price:10000,stock:20},true);
  const cb={...checkout,items:[{product_id:cp.product_id,quantity:1}]};
  await ok('POST','/admin/coupons',{code:'LIMIT'+tag,type:'percent',value:10,minimum:0,limit:1,active:true},true);

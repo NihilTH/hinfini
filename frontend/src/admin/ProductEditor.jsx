@@ -47,7 +47,13 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
               </Field>
               <Field label={a("category")} id="pe-category">
                 <select id="pe-category" className="admin-input" value={p.category} onChange={set("category")} data-testid="pe-category">
-                  <option value="">—</option>{categories.map((c) => <option key={c.name} value={c.name}>{c.nam…156 tokens truncated…option>)}
+                  <option value="">—</option>{categories.map((c) => <option key={c.name} value={c.name}>{c.name_hu || c.name}</option>)}
+                </select>
+              </Field>
+              <Field label={a("subcategory")} id="pe-sub"><input id="pe-sub" className="admin-input" value={p.subcategory || ""} onChange={set("subcategory")} data-testid="pe-subcategory" /></Field>
+              <Field label={a("status")} help={a("statusHelp")} id="pe-status">
+                <select id="pe-status" className="admin-input" value={p.status} onChange={set("status")} data-testid="pe-status">
+                  {["published", "draft", "hidden"].map((s) => <option key={s} value={s}>{a(s)}</option>)}
                 </select>
               </Field>
               <Field label={a("shortDesc")} id="pe-desc"><TextEditor id="pe-desc" rows={2} className="admin-input" value={p.description} onChange={set("description")} data-testid="pe-description" /></Field>

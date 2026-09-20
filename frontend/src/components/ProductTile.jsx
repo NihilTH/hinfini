@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { formatPrice, useLang } from "@/context/LangContext";
 import { useCatalog } from "@/context/CatalogContext";
@@ -7,6 +7,7 @@ import SmartImage from "@/components/SmartImage";
 
 export default function ProductTile({ product }) {
   const { add } = useCart();
+  const navigate = useNavigate();
   const { t, tr } = useLang();
   const { catLabel } = useCatalog();
   const out = product.stock_state === "out" || Number(product.stock) <= 0;
@@ -29,7 +30,7 @@ export default function ProductTile({ product }) {
         <div className="text-right shrink-0">
           <div className="font-serif-display text-lg text-[#D4AF6E]">{formatPrice(product.price)}</div>
           <button
-            onClick={() => add(product, 1)}
+            onClick={() => product.color_options?.length ? navigate(`/shop/${product.slug}`) : add(product, 1)}
             disabled={out}
             data-testid={`add-${product.slug}`}
             aria-label={`${t("tile.add")}: ${name}`}

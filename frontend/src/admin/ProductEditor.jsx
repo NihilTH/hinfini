@@ -22,13 +22,14 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
   const [saveError, setSaveError] = useState("");
   const [p, setP] = useState({ ...product, attributes: initialAttributes(product.attributes), tags: Array.isArray(product.tags) ? product.tags.join(", ") : product.tags || "" });
   const [busy, setBusy] = useState(false);
+  const [colorText, setColorText] = useState((product.color_options || []).join("\n"));
   const [galleryPick, setGalleryPick] = useState(false);
   const set = (k) => (e) => setP({ ...p, [k]: e?.target ? (e.target.type === "checkbox" ? e.target.checked : e.target.value) : e });
 
   const save = async (status) => {
     if (busy) return;
     setSaveError("");
-    const body = { ...p, status: status || p.status, price: p.price, stock: p.stock, images: p.images || [],
+    const body = { ...p, color_options: [...new Set(colorText.split("\n").map(s => s.trim()).filter(Boolean))], status: status || p.status, price: p.price, stock: p.stock, images: p.images || [],
       tags: (p.tags || "").split(",").map((s) => s.trim()).filter(Boolean), slug: slugify(p.slug || p.name) };
     const invalid = validateProduct(body);
     if (invalid) { setSaveError(productSaveError({ response: { status: 422, data: { detail: invalid } } }, lang)); return; }
@@ -83,6 +84,11 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
             <Field label={a("longDesc")} id="pe-long"><TextEditor id="pe-long" rows={5} className="admin-input" value={p.long_description || ""} onChange={set("long_description")} data-testid="pe-long-description" /></Field>
             <Field label={a("longDescEn")} id="pe-long-en"><TextEditor id="pe-long-en" rows={4} className="admin-input" value={p.long_description_en || ""} onChange={set("long_description_en")} data-testid="pe-long-description-en" /></Field>
             <Field label={a("tags")} help={a("tagsHelp")} id="pe-tags"><input id="pe-tags" className="admin-input" value={p.tags} onChange={set("tags")} data-testid="pe-tags" /></Field>
+          </Section>
+          <Section title={lang === "en" ? "Selectable colours" : "Választható színek"}>
+            <Field label={lang === "en" ? "One colour per line" : "Színek – soronként egy"} id="pe-colors" help={lang === "en" ? "When filled in, customers must choose a colour before adding to the cart. Stock is shared across colours." : "Ha kitöltöd, a vásárlónak színt kell választania a kosárba helyezés előtt. A készlet közös az összes színre. Üresen hagyva nincs színválasztó."}>
+              <textarea id="pe-colors" rows={5} className="admin-input" value={colorText} onChange={e => setColorText(e.target.value)} placeholder={"Piros\nFehér\nRózsaszín"} />
+            </Field>
           </Section>
           <ProductAttributesEditor product={p} onChange={setP} />
           <Section title={a("images")}>

@@ -1,5 +1,6 @@
 // Only display known messages, never raw server responses or database details.
 const fields = {
+  color_options: ["Választható színek (legfeljebb 30, színenként legfeljebb 100 bájt)", "Selectable colours (up to 30, up to 100 bytes each)"],
   name: ['Név (magyar)', 'Name (Hungarian)'], name_en: ['Név (angol)', 'Name (English)'],
   slug: ['URL-azonosító', 'URL slug'], category: ['Kategória', 'Category'],
   price: ['Ár', 'Price'], stock: ['Készlet', 'Stock'], subcategory: ['Alkategória', 'Subcategory'],

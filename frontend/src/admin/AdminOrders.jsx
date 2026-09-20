@@ -91,7 +91,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
           {o.payment_review_required && <p role="alert" className="border border-[#D4AF6E] p-4 text-[#D4AF6E]">{a("paymentReview")}</p>}
           <Section title={a("items")}>
             <table className="w-full text-sm"><tbody>
-              {o.items.map((i) => <tr key={i.product_id} className="border-b border-[#3d3835]"><td className="py-2">{i.name}</td><td className="py-2 text-[#B8AE95] text-right whitespace-nowrap">{i.quantity} × {formatPrice(i.price)}</td><td className="py-2 text-right whitespace-nowrap">{formatPrice(i.line_total)}</td></tr>)}
+              {o.items.map((i) => <tr key={JSON.stringify([i.product_id, i.color || ""])} className="border-b border-[#3d3835]"><td className="py-2">{i.name}{i.color ? ` · ${i.color}` : ""}</td><td className="py-2 text-[#B8AE95] text-right whitespace-nowrap">{i.quantity} × {formatPrice(i.price)}</td><td className="py-2 text-right whitespace-nowrap">{formatPrice(i.line_total)}</td></tr>)}
               <tr><td className="pt-3 text-[#B8AE95]">{a("shipping")} ({o.shipping_method === "pickup" ? "Csomagpont" : "Házhozszállítás"})</td><td></td><td className="pt-3 text-right">{o.shipping === 0 ? "0 Ft" : formatPrice(o.shipping)}</td></tr>
               <tr><td className="pt-2 font-serif-display text-lg">{a("total")}</td><td></td><td className="pt-2 text-right font-serif-display text-lg text-[#D4AF6E]" data-testid="od-total">{formatPrice(o.total)}</td></tr>
             </tbody></table>

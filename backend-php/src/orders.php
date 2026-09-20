@@ -13,21 +13,28 @@ function order_create(array $b): array {
     $o['newsletter_opt_in']=boolean($b,'newsletter_opt_in');
     $items=$b['items']??[];
     if(!is_array($items)||!array_is_list($items)||!count($items)||count($items)>100) fail(400,'cart_empty_or_too_large');
-    $qty=[];
+    $qty=[]; $variants=[];
     foreach($items as $i) {
         if(!is_array($i)) fail(422,'invalid_item');
         $id=required($i,'product_id',80); $qty[$id]=($qty[$id]??0)+integer($i['quantity']??null,'quantity',1,10000);
+        $color=text_field($i,'color','',100);
+        $key=json([$id,$color]);
+        $variants[$id][$key]=['color'=>$color,'quantity'=>($variants[$id][$key]['quantity']??0)+$i['quantity']];
         if($qty[$id]>10000) fail(422,'invalid_quantity');
     }
     ksort($qty); // All concurrent checkouts lock products in a stable order.
-    return tx(function() use($o,$qty,$code) {
+    return tx(function() use($o,$qty,$code,$variants) {
         $subtotal=0; $lines=[]; $low=[];
         foreach($qty as $id=>$count) {
             $p=need('products',$id,true);
             if(($p['status']??'published')!=='published') fail(400,'unavailable:'.$id);
             if($p['stock']<$count) fail(400,'out_of_stock:'.$p['name']);
-            $line=['product_id'=>$id,'slug'=>$p['slug'],'name'=>$p['name'],'name_en'=>$p['name_en']??'','price'=>$p['price'],'image'=>$p['image']??'','quantity'=>$count,'line_total'=>$p['price']*$count];
-            $subtotal+=$line['line_total']; if($subtotal>1000000000) fail(400,'order_too_large'); $lines[]=$line;
+            foreach($variants[$id] as $variant) {
+                $colors=$p['color_options']??[]; $color=$variant['color'];
+                if(($colors && !in_array($color,$colors,true)) || (!$colors && $color!=='')) fail(422,'invalid_color');
+                $line=['product_id'=>$id,'slug'=>$p['slug'],'name'=>$p['name'],'name_en'=>$p['name_en']??'','price'=>$p['price'],'image'=>$p['image']??'','color'=>$color,'quantity'=>$variant['quantity'],'line_total'=>$p['price']*$variant['quantity']];
+                $subtotal+=$line['line_total']; if($subtotal>1000000000) fail(400,'order_too_large'); $lines[]=$line;
+            }
             $p['stock']-=$count; save('products',$p);
             if($p['stock']<=(int)cfg('LOW_STOCK_THRESHOLD',5)) $low[]=$p;
         }

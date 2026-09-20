@@ -34,6 +34,15 @@ function product_input(array $b): array {
             $p['attributes'][]=$row;
         }
     }
+    if (array_key_exists('color_options',$b)) {
+        if (!is_array($b['color_options']) || !array_is_list($b['color_options']) || count($b['color_options'])>30) fail(422,'invalid_color_options');
+        $p['color_options']=[];
+        foreach($b['color_options'] as $color) {
+            if(!is_string($color) || trim($color)==='' || strlen($color)>100) fail(422,'invalid_color_options');
+            if(in_array(trim($color),$p['color_options'],true)) fail(422,'invalid_color_options');
+            $p['color_options'][]=trim($color);
+        }
+    }
     return $p;
 }
 function category_input(array $b): array {

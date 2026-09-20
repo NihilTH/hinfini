@@ -5,10 +5,23 @@ import { adminApi, useA, errText } from "@/admin/adminApi";
 import { Confirm, Badge } from "@/admin/ui";
 import ProductEditor, { emptyProduct } from "@/admin/ProductEditor";
 import { formatPrice } from "@/context/LangContext";
+import { productSaveError } from "@/admin/productErrors";
 import SmartImage from "@/components/SmartImage";
 
 export default function AdminProducts({ categories, onChanged }) {
   const a = useA();
+  const [importing, setImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState("");
+  const importCatalog = async () => {
+    if (importing) return;
+    setImporting(true); setImportMessage("");
+    try {
+      const { data } = await adminApi.importCatalog();
+      setImportMessage(`Importálás kész: ${data.created} új piszkozat, ${data.updated} frissített termék, ${data.skipped} korábban importált termék. Állítsd be az árakat, a készletet és a képeket, majd publikáld az új termékeket.`);
+      load(); onChanged?.();
+    } catch (e) { setImportMessage(productSaveError(e)); }
+    finally { setImporting(false); }
+  };
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("");
@@ -44,6 +57,11 @@ export default function AdminProducts({ categories, onChanged }) {
 
   return (
     <div data-testid="admin-products">
+      <div className="admin-card p-4 mb-5 space-y-3">
+        <p className="text-sm text-[#B8AE95]">A 2026. szeptember 20-án küldött terméklista 19 terméke, a dokumentum kategóriáival. Az új termékek piszkozatként kerülnek be. Meglévő URL-azonosítónál a magyar leírások és termékadatok frissülnek, az ár, készlet és képek megmaradnak. Az ismételt import nem írja felül a későbbi szerkesztéseidet.</p>
+        <button type="button" disabled={importing} onClick={importCatalog} className="btn-outline disabled:opacity-50">{importing ? "Importálás…" : "Dokumentum 19 termékének importálása"}</button>
+        {importMessage && <p role="status" className="text-sm whitespace-pre-wrap">{importMessage}</p>}
+      </div>
       <div className="flex flex-col lg:flex-row lg:items-center gap-3 mb-5">
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={a("search")} aria-label={a("search")} className="admin-input lg:max-w-xs" data-testid="ap-search" />
         <select value={cat} onChange={(e) => setCat(e.target.value)} aria-label={a("category")} className="admin-input lg:w-48" data-testid="ap-filter-cat"><option value="">{a("all")} — {a("category").toLowerCase()}</option>{categories.map((c) => <option key={c.name} value={c.name}>{c.name_hu || c.name}</option>)}</select>

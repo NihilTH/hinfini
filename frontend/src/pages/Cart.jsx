@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCart, cartLineKey } from "@/context/CartContext";
 import { formatPrice, useLang } from "@/context/LangContext";
 import { useCatalog } from "@/context/CatalogContext";
 import { Trash, Minus, Plus, ArrowRight } from "@phosphor-icons/react";
@@ -31,20 +31,20 @@ export default function Cart() {
       <div className="grid lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 divide-y divide-[#3d3835] border-y border-[#3d3835]">
           {items.map((i) => (
-            <div key={i.product_id} data-testid={`cart-item-${i.product_id}`} className="py-6 flex flex-wrap sm:flex-nowrap gap-5 items-center">
+            <div key={cartLineKey(i)} data-testid={`cart-item-${i.product_id}`} className="py-6 flex flex-wrap sm:flex-nowrap gap-5 items-center">
               <Link to={`/shop/${i.slug}`} className="w-24 h-28 bg-[#24221E] overflow-hidden shrink-0 border border-[#3d3835] focus-ring"><SmartImage src={i.image} alt={i.image_alt || tr(i, "name")} className="w-full h-full object-cover" /></Link>
               <div className="flex-1 min-w-[140px]">
-                <Link to={`/shop/${i.slug}`} className="font-serif-display text-xl link-underline focus-ring">{tr(i, "name")}</Link>
+                <Link to={`/shop/${i.slug}`} className="font-serif-display text-xl link-underline focus-ring">{tr(i, "name")}{i.color ? ` · ${i.color}` : ""}</Link>
                 <div className="text-xs text-[#B8AE95] mt-1">{tr(i, "unit")}</div>
                 <div className="text-sm mt-2 text-[#D4AF6E]">{formatPrice(i.price)}</div>
               </div>
               <div className="flex items-center border border-[#3d3835] rounded-full" role="group" aria-label={t("cart.qty")}>
-                <button data-testid={`cart-dec-${i.product_id}`} onClick={() => updateQty(i.product_id, i.quantity - 1)} aria-label={t("cart.dec")} className="w-8 h-8 flex items-center justify-center focus-ring rounded-full"><Minus size={12} /></button>
+                <button data-testid={`cart-dec-${i.product_id}`} onClick={() => updateQty(cartLineKey(i), i.quantity - 1)} aria-label={t("cart.dec")} className="w-8 h-8 flex items-center justify-center focus-ring rounded-full"><Minus size={12} /></button>
                 <span data-testid={`cart-qty-${i.product_id}`} className="w-8 text-center text-sm">{i.quantity}</span>
-                <button data-testid={`cart-inc-${i.product_id}`} onClick={() => updateQty(i.product_id, i.quantity + 1)} aria-label={t("cart.inc")} className="w-8 h-8 flex items-center justify-center focus-ring rounded-full"><Plus size={12} /></button>
+                <button data-testid={`cart-inc-${i.product_id}`} onClick={() => updateQty(cartLineKey(i), i.quantity + 1)} aria-label={t("cart.inc")} className="w-8 h-8 flex items-center justify-center focus-ring rounded-full"><Plus size={12} /></button>
               </div>
               <div className="font-serif-display text-lg w-28 text-right text-[#D4AF6E]" data-testid={`cart-line-${i.product_id}`}>{formatPrice(i.price * i.quantity)}</div>
-              <button data-testid={`cart-remove-${i.product_id}`} onClick={() => remove(i.product_id)} className="text-[#B8AE95] hover:text-[#B0413E] focus-ring rounded-full p-1" aria-label={`${t("cart.remove")}: ${tr(i, "name")}`}><Trash size={18} /></button>
+              <button data-testid={`cart-remove-${i.product_id}`} onClick={() => remove(cartLineKey(i))} className="text-[#B8AE95] hover:text-[#B0413E] focus-ring rounded-full p-1" aria-label={`${t("cart.remove")}: ${tr(i, "name")} ${i.color || ""}`}><Trash size={18} /></button>
             </div>
           ))}
         </div>

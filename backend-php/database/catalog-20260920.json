@@ -1,0 +1,1204 @@
+{
+  "categories": [
+    {
+      "name": "tegelyes-gyertyak-4oz",
+      "name_hu": "Tégelyes gyertyák – 4 oz",
+      "name_en": "",
+      "order": 1,
+      "active": true
+    },
+    {
+      "name": "forma-gyertyak",
+      "name_hu": "Formagyertyák",
+      "name_en": "",
+      "order": 2,
+      "active": true
+    },
+    {
+      "name": "tegelyes-gyertyak-8oz",
+      "name_hu": "Tégelyes gyertyák – 8 oz",
+      "name_en": "",
+      "order": 3,
+      "active": true
+    },
+    {
+      "name": "uveges-gyertyak",
+      "name_hu": "Üveges gyertyák",
+      "name_en": "",
+      "order": 4,
+      "active": true
+    },
+    {
+      "name": "illatviasz",
+      "name_hu": "Illatviaszok",
+      "name_en": "",
+      "order": 5,
+      "active": true
+    }
+  ],
+  "products": [
+    {
+      "name": "Toszkán naplemente",
+      "slug": "toszkan-naplemente",
+      "category": "tegelyes-gyertyak-4oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 70 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "intenzív Toszkán naplemente illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy meleg, karakteres illat, amely egy napfényes szőlővidék esti hangulatát idézi.",
+      "long_description": "A Toszkán naplemente intenzív, gyümölcsös illatában az érett szőlő és az otelló jellegzetes aromája találkozik. Olyan, mintha egy hosszú, nyári nap végén megérkeznél egy csendes borvidékre, ahol a levegőben még ott van a szőlő édes, mély illata. Egy igazán karakteres gyertya azoknak, akik szeretik, ha egy illatnak jelenléte van.\n\n## Illatjegyek\n🍇 érett szőlő · 🍷 otelló · 🍇 karakteres, gyümölcsös borvidéki jegyek",
+      "usage_instructions": "Az első égetés alkalmával hagyd, hogy a viasz egyenletesen megolvadjon a gyertya teljes felületén. Égő gyertyát soha ne hagyj felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 70 g"
+    },
+    {
+      "name": "Sütőtök erdő",
+      "slug": "sutotok-erdo",
+      "category": "tegelyes-gyertyak-4oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 70 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "intenzív, meleg őszi illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Az ősz illata egyetlen kis gyertyába zárva.",
+      "long_description": "A Sütőtök erdő meleg, fűszeres és kellemesen édes illata azokat a pillanatokat idézi, amikor odakint már hűvös az idő, bent pedig jólesik bekuckózni egy puha takaró alá. A sütőtök és a fahéj karakteres párosa igazi őszi hangulatot teremt, miközben a tetején megbújó apró süni és levelek még egy kis erdei bájt is adnak hozzá. Egy olyan gyertya, amihez szinte automatikusan illik egy forró ital, egy puha pulóver és egy nyugodt este. 🤎\n\n## Illatjegyek\n🎃 sütőtök · 🤎 fahéj · 🍂 meleg, fűszeres, édes őszi jegyek",
+      "usage_instructions": "Az első égetés alkalmával hagyd, hogy a viasz egyenletesen megolvadjon a gyertya teljes felületén. A kanócot minden használat előtt érdemes kb. 5 mm-re visszavágni. Égő gyertyát soha ne hagyj felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 70 g"
+    },
+    {
+      "name": "Sült alma & vörösáfonya",
+      "slug": "sult-alma-vorosafonya",
+      "category": "tegelyes-gyertyak-4oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 70 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Sült alma & vörösáfonya illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Az ünnepi készülődés hangulata.",
+      "long_description": "A Sült alma & vörösáfonya kellemesen édeskés és enyhén savanykás illata a frissen sült almát, a piros bogyós gyümölcsök üdeségét és a közelgő karácsony meghittségét idézi. Nem túl nehéz, mégis meleg és otthonos illat, amelyhez szinte természetesen társul a gyertyafény, a süteményillat és a várakozás izgalma. A fehér és piros színek, az apró alma- és áfonyadíszítés, valamint a finom csillogása ünnepi külsőt kölcsönöz ennek a különleges kis gyertyának. ❤️✨\n\n## Illatjegyek\n🍎 sült alma · ❤️ vörösáfonya · ✨ édeskés, gyümölcsös, friss és meleg ünnepi jegyek",
+      "usage_instructions": "Az első égetés alkalmával hagyd, hogy a viasz egyenletesen megolvadjon a gyertya teljes felületén. Égő gyertyát soha ne hagyj felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 70 g"
+    },
+    {
+      "name": "Elvarázsolt üst",
+      "slug": "elvarazsolt-ust",
+      "category": "tegelyes-gyertyak-4oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 90 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "karamell és cseresznye illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy különleges illat, amelyben az édes karamell és a zamatos cseresznye találkozik.",
+      "long_description": "Az Elvarázsolt üst karakteres, intenzív illata egyszerre idézi meg a frissen sült édességek melegségét és a hűvösebb őszi-téli esték hangulatát. A karamell lágy édességét a cseresznye gyümölcsös karaktere egészíti ki, így az illat gazdag, kissé sütis, mégis játékosan különleges. Az üst formájú tégely és a kézzel festett viaszdekoráció egy kis misztikus hangulatot kölcsönöz neki, miközben a csillogás még varázslatosabbá teszi.\n\n## Illatjegyek\n🍮 karamell · 🍒 cseresznye · ✨ édes, intenzív, enyhén süteményes őszi-téli jegyek",
+      "usage_instructions": "Az első égetés alkalmával hagyd a gyertyát a szélekig megolvadni. Égő gyertyát soha ne hagyj felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 90 g"
+    },
+    {
+      "name": "Tulipáncsokor",
+      "slug": "tulipancsokor",
+      "category": "forma-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 150 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "tulipán illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "friss, virágos, virágüzletre emlékeztető",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "többféle választható árnyalatban",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, egyedi viaszdekoráció",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [
+        "Piros",
+        "Fehér",
+        "Barna",
+        "Rózsaszín",
+        "Sötétlila",
+        "Világoslila",
+        "Sötétkék",
+        "Világoskék",
+        "Citromsárga",
+        "Narancssárga"
+      ],
+      "description": "Egy kis virágos hangulat, amely sokáig megőrzi a szépségét.",
+      "long_description": "A tulipáncsokor gyertya a friss virágok báját idézi meg, miközben egy különleges, maradandó dekorációval teszi szebbé az otthonodat. A tulipánillat olyan, mintha egy virágüzletbe lépnél be: tiszta, friss és kellemesen virágos, amely finoman tölti meg a környezetét. Minden darab kézzel készül, ezért nincs két teljesen egyforma csokor – a színek apró eltérései éppen ettől teszik igazán egyedivé. A kézműves készítésből adódóan a színek árnyalata, a viasz felülete és az apró részletek darabonként kissé eltérhetnek. A forma és az összhatás minden esetben a bemutatott tulipáncsokorhoz igazodik.\n\nA tulipáncsokor többféle színben kérhető, így könnyedén kiválaszthatod azt az árnyalatot, amely a legjobban illik hozzád vagy ahhoz, akinek ajándékba szánod. 🌷",
+      "usage_instructions": "A csokrot dekorációként vagy gyertyaként is használhatod a termék kialakításának megfelelően. Amennyiben meggyújtod, stabil, hőálló alátétre helyezd, és a kanócot minden használat előtt vágd vissza kb. 5 mm-re. Égő gyertyát soha ne hagyj felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 150 g"
+    },
+    {
+      "name": "Virágos maci gyertya",
+      "slug": "viragos-maci-gyertya",
+      "category": "forma-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 50 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Epres érintés illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "kedves, gyümölcsös, finoman édeskés",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "többféle választható árnyalatban",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [
+        "Piros",
+        "Fehér",
+        "Barna",
+        "Rózsaszín",
+        "Sötétlila",
+        "Világoslila",
+        "Sötétkék",
+        "Világoskék",
+        "Citromsárga",
+        "Narancssárga"
+      ],
+      "description": "Egy ölelésnyi kedvesség, virágokba öntve.",
+      "long_description": "A kis virágos macik játékos, mégis bájosan elegáns darabok, amelyek egy kis szeretetet és vidámságot csempésznek a mindennapokba. Az Epres érintés illat kedves, gyümölcsös és kellemesen édes, olyan finom, mintha egy friss epres édesség könnyed illata lengené körül a szobát. A rózsás részletek és a középen elhelyezett szív még különlegesebbé teszik ezt a kis gyertyát – legyen szó ajándékról vagy egy apró meglepetésről saját magadnak. 🍓🤍\n\nA kézműves készítésnek köszönhetően a színek árnyalata, a viasz felülete és az apró részletek darabonként kissé eltérhetnek. Emiatt minden maci egyedi, miközben a forma és az összhatás a választott változathoz igazodik.",
+      "usage_instructions": "A gyertyát mindig stabil, hőálló alátéten használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. A virágos és szív alakú részletek miatt különösen fontos, hogy a gyertyát égés közben ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 50 g"
+    },
+    {
+      "name": "Rózsával borított maci gyertya",
+      "slug": "rozsaval-boritott-maci-gyertya",
+      "category": "forma-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 50 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Epres érintés illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "kedves, gyümölcsös, finoman édeskés",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "többféle választható árnyalatban",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [
+        "Piros",
+        "Fehér",
+        "Barna",
+        "Rózsaszín",
+        "Sötétlila",
+        "Világoslila",
+        "Sötétkék",
+        "Világoskék",
+        "Citromsárga",
+        "Narancssárga"
+      ],
+      "description": "Egy ölelésnyi kedvesség, virágokba öntve.",
+      "long_description": "A kis virágos macik játékos, mégis bájosan elegáns darabok, amelyek egy kis szeretetet és vidámságot csempésznek a mindennapokba. Az Epres érintés illat kedves, gyümölcsös és kellemesen édes, olyan finom, mintha egy friss epres édesség könnyed illata lengené körül a szobát. A rózsás részletek és a középen elhelyezett szív még különlegesebbé teszik ezt a kis gyertyát – legyen szó ajándékról vagy egy apró meglepetésről saját magadnak. 🍓🤍\n\nA kézműves készítésnek köszönhetően a színek árnyalata, a viasz felülete és az apró részletek darabonként kissé eltérhetnek. Emiatt minden maci egyedi, miközben a forma és az összhatás a választott változathoz igazodik.",
+      "usage_instructions": "A gyertyát mindig stabil, hőálló alátéten használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. A virágos és szív alakú részletek miatt különösen fontos, hogy a gyertyát égés közben ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 50 g"
+    },
+    {
+      "name": "Púderfülű nyuszi",
+      "slug": "puderfulu-nyuszi",
+      "category": "forma-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 70–80 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "cseresznyevirág illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "finom, virágos, friss és romantikus",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "fehér",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "kézzel festett részletek",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [
+        "Piros",
+        "Fehér",
+        "Barna",
+        "Rózsaszín",
+        "Sötétlila",
+        "Világoslila",
+        "Sötétkék",
+        "Világoskék",
+        "Citromsárga",
+        "Narancssárga"
+      ],
+      "description": "Egy apró adag szeretet, cseresznyevirág-illatba zárva.",
+      "long_description": "A Púderfülű nyuszi bájos, kedves megjelenésével és finom részleteivel azonnal mosolyt csal az arcodra. A fehér szójaviasz letisztult szépségét a kézzel festett részletek teszik igazán egyedivé, miközben a lágy, virágos cseresznyevirág-illat kellemesen friss és romantikus hangulatot teremt.\n\nMinden nyuszi kézzel készül és kézzel festett, ezért az arc részletei, a szemek, a vonalak és az apró festési elemek darabonként kissé eltérhetnek. Éppen ezek az apró különbségek teszik őket igazán egyedivé – nincs két teljesen egyforma Púderfülű nyuszi.",
+      "usage_instructions": "A nyuszit mindig stabil, hőálló alátéten használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. A gyertyát égés közben ne hagyd felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 70–80 g"
+    },
+    {
+      "name": "Ölelő nyuszi",
+      "slug": "olelo-nyuszi",
+      "category": "forma-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 50 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "cseresznyevirág illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "finom, friss, virágos és romantikus",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "rózsaszín",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "kézzel festett részletek",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [
+        "Piros",
+        "Fehér",
+        "Barna",
+        "Rózsaszín",
+        "Sötétlila",
+        "Világoslila",
+        "Sötétkék",
+        "Világoskék",
+        "Citromsárga",
+        "Narancssárga"
+      ],
+      "description": "Az Ölelő nyuszi a kedvesség és a gondoskodás bájos kis jelképe.",
+      "long_description": "Rózsaszín, puha hatású megjelenését a kézzel festett apró részletek teszik igazán szerethetővé, a finom cseresznyevirág-illat pedig friss, virágos hangulatot kölcsönöz neki. A kis nyuszi ölelő formája miatt különösen kedves ajándék lehet húsvétra, babaváróra, születésnapra vagy akár csak úgy – amikor valakinek szeretnél egy kis örömet okozni. 🌸💗 Bár hangulatában a tavaszt és a húsvétot idézi, az Ölelő nyuszi egész évben elérhető.\n\nA nyuszik minden darabja kézzel készül és kézzel festett. Emiatt az arc részletei, a szemek, a vonalak és az apró festési elemek darabonként kissé eltérhetnek. Ezek az apró különbségek teszik mindegyik nyuszit egyedivé.",
+      "usage_instructions": "A gyertyát mindig stabil, hőálló alátéten használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. Égés közben ne hagyd felügyelet nélkül, és tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 50 g"
+    },
+    {
+      "name": "Te vagy a legjobb Apa!",
+      "slug": "te-vagy-a-legjobb-apa",
+      "category": "tegelyes-gyertyak-8oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 130 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Smoked Cigar & Old Whiskey illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "kellemesen fűszeres, enyhén édeskés, karakteres és férfias",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Alapszín",
+          "label_en": "",
+          "value": "fehér",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "kézzel készített barna szerszámdekorációk",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy kis figyelmesség annak, aki mindig tudja, hogyan kell megjavítani a világot.",
+      "long_description": "A „Te vagy a legjobb Apa!” gyertya egyszerre kedves, személyes és igazán apukás ajándék. A kellemesen fűszeres, enyhén édeskés Smoked Cigar & Old Whiskey illat karakteres, mégsem túl erős vagy tolakodó – pont olyan meleg, otthonos és férfias hangulatot idéz, ami tökéletesen illik hozzá.\n\nA fehér alapot apró, barna szerszámdekorációk teszik különlegessé: kalapács, csavarhúzó és más, barkácsoláshoz kapcsolódó részletek kerülhetnek rá. Egy szeretetteljes meglepetés apák napjára, születésnapra, karácsonyra vagy akár csak úgy, hogy megmutasd: ő tényleg a legjobb apa. 🤎\n\nA gyertya minden darabja kézzel készül, ezért a szerszámdekorációk típusa, mérete, elhelyezkedése és a viasz színe kisebb mértékben eltérhet. A kézzel öntött részletek között előfordulhatnak apró különbségek, de minden darab ugyanazzal a gondossággal készül.",
+      "usage_instructions": "Első égetéskor hagyd a gyertyát a szélekig olvadni. A díszítőelemek miatt a gyertyát égés közben különös figyelemmel használd, és soha ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 130 g"
+    },
+    {
+      "name": "Te vagy a legjobb Anya!",
+      "slug": "te-vagy-a-legjobb-anya",
+      "category": "tegelyes-gyertyak-8oz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 130 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "édes, nőies, parfümös illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "lágyan édes, virágos és elegáns",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Alapszín",
+          "label_en": "",
+          "value": "fehér",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "kézzel készített „ANYA” felirat és apró dekorációs kövek",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy kis szeretet azoknak, akiknek különleges helyük van a szívünkben.",
+      "long_description": "A gyertya egy igazán nőies, kedves és személyes ajándék, amely már a megjelenésével is szeretetet sugároz. Az aranyszínű tégely, a fehér viaszfelületbe helyezett „ANYA” felirat és az apró, csillogó kövek elegáns, mégis bájos összhatást teremtenek. Édes, virágosan parfümös illata finoman tölti meg a teret, és egy igazi anyukás, gondoskodó hangulatot idéz.\n\nTökéletes választás anyák napjára, születésnapra, karácsonyra vagy bármilyen alkalomra, amikor szeretnéd megmutatni, mennyire fontos számodra. 🤍✨\n\nA gyertya minden darabja kézzel készül, ezért a viaszfelület, a dekorációk elhelyezkedése, valamint az apró kövek száma és formája kissé eltérhet. A kézzel öntött „ANYA” felirat is minden darabon egyedi részleteket hordozhat.",
+      "usage_instructions": "Első égetés alkalmával hagyd a viaszt a szélekig megolvadni. A díszítőelemek miatt égés közben különös figyelemmel használd, és soha ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.",
+      "unit": "kb. 130 g"
+    },
+    {
+      "name": "Málnás panna cotta",
+      "slug": "malnas-panna-cotta",
+      "category": "uveges-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 90g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Alap",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "top_layer",
+          "label": "Felső réteg",
+          "label_en": "",
+          "value": "paraffinalapú zseléviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "intenzív málnás panna cotta illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "nagyon intenzív, édes, gyümölcsös, málnás, sütis",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "szójaviaszból készült málnák",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "A Málnás panna cotta kívül-belül a málnás sajttorta hangulatát idézi: látványra egy krémes, gyümölcsös finomság, illatában pedig olyan intenzív, hogy már az első pillanatban mindenkit levesz a lábáról.",
+      "long_description": "Nem véletlenül lett az egyik nagy kedvenc – ez a gyertya tényleg egy kis desszertélmény az otthonodba, csak éppen meggyújtani lehet, nem megenni. 🤍\n\nA kézműves készítés miatt a felső réteg, a málnadíszek színe, mérete és elhelyezkedése darabonként kissé eltérhet. Ettől minden panna cotta egyedi, miközben az összhatás ugyanazt a málnás desszertélményt idézi.",
+      "usage_instructions": "A gyertyát mindig stabil, hőálló alátéten használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. A gyümölcsdekoráció, illetve a felső zseléviasz réteg miatt égés közben különös figyelemmel használd, és soha ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.\n\nNEM EHETŐ!",
+      "unit": "kb. 90g"
+    },
+    {
+      "name": "Áfonyás joghurttorta",
+      "slug": "afonyas-joghurttorta",
+      "category": "uveges-gyertyak",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 70 g + viaszdekoráció",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Alapszín",
+          "label_en": "",
+          "value": "lila",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "wax",
+          "label": "Viasz",
+          "label_en": "",
+          "value": "100% szójaviasz",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "áfonyadzsem illatolaj",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent_notes",
+          "label": "Illatjellemző",
+          "label_en": "",
+          "value": "frissítő, gyümölcsös, kellemesen üde",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "habdísz és áfonyadekoráció",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis szériás termék",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy kis gyümölcsös desszertélmény – kanál nélkül.",
+      "long_description": "Az Áfonyás joghurttorta friss, üde és kellemesen gyümölcsös illatával olyan, mintha egy könnyed, áfonyával megbolondított desszertbe kóstolnál bele. A lágy lilás alapot négy apró, habzsákkal formázott habdísz koronázza meg, a tetején elhelyezett áfonya pedig még élethűbbé teszi az összhatást. Egy játékos, különleges gyertya, amely egyszerre idézi meg a krémes desszertek hangulatát és a friss áfonya üdeségét. 💜🫐\n\nA gyertya kézzel készül, ezért a lilás alap árnyalata, a habdíszek formája és mérete, valamint az áfonyák elhelyezkedése darabonként kissé eltérhet. Ettől minden egyes darab saját, egyedi desszertkaraktert kap.",
+      "usage_instructions": "A gyertyát mindig stabil, hőálló alátéten/felületen használd. A kanócot minden égetés előtt érdemes kb. 5 mm-re visszavágni. A díszítőelemek miatt a gyertyát égés közben különös figyelemmel használd, és soha ne hagyd felügyelet nélkül. Tartsd távol gyermekektől, háziállatoktól és gyúlékony tárgyaktól.\n\nNEM EHETŐ!",
+      "unit": "kb. 70 g + viaszdekoráció"
+    },
+    {
+      "name": "Madagaszkári vanília illatviasz",
+      "slug": "madagaszkari-vanilia-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "30 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Madagaszkári vanília",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "szívformájú illatviaszok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött, kis adagokban készített illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Egy kis adag édes, sütis kényeztetés, amely megtölti a teret a vanília meleg, krémes és különlegesen fűszeres illatával.",
+      "long_description": "A Madagaszkári vanília illatviasz tökéletes választás, ha egy kis kuckózós hangulatra vágysz.\n\nA viaszban található gyöngyházfényű csillám olvadás közben gyönyörűen megcsillan, így az illatosítás nemcsak az érzékeknek, hanem a szemeknek is különleges élmény. 🤍\n\n## Illatjegyek\nVanília · édes, sütis jegyek · meleg fűszeresség · krémes, különleges illat",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe a tálka méretétől függően egyszerre több darabot. Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt (pl. Tegyél alá egy mécsest és gyújtsd meg).\n\nEgy adag illatviasz több alkalommal is felhasználható: az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal élvezheted az illatát. Amikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel vagy illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "30 g"
+    },
+    {
+      "name": "Az otthon illata illatviasz",
+      "slug": "az-otthon-illata-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 30 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Az otthon illata",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "felhőcske",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "A frissen mosott ruhák tisztasága, a puha textíliák kellemes illata és az otthon meghitt hangulata egyetlen kis csomagba zárva.",
+      "long_description": "Az otthon illata finom, öblítős, tiszta és üde illatával olyan érzést kelt, mintha éppen most teregettél volna ki frissen mosott ruhákat.\n\nTökéletes választás, ha szereted a rendezett, tiszta otthon hangulatát, és szívesen töltenéd meg a környezetedet friss, kellemes illattal. A viaszban található csillám olvadás közben gyönyörűen megcsillan, így az illatosítás különleges látvánnyal is párosul. ✨\n\n## Illatjegyek\nTisztaság · öblítő · frissen mosott ruha · puha, üde és kellemesen tiszta illat",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe a tálka méretétől függően egyszerre több darabot. Egy átlagos méretű párologtatóba egy darab is elég! Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt.\n\nEgy adag illatviasz több alkalommal is felhasználható: az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal élvezheted a tiszta, frissen mosott ruhákra emlékeztető illatot. Amikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel, sem illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "kb. 30 g"
+    },
+    {
+      "name": "Levendula & rózsa illatviasz",
+      "slug": "levendula-rozsa-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 30 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Levendula & rózsa",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "felhőcske",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "lila és halványabb levendulaárnyalatok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "A levendula nyugodt, tiszta és jellegzetes illata egy leheletnyi rózsás frissességgel kiegészítve.",
+      "long_description": "A Levendula & rózsa illatviaszban elsősorban a levendula dominál, míg a rózsa finoman, háttérben jelenik meg, hogy lágyabbá és üdébbé tegye az összhatást.\n\nA lila árnyalataiban pompázó viaszfigurákban található csillám olvadás közben gyönyörűen megcsillan, így az illatosítás különleges látvánnyal is párosul. 💜\n\n## Illatjegyek\nLevendula · finom rózsás frissesség · tiszta, virágos és nyugodt illat",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe egy darabot. Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt.\n\nEgy adag illatviasz több alkalommal is felhasználható: az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal élvezheted a levendula kellemes, nyugtató illatát. Amikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel, sem illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "kb. 30 g"
+    },
+    {
+      "name": "Epres érintés illatviasz",
+      "slug": "epres-erintes-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 30 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Epres érintés",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "masni formájú illatviaszok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "rózsaszín árnyalatok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "A frissen szedett eper édes, üde és gyümölcsösen friss illata egy kis rózsaszín bájba zárva.",
+      "long_description": "Az Epres érintés illatviasz könnyed, kellemesen édeskés hangulatot varázsol a térbe, mintha egy napsütötte nyári napon éppen friss epret szednél.\n\nA masni formájú viaszok finom csillámos belseje olvadás közben gyönyörűen megcsillan, így az illatosítás nemcsak kellemes, hanem látványos élmény is. 🦋🍓\n\n## Illatjegyek\nFrissen szedett eper · édes, gyümölcsös jegyek · üde, nyárias frissesség",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe a tálka méretétől függően egyszerre több darabot. Egy átlagos méretű párologtatóba egy darab is elegendő. Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt.\n\nEgy adag illatviasz több alkalommal is felhasználható: az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal élvezheted a friss, epres illatot. Amikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel, sem illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "kb. 30 g"
+    },
+    {
+      "name": "Szicíliai citrom & mentol illatviasz",
+      "slug": "sziciliai-citrom-mentol-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 25 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Szicíliai citrom & mentol",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "virágformájú illatviaszok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "zöld és sárga",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Frissítő, energizáló és üde illat, amely egy pillanat alatt feldobja a hangulatod.",
+      "long_description": "A Szicíliai citrom & mentol illatviaszban a citrusos frissesség találkozik a mentol hűvös, tiszta karakterével, így igazán élénkítő illatélményt nyújt.\n\nA két színben pompázó, virágformájú viaszok különleges látványt adnak: egyik felük zöld, a másik sárga, a bennük található csillám pedig olvadás közben szépen megcsillan. 🍋🌿\n\n## Illatjegyek\nSzicíliai citrom · mentol · frissítő, citrusos és energizáló jegyek",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe egyszerre egy-két darab viaszt. Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt.\n\nEgy adag illatviasz több alkalommal is felhasználható: az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal élvezheted a frissítő citromos-mentolos illatot. Amikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel, sem illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "kb. 25 g"
+    },
+    {
+      "name": "Pumpkin Spice illatviasz",
+      "slug": "pumpkin-spice-illatviasz",
+      "category": "illatviasz",
+      "attributes": [
+        {
+          "key": "weight",
+          "label": "Tömeg",
+          "label_en": "",
+          "value": "kb. 40 g",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "scent",
+          "label": "Illat",
+          "label_en": "",
+          "value": "Pumpkin Spice",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "shape",
+          "label": "Forma",
+          "label_en": "",
+          "value": "sütőtökformájú illatviaszok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "color",
+          "label": "Szín",
+          "label_en": "",
+          "value": "őszi, sütőtökös árnyalatok",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "decoration",
+          "label": "Díszítés",
+          "label_en": "",
+          "value": "gyöngyházfényű csillám",
+          "value_en": "",
+          "enabled": true
+        },
+        {
+          "key": "making",
+          "label": "Készítés",
+          "label_en": "",
+          "value": "kézzel öntött illatviasz",
+          "value_en": "",
+          "enabled": true
+        }
+      ],
+      "color_options": [],
+      "description": "Az ősz igazi bekuckózós illata.",
+      "long_description": "A Pumpkin Spice intenzív, erőteljesen fűszeres illata a sütőtökös latte, a meleg takarók és a hűvös őszi esték hangulatát idézi.\n\nEz az illatviasz igazi karakteres kedvenc: gazdag, fűszeres és ellenállhatatlanul őszi, amely pillanatok alatt megtölti a teret a sütőtökös-fűszeres finomságok hangulatával és illatával. 🎃☕🍂\n\n## Illatjegyek\nSütőtök · meleg fűszerek · fűszeres latte · intenzív, édesen őszi illat",
+      "usage_instructions": "Helyezz a párologtató vagy viaszmelegítő felső részébe egyszerre 1 darab illatviaszt. Ezután a készülék használati útmutatója szerint melegítsd fel a viaszt.\n\nA Pumpkin Spice különösen intenzív illatú, ezért egyetlen darab is elegendő lehet több alkalommal történő illatosításhoz. Egy adag az illat intenzitásától és a melegítés időtartamától függően általában még 2–3 alkalommal vagy akár többször is felhasználható.\n\nAmikor az illat már nem érezhető, hagyd teljesen kihűlni, majd távolítsd el a megdermedt viaszt.\n\nA viaszt NE keverd vízzel vagy illóolajjal és a melegítő készüléket soha ne hagyd felügyelet nélkül.\n\nFontos tudnivaló\n\nA kézműves készítésből adódóan a darabok formája, mérete, színe és a csillám eloszlása kissé eltérhet egymástól. Minden illatviasz egyedileg, szeretettel készül a H’infini Candles műhelyében.",
+      "unit": "kb. 40 g"
+    }
+  ]
+}

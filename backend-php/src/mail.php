@@ -26,7 +26,7 @@ function mail_template(string $event,array $e): array {
     elseif($event==='admin_low_stock') $text.=$e['name'].' — készlet: '.$e['stock'];
     else {
         if(!str_starts_with($event,'admin_')) $text.='Kedves '.$e['full_name']."!\n\n";
-        foreach($e['items'] as $i) $text.=$i['name'].' × '.$i['quantity'].' — '.number_format($i['line_total'],0,',',' ')." Ft\n";
+        foreach($e['items'] as $i) $text.=$i['name'].(!empty($i['color'])?' · '.$i['color']:'').' × '.$i['quantity'].' — '.number_format($i['line_total'],0,',',' ')." Ft\n";
         if(!empty($e['discount']))$text.="\nKuponkedvezmény (".$e['coupon_code']."): -".$e['discount']." Ft\n";
         if($event==='invoice_ready')$text.="\nSzámlaszám: ".$e['invoice']['number']."\nSzámla letöltése: ".$e['invoice']['url']."\n";
         $text.="\nSzállítás: ".$e['shipping']." Ft\nVégösszeg: ".$e['total']." Ft\nFizetési állapot: ".(['PAID'=>'Fizetve','UNPAID'=>'Fizetésre vár','FAILED'=>'Sikertelen fizetés','RESERVED'=>'Fizetés nélkül rögzítve'][$e['payment_status']]??'Feldolgozás alatt')."\n";
@@ -50,11 +50,11 @@ function mail_design(string $title,string $text,string $event,array $entity): st
     $logo=mail_link($site.'/hinfini-logo.png');
     $products='';
     foreach($entity['items']??[] as $item) {
-        $line=$item['name'].' × '.$item['quantity'].' — '.number_format($item['line_total'],0,',',' ')." Ft\n";
+        $line=$item['name'].(!empty($item['color'])?' · '.$item['color']:'').' × '.$item['quantity'].' — '.number_format($item['line_total'],0,',',' ')." Ft\n";
         $text=str_replace($line,'',$text);
         $photo=mail_link((string)($item['image']??''));
         $image=$photo!==''?'<img src="'.mail_escape($photo).'" alt="'.mail_escape($item['name']).'" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:cover;border-radius:8px">':'';
-        $products.='<tr><td width="76" style="padding:14px 0;border-bottom:1px solid #3d3835;vertical-align:top">'.$image.'</td><td style="padding:14px 8px;border-bottom:1px solid #3d3835;color:#F0EAD6;font:16px Arial">'.mail_escape($item['name']).'<br><span style="font-size:14px;color:#B8AE95">'.(int)$item['quantity'].' db · '.number_format($item['price'],0,',',' ').' Ft / db</span></td><td align="right" style="padding:14px 0;border-bottom:1px solid #3d3835;color:#D4AF6E;font:16px Arial">'.number_format($item['line_total'],0,',',' ').' Ft</td></tr>';
+        $products.='<tr><td width="76" style="padding:14px 0;border-bottom:1px solid #3d3835;vertical-align:top">'.$image.'</td><td style="padding:14px 8px;border-bottom:1px solid #3d3835;color:#F0EAD6;font:16px Arial">'.mail_escape($item['name'].(!empty($item['color'])?' · '.$item['color']:'')).'<br><span style="font-size:14px;color:#B8AE95">'.(int)$item['quantity'].' db · '.number_format($item['price'],0,',',' ').' Ft / db</span></td><td align="right" style="padding:14px 0;border-bottom:1px solid #3d3835;color:#D4AF6E;font:16px Arial">'.number_format($item['line_total'],0,',',' ').' Ft</td></tr>';
     }
     $invoice= $event==='invoice_ready'?mail_link((string)($entity['invoice']['url']??'')):'';
     $button=$invoice!==''?'<table role="presentation" cellspacing="0" cellpadding="0" style="margin:24px 0"><tr><td bgcolor="#D4AF6E" style="border-radius:24px;padding:14px 24px"><a href="'.mail_escape($invoice).'" style="font:bold 16px Arial;color:#1A1917;text-decoration:none">Számla megnyitása</a></td></tr></table>':'';

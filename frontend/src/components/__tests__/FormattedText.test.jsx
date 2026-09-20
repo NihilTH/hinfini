@@ -25,3 +25,10 @@ test('toolbar wraps the selected text and preview displays its formatting', asyn
  await act(async () => host.querySelector('[aria-pressed]').click());
  expect(host.querySelector('strong').textContent).toBe('Meleg');
 });
+test('reflows copied line breaks while retaining paragraphs and lists', async () => {
+ await act(async () => root.render(<FormattedText text={'**Meleg illat**\na szőlő\njellegzetes aromájával.\n\nMásodik bekezdés.\n- Piros\n- Fehér'} />));
+ const paragraphs = host.querySelectorAll('p');
+ expect(paragraphs).toHaveLength(2);
+ expect(paragraphs[0].textContent).toBe('Meleg illat a szőlő jellegzetes aromájával.');
+ expect(host.querySelectorAll('li')).toHaveLength(2);
+});

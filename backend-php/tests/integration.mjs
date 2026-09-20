@@ -123,6 +123,29 @@ try {
  assert.equal((await request('GET','/products/'+retired.slug)).status,404);
  assert.deepEqual((await ok('GET','/categories')).map(c=>c.name),['gyertyak','illatviasz','forma-gyertyak','asztali-disz','egyeb']);
  assert.equal((await ok('GET','/orders/'+paid.order_id)).payment_status,'PAID');checks++;
+ // Colour choices are validated by the server, not trusted from the browser.
+ const colored=await ok('POST','/admin/products',{slug:'colors-'+tag,name:'Színes gyertya',category:cats[0].name,price:1000,stock:3,color_options:['Piros','Fehér']},true);
+ for(const color of ['', 'Lila']) assert.equal((await request('POST','/orders',{...checkout,items:[{product_id:colored.product_id,quantity:1,color}]})).status,422);
+ const colorOrder=await ok('POST','/orders',{...checkout,items:[{product_id:colored.product_id,quantity:1,color:'Piros'},{product_id:colored.product_id,quantity:1,color:'Fehér'}]});
+ const details=await ok('GET','/orders/'+colorOrder.order_id);
+ assert.deepEqual(details.items.map(i=>i.color),['Piros','Fehér']);assert.equal(details.subtotal,2000);
+ assert.equal((await request('POST','/orders',{...checkout,items:[{product_id:colored.product_id,quantity:1,color:'Piros'},{product_id:colored.product_id,quantity:1,color:'Fehér'}]})).status,400);
+ await ok('PATCH',`/admin/orders/${colorOrder.order_id}/status`,{fulfillment_status:'CANCELLED'},true);
+ assert.equal((await ok('GET','/products/'+colored.slug)).stock,3);checks++;
+ // Document import is authenticated, repeatable and preserves live prices, stock and images.
+ assert.equal((await request('POST','/admin/catalog/import-20260920',{})).status,401);
+ const existing=await ok('POST','/admin/products',{slug:'toszkan-naplemente',name:'Régi leírás',category:cats[0].name,price:3456,stock:7,image:'https://example.test/photo.jpg'},true);
+ const imported=await ok('POST','/admin/catalog/import-20260920',{},true);
+ assert.equal(imported.created,18);assert.equal(imported.updated,1);
+ const catalog=await ok('GET','/admin/products',undefined,true);
+ const updated=catalog.find(i=>i.product_id===existing.product_id);
+ assert.equal(updated.price,3456);assert.equal(updated.stock,7);assert.equal(updated.image,'https://example.test/photo.jpg');assert.equal(updated.category,'tegelyes-gyertyak-4oz');
+ assert(updated.long_description.includes('🍇'));assert(updated.usage_instructions.length>20);
+ const drafts=catalog.filter(i=>i.catalog_import==='20260920'&&i.status==='draft');assert.equal(drafts.length,18);
+ const shaped=drafts.filter(i=>i.category==='forma-gyertyak');assert.equal(shaped.length,5);assert(shaped.every(i=>i.color_options.length===10));
+ await ok('PUT','/admin/products/'+updated.product_id,{...updated,description:'Saját későbbi szöveg'},true);
+ const repeat=await ok('POST','/admin/catalog/import-20260920',{},true);assert.equal(repeat.created,0);assert.equal(repeat.skipped,19);
+ assert.equal((await ok('GET','/admin/products',undefined,true)).find(i=>i.product_id===updated.product_id).description,'Saját későbbi szöveg');checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

@@ -44,7 +44,7 @@ export default function Checkout() {
     setBusy(true);
     let order;
     try {
-      const res = await api.post("/orders", { ...form, coupon_code: couponResult?.coupon_code || "", shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })) });
+      const res = await api.post("/orders", { ...form, coupon_code: couponResult?.coupon_code || "", shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity, color: i.color || "" })) });
       order = res.data;
     } catch (err) { toast.error(errorMsg(err?.response?.data?.detail)); setBusy(false); return; }
     clear();
@@ -122,7 +122,7 @@ export default function Checkout() {
             <thead className="sr-only"><tr><th>{t("co.item")}</th><th>{t("co.quantity")}</th><th>{t("cart.total")}</th></tr></thead>
             <tbody>
               {items.map((i) => (
-                <tr key={i.product_id} className="align-top"><td className="py-1.5 pr-2">{tr(i, "name")}</td><td className="py-1.5 px-3 text-[#B8AE95] whitespace-nowrap">× {i.quantity}</td><td className="py-1.5 text-right whitespace-nowrap">{formatPrice(i.price * i.quantity)}</td></tr>
+                <tr key={JSON.stringify([i.product_id, i.color || ""])} className="align-top"><td className="py-1.5 pr-2">{tr(i, "name")}{i.color ? ` · ${i.color}` : ""}</td><td className="py-1.5 px-3 text-[#B8AE95] whitespace-nowrap">× {i.quantity}</td><td className="py-1.5 text-right whitespace-nowrap">{formatPrice(i.price * i.quantity)}</td></tr>
               ))}
             </tbody>
           </table>

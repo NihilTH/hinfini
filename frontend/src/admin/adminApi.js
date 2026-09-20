@@ -8,6 +8,7 @@ export const setToken = (t) => (t ? sessionStorage.setItem(TOKEN_KEY, t) : sessi
 const h = () => ({ headers: { "X-Admin-Token": getToken() } });
 
 export const adminApi = {
+  importCatalog: () => api.post("/admin/catalog/import-20260920", {}, h()),
   verify: (token) => api.post("/admin/verify", null, { headers: { "X-Admin-Token": token } }),
   stats: () => api.get("/admin/stats", h()),
   products: (archived = false) => api.get("/admin/products", { ...h(), params: { include_archived: archived } }),

@@ -16,15 +16,16 @@ const STOCK_STYLE = { in: "text-emerald-400 border-emerald-400/40", low: "text-[
 export default function ProductDetail() {
   const { slug } = useParams();
   const { add } = useCart();
-  const { t, tr, label } = useLang();
+  const { t, tr, label, lang } = useLang();
   const { catLabel } = useCatalog();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
+  const [color, setColor] = useState("");
   const [qty, setQty] = useState(1);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    setProduct(null); setError(false); setQty(1); setActive(0);
+    setColor(""); setProduct(null); setError(false); setQty(1); setActive(0);
     api.get(`/products/${slug}`).then(({ data }) => setProduct(data)).catch(() => setError(true));
     window.scrollTo({ top: 0 });
   }, [slug]);
@@ -69,13 +70,20 @@ export default function ProductDetail() {
           </div>
           <FormattedText className="mt-8" data-testid="pd-description" text={tr(product, "long_description") || tr(product, "description")} />
 
+          {!!product.color_options?.length && <div className="mt-8 max-w-sm">
+            <label htmlFor="pd-color" className="overline block mb-3">{lang === "en" ? "Colour" : "Szín"}</label>
+            <select id="pd-color" className="admin-input" value={color} onChange={e => setColor(e.target.value)} required>
+              <option value="">{lang === "en" ? "Choose a colour" : "Válassz színt"}</option>
+              {product.color_options.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>}
           <div className="mt-10 flex items-center gap-6 flex-wrap">
             <div className="flex items-center border border-[#3d3835] rounded-full" role="group" aria-label={t("pd.qty")}>
               <button onClick={() => setQty(Math.max(1, qty - 1))} data-testid="qty-decrease" aria-label={t("cart.dec")} className="w-10 h-10 flex items-center justify-center focus-ring rounded-full"><Minus size={14} /></button>
               <span data-testid="qty-value" className="w-10 text-center text-sm" aria-live="polite">{qty}</span>
               <button onClick={() => setQty(Math.min(maxQty, qty + 1))} data-testid="qty-increase" aria-label={t("cart.inc")} className="w-10 h-10 flex items-center justify-center focus-ring rounded-full"><Plus size={14} /></button>
             </div>
-            <button onClick={() => add(product, qty)} disabled={out} data-testid="pd-add-to-cart" className="btn-primary flex-1 md:flex-none justify-center disabled:opacity-40 disabled:cursor-not-allowed focus-ring">
+            <button onClick={() => add(product, qty, color)} disabled={out || (!!product.color_options?.length && !color)} data-testid="pd-add-to-cart" className="btn-primary flex-1 md:flex-none justify-center disabled:opacity-40 disabled:cursor-not-allowed focus-ring">
               <ShoppingBag size={18} /> {out ? t("stock.out") : t("pd.add")}
             </button>
           </div>

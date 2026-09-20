@@ -22,7 +22,7 @@ export default function FormattedText({ text = '', className = '', ...props }) {
     } else {
       const key = i; const paragraph = [];
       while (i < lines.length && lines[i].trim() && !/^\s*[-•]\s+|^#{1,3}\s+/.test(lines[i])) paragraph.push(lines[i++]);
-      blocks.push(<p key={key} className="whitespace-pre-wrap">{inline(paragraph.join('\n'))}</p>);
+      blocks.push(<p key={key} className="whitespace-normal">{inline(paragraph.map(line => line.trim()).join(' '))}</p>);
     }
   }
   return <div {...props} className={`space-y-3 text-[#B8AE95] leading-relaxed break-words ${className}`}>{blocks}</div>;

@@ -12,3 +12,21 @@
 ## Frissítés
 
 A hinfini-webshop-frissites csomagból a frontend és a backend fájljait is frissítsd. A saját config.local.php és uploads maradjon meg. Új SQL-import nem szükséges: a mezők a meglévő termékdokumentumban tárolódnak. A korábbi termékek továbbra is működnek; az új mezők kezdetben üresek.
+
+## A szeptember 20-i terméklista importálása
+
+A frissítőcsomag public_html és backend-php mappájának feltöltése után frissítsd az adminoldalt Ctrl+F5-tel. A Termékek lapon kattints a **Dokumentum 19 termékének importálása** gombra. Ez hozza létre az adatbázisban a dokumentumból előkészített termékeket és a hiányzó kategóriákat. SQL-import nem szükséges.
+
+Az új termékek piszkozatok: a dokumentumban nem szerepelt ár, készlet vagy termékfotó. Add meg ezeket, majd válaszd a Mentés és publikálás gombot. A már meglévő, azonos URL-azonosítójú terméknél a magyar tartalom frissül; ára, készlete, képei és publikálási állapota megmarad. Az ismételt import kihagyja a korábban importált termékeket, ezért későbbi szerkesztéseidet nem írja felül. Más termékeket nem töröl.
+
+Kategóriák: Tégelyes gyertyák – 4 oz (4), Formagyertyák (5), Tégelyes gyertyák – 8 oz (2), Üveges gyertyák (2), Illatviaszok (6).
+
+A dokumentum „Égési idő: tesztelés után feltüntetendő” belső megjegyzését nem publikáljuk. A mért értéket később az egyedi termékadatokhoz adhatod hozzá.
+
+## Színválasztás
+
+A termékszerkesztő Választható színek mezőjébe soronként egy színt írj. A formagyertyáknál az import a dokumentumban megadott tíz színt tölti be. A színválasztás kötelező, ha a lista nem üres. A termékkártyáról a vásárló a termékoldalra jut, ahol színt választhat.
+
+A szín megjelenik a kosárban, a pénztárban, a rendelésben és a visszaigazoló e-mailben. Ugyanaz a termék több színben külön kosársor, de a készlet közös. A szerver csak a terméknél valóban engedélyezett színeket fogadja el.
+
+A leírásokban egy üres sor választja el a bekezdéseket. Az egyszerű sortöréseket a megjelenítés szóközként kezeli, így a Wordből másolt szöveg a képernyő szélességéhez igazodik. A felsorolások és alcímek továbbra is külön blokkok.

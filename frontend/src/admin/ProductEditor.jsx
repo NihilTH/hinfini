@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus } from "@phosphor-icons/react";
-import { adminApi, useA, errText, slugify } from "@/admin/adminApi";
+import { adminApi, useA, slugify } from "@/admin/adminApi";
 import { Modal, Field, Section } from "@/admin/ui";
 import { ImageField, ImagePickerModal } from "@/admin/Media";
 import ProductAttributesEditor from "@/admin/ProductAttributesEditor";
 import { initialAttributes } from "@/components/ProductAttributes";
 import TextEditor from "@/admin/TextEditor";
+import { useLang } from "@/context/LangContext";
+import { productSaveError, validateProduct } from "@/admin/productErrors";
 import ProductTile from "@/components/ProductTile";
 
 export const emptyProduct = (cat) => ({
@@ -16,20 +18,26 @@ export const emptyProduct = (cat) => ({
 
 export default function ProductEditor({ product, categories, onClose, onSaved }) {
   const a = useA();
+  const { lang } = useLang();
+  const [saveError, setSaveError] = useState("");
   const [p, setP] = useState({ ...product, attributes: initialAttributes(product.attributes), tags: Array.isArray(product.tags) ? product.tags.join(", ") : product.tags || "" });
   const [busy, setBusy] = useState(false);
   const [galleryPick, setGalleryPick] = useState(false);
   const set = (k) => (e) => setP({ ...p, [k]: e?.target ? (e.target.type === "checkbox" ? e.target.checked : e.target.value) : e });
 
   const save = async (status) => {
-    const body = { ...p, status: status || p.status, price: parseInt(p.price) || 0, stock: parseInt(p.stock) || 0, images: p.images || [],
+    if (busy) return;
+    setSaveError("");
+    const body = { ...p, status: status || p.status, price: p.price, stock: p.stock, images: p.images || [],
       tags: (p.tags || "").split(",").map((s) => s.trim()).filter(Boolean), slug: slugify(p.slug || p.name) };
-    if (!body.name || !body.category || !body.slug) { toast.error(a("failed")); return; }
+    const invalid = validateProduct(body);
+    if (invalid) { setSaveError(productSaveError({ response: { status: 422, data: { detail: invalid } } }, lang)); return; }
+    body.price = Number(body.price); body.stock = Number(body.stock);
     setBusy(true);
     try {
       if (p.product_id) await adminApi.updateProduct(p.product_id, body); else await adminApi.createProduct(body);
       toast.success(a("saved")); onSaved();
-    } catch (e) { toast.error(errText(e, a)); } finally { setBusy(false); }
+    } catch (e) { const message = productSaveError(e, lang); setSaveError(message); toast.error(message); } finally { setBusy(false); }
   };
 
   const previewProduct = { ...p, price: parseInt(p.price) || 0, stock: parseInt(p.stock) || 0, stock_state: (parseInt(p.stock) || 0) <= 0 ? "out" : (parseInt(p.stock) || 0) <= 5 ? "low" : "in", slug: p.slug || "preview" };
@@ -95,6 +103,7 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
           </Section>
         </div>
         <aside className="space-y-4">
+          {saveError && <div role="alert" className="border border-[#B0413E] bg-[#3b1918] text-[#ffe5df] rounded p-4 text-sm whitespace-pre-wrap" data-testid="pe-save-error">{saveError}</div>}
           <div className="admin-card p-4">
             <h3 className="overline text-[#D4AF6E] mb-4">{a("preview")}</h3>
             <div className="pointer-events-none max-w-[260px]"><ProductTile product={previewProduct} /></div>

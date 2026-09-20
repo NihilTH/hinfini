@@ -8,10 +8,11 @@ import SmartImage from "@/components/SmartImage";
 export default function ProductTile({ product }) {
   const { add } = useCart();
   const navigate = useNavigate();
-  const { t, tr } = useLang();
+  const { t, tr, lang } = useLang();
   const { catLabel } = useCatalog();
   const out = product.stock_state === "out" || Number(product.stock) <= 0;
   const low = product.stock_state === "low";
+  const actionLabel = product.color_options?.length ? (lang === "en" ? "Choose colour" : "Színválasztás") : t("tile.add");
   const name = tr(product, "name");
 
   return (
@@ -33,11 +34,11 @@ export default function ProductTile({ product }) {
             onClick={() => product.color_options?.length ? navigate(`/shop/${product.slug}`) : add(product, 1)}
             disabled={out}
             data-testid={`add-${product.slug}`}
-            aria-label={`${t("tile.add")}: ${name}`}
-            title={out ? t("tile.soldOut") : t("tile.add")}
+            aria-label={`${actionLabel}: ${name}`}
+            title={out ? t("tile.soldOut") : actionLabel}
             className="mt-2 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#D4AF6E] hover:text-[#E5C689] disabled:text-[#6f685f] disabled:cursor-not-allowed transition-colors"
           >
-            <ShoppingBag size={14} /> {out ? t("tile.soldOut") : t("tile.add")}
+            <ShoppingBag size={14} /> {out ? t("tile.soldOut") : actionLabel}
           </button>
         </div>
       </div>

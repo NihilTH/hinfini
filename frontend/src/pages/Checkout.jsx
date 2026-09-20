@@ -31,6 +31,7 @@ export default function Checkout() {
     if (!detail || typeof detail !== "string") return t("co.failed");
     if (detail.startsWith("out_of_stock:")) return t("co.outOfStock", { name: detail.split(":")[1] });
     if (detail.startsWith("unavailable:")) return t("co.unavailable");
+    if (detail === "invalid_color") return lang === "en" ? "A selected colour is no longer available. Remove that item from the cart and choose a colour on its product page." : "Egy terméknél hiányzik vagy már nem elérhető a kiválasztott szín. Töröld a kosárból, majd a termékoldalon válassz színt és tedd vissza.";
     if (detail === "terms_required") return t("co.termsReq");
     if (detail === "cart_empty") return t("co.emptyCart");
     if (detail.includes("kupon")) return detail;

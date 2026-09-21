@@ -17,3 +17,17 @@ check(!str_contains($html,'src="javascript:'));
 check(!str_contains($html,'Számla megnyitása'));
 check(str_contains($text,'nem igazolja a sikeres fizetést'));
 echo "Mail template: escaping, safe links, product photos, invoice and payment copy passed.\n";
+
+// Long minified HTML must survive transport without long physical lines or UTF-8 loss.
+$longHtml='<html><body>'.str_repeat('Árvíztűrő tükörfúrógép 🕯️ <b>Gyertya</b> ',300).'</body></html>';
+foreach([$html,$longHtml] as $original) {
+    $message=mail_transport_message('Rendelés visszaigazolása 🕯️',$original,'shop@example.test','reply@example.test');
+    check($message['headers']['Content-Transfer-Encoding']==='base64');
+    check(base64_decode($message['body'],true)===$original);
+    foreach(explode("\r\n",$message['body']) as $line) check(strlen($line)<=76);
+}
+$subject=str_repeat('Hosszú magyar tárgy 🕯️ ',100);
+$message=mail_transport_message($subject,$longHtml,'shop@example.test','reply@example.test');
+check(mb_decode_mimeheader($message['subject'])===$subject);
+foreach(explode("\r\n",$message['subject']) as $line) check(strlen($line)<=76);
+echo "Mail transport: short base64 lines, exact HTML/emoji roundtrip and folded subject passed.\n";

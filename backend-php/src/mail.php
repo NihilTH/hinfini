@@ -74,6 +74,15 @@ function queue_event(string $event,array $entity,?string $to=null,bool $force=fa
     return $d;
 }
 function mail_public(array $d): array { unset($d['html_body'],$d['text_body']); return $d; }
+// Encode at transport time so already queued HTML messages are fixed too.
+function mail_transport_message(string $subject, string $html, string $from, string $reply): array {
+    return [
+        'subject'=>mb_encode_mimeheader($subject,'UTF-8','B',"\r\n",9),
+        'body'=>chunk_split(base64_encode($html),76,"\r\n"),
+        'headers'=>['From'=>$from,'Reply-To'=>$reply,'MIME-Version'=>'1.0',
+            'Content-Type'=>'text/html; charset=UTF-8','Content-Transfer-Encoding'=>'base64'],
+    ];
+}
 function mail_worker(int $limit=50): int {
     $processed=0;
     while($processed<$limit) {
@@ -95,7 +104,8 @@ function mail_worker(int $limit=50): int {
                 } elseif($p==='php_mail') {
                     $from=(string)cfg('EMAIL_FROM');$reply=(string)cfg('EMAIL_REPLY_TO')?:$from;
                     if(!filter_var($from,FILTER_VALIDATE_EMAIL)||!filter_var($reply,FILTER_VALIDATE_EMAIL)||!filter_var($log['recipient'],FILTER_VALIDATE_EMAIL))throw new RuntimeException('Invalid email address');
-                    $ok=mail($log['recipient'],'=?UTF-8?B?'.base64_encode($log['subject']).'?=',$log['html_body'],['From'=>$from,'Reply-To'=>$reply,'MIME-Version'=>'1.0','Content-Type'=>'text/html; charset=UTF-8']);
+                    $message=mail_transport_message($log['subject'],$log['html_body'],$from,$reply);
+                    $ok=mail($log['recipient'],$message['subject'],$message['body'],$message['headers']);
                     if(!$ok)throw new RuntimeException('A tárhely nem fogadta el a levelet.');
                     $r=['status'=>202,'body'=>'{}','headers'=>[]];
                 } elseif($p==='sendgrid') {

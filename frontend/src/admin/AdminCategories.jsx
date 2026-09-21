@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ArrowUp, ArrowDown, PencilSimple, Trash, Plus } from "@phosphor-icons/react";
 import { adminApi, useA, errText } from "@/admin/adminApi";
-import { Modal, Confirm, Field, Badge } from "@/admin/ui";
+import { Modal, Field, Badge } from "@/admin/ui";
 import { ImageField } from "@/admin/Media";
 import SmartImage from "@/components/SmartImage";
 
@@ -12,6 +12,8 @@ export default function AdminCategories({ categories, reload }) {
   const a = useA();
   const [editing, setEditing] = useState(null);
   const [toDelete, setToDelete] = useState(null);
+  const [target, setTarget] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [busy, setBusy] = useState(false);
 
   const move = async (i, dir) => {
@@ -30,7 +32,11 @@ export default function AdminCategories({ categories, reload }) {
     } catch (e) { toast.error(errText(e, a)); } finally { setBusy(false); }
   };
   const remove = async () => {
-    try { await adminApi.deleteCategory(toDelete.name); toast.success(a("saved")); setToDelete(null); reload(); } catch (e) { toast.error(errText(e, a)); setToDelete(null); }
+    if (busy) return;
+    setBusy(true); setDeleteError("");
+    try { await adminApi.deleteCategory(toDelete.name, target); toast.success(a("saved")); setToDelete(null); reload(); }
+    catch (e) { setDeleteError(errText(e, a)); }
+    finally { setBusy(false); }
   };
   const set = (k) => (e) => setEditing({ ...editing, [k]: e.target.type === "checkbox" ? e.target.checked : e.target.value });
 
@@ -52,7 +58,7 @@ export default function AdminCategories({ categories, reload }) {
             <Badge value={c.active !== false ? "published" : "hidden"} label={c.active !== false ? a("active") : a("inactive")} />
             <div className="flex gap-2">
               <button onClick={() => setEditing({ ...empty, ...c, _original: c.name })} aria-label={a("edit")} className="w-8 h-8 flex items-center justify-center border border-[#3d3835] hover:border-[#D4AF6E] focus-ring" data-testid={`cat-edit-${i}`}><PencilSimple size={14} /></button>
-              <button onClick={() => (c.count > 0 ? toast.error(a("catInUse", { n: c.count })) : setToDelete(c))} aria-label={a("deleteCat")} className="w-8 h-8 flex items-center justify-center border border-[#3d3835] hover:border-[#B0413E] focus-ring" data-testid={`cat-del-${i}`}><Trash size={14} /></button>
+              <button onClick={() => { setTarget(""); setDeleteError(""); setToDelete(c); }} aria-label={a("deleteCat")} className="w-8 h-8 flex items-center justify-center border border-[#3d3835] hover:border-[#B0413E] focus-ring" data-testid={`cat-del-${i}`}><Trash size={14} /></button>
             </div>
           </div>
         ))}
@@ -78,7 +84,24 @@ export default function AdminCategories({ categories, reload }) {
           </div>
         </Modal>
       )}
-      {toDelete && <Confirm message={a("deleteCatConfirm")} danger onNo={() => setToDelete(null)} onYes={remove} testId="cat-del-confirm" />}
+      {toDelete && <Modal title={a("deleteCat")} onClose={() => !busy && setToDelete(null)} testId="cat-del-confirm">
+        <div className="space-y-4">
+          <p>{toDelete.name_hu || toDelete.name}: {toDelete.count} termék (az archiváltakkal együtt).</p>
+          <p className="text-sm text-[#B8AE95]">A kategória törlődik, a termékek megmaradnak. Ha tartalmaz termékeket, válaszd ki, melyik kategóriába kerüljenek.</p>
+          <Field label="Termékek áthelyezése ide" id="category-delete-target">
+            <select id="category-delete-target" className="admin-input" value={target} onChange={e => setTarget(e.target.value)} disabled={busy}>
+              <option value="">Válassz célkategóriát</option>
+              {categories.filter(c => c.name !== toDelete.name).map(c => <option key={c.name} value={c.name}>{c.name_hu || c.name}</option>)}
+            </select>
+          </Field>
+          {toDelete.count > 0 && categories.length < 2 && <p>Először hozz létre egy másik kategóriát a termékeknek.</p>}
+          {deleteError && <p role="alert" className="text-red-300">{deleteError}</p>}
+          <div className="flex justify-end gap-3">
+            <button disabled={busy} onClick={() => setToDelete(null)} className="btn-outline">{a("cancel")}</button>
+            <button disabled={busy || (toDelete.count > 0 && !target)} onClick={remove} className="btn-primary disabled:opacity-40">{busy ? "Törlés…" : "Kategória törlése"}</button>
+          </div>
+        </div>
+      </Modal>}
     </div>
   );
 }

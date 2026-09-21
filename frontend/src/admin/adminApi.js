@@ -20,7 +20,7 @@ export const adminApi = {
   createCategory: (b) => api.post("/admin/categories", b, h()),
   updateCategory: (name, b) => api.put(`/admin/categories/${encodeURIComponent(name)}`, b, h()),
   reorderCategories: (names) => api.post("/admin/categories/reorder", { names }, h()),
-  deleteCategory: (name) => api.delete(`/admin/categories/${encodeURIComponent(name)}`, h()),
+  deleteCategory: (name, target = "") => api.delete(`/admin/categories/${encodeURIComponent(name)}`, { ...h(), data: { target_category: target } }),
   media: () => api.get("/admin/media", h()),
   upload: (file, alt) => { const fd = new FormData(); fd.append("file", file); fd.append("alt", alt || ""); return api.post("/admin/media/upload", fd, h()); },
   patchMedia: (id, alt) => api.patch(`/admin/media/${id}`, { alt }, h()),

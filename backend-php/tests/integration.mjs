@@ -146,6 +146,24 @@ try {
  await ok('PUT','/admin/products/'+updated.product_id,{...updated,description:'Saját későbbi szöveg'},true);
  const repeat=await ok('POST','/admin/catalog/import-20260920',{},true);assert.equal(repeat.created,0);assert.equal(repeat.skipped,19);
  assert.equal((await ok('GET','/admin/products',undefined,true)).find(i=>i.product_id===updated.product_id).description,'Saját későbbi szöveg');checks++;
+ // Deleting categories preserves every product, including archived products.
+ const source='delete-source-'+tag,target='delete-target-'+tag;
+ for(const name of [source,target]) await ok('POST','/admin/categories',{name,name_hu:name},true);
+ const movable=[];
+ for(const status of ['published','draft','hidden','archived']) movable.push(await ok('POST','/admin/products',{slug:status+'-move-'+tag,name:'Áthelyezés 🕯️',category:source,status,price:2500,stock:7},true));
+ assert.equal((await ok('GET','/admin/categories',undefined,true)).find(c=>c.name===source).count,4);
+ assert.equal((await request('DELETE','/admin/categories/'+source,{target_category:target})).status,401);
+ assert.equal((await request('DELETE','/admin/categories/'+source,{},true)).status,400);
+ assert.equal((await request('DELETE','/admin/categories/'+source,{target_category:source},true)).status,422);
+ assert.equal((await request('DELETE','/admin/categories/'+source,{target_category:'missing-category'},true)).status,404);
+ let movedProducts=await ok('GET','/admin/products?include_archived=true',undefined,true);
+ assert(movable.every(p=>movedProducts.find(x=>x.product_id===p.product_id).category===source));checks++;
+ const deleted=await ok('DELETE','/admin/categories/'+source,{target_category:target},true);assert.equal(deleted.moved,4);
+ assert(!(await ok('GET','/admin/categories',undefined,true)).some(c=>c.name===source));
+ movedProducts=await ok('GET','/admin/products?include_archived=true',undefined,true);
+ for(const p of movable) {const x=movedProducts.find(x=>x.product_id===p.product_id);assert.equal(x.category,target);assert.equal(x.status,p.status);assert.equal(x.stock,7);assert.equal(x.price,2500);}
+ await ok('POST','/admin/categories',{name:source,name_hu:source},true);
+ await ok('DELETE','/admin/categories/'+source,{},true);checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

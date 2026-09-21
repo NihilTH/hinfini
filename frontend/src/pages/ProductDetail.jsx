@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import api from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { formatPrice, useLang } from "@/context/LangContext";
@@ -9,12 +9,14 @@ import ProductTile from "@/components/ProductTile";
 import SmartImage from "@/components/SmartImage";
 import FormattedText, { plainText } from "@/components/FormattedText";
 import ProductAttributes from "@/components/ProductAttributes";
+import { shopReturn } from "@/lib/shopNavigation";
 import Seo from "@/components/Seo";
 
 const STOCK_STYLE = { in: "text-emerald-400 border-emerald-400/40", low: "text-[#D4AF6E] border-[#D4AF6E]/50", out: "text-[#B8AE95] border-[#3d3835]" };
 
 export default function ProductDetail() {
   const { slug } = useParams();
+  const location = useLocation();
   const { add } = useCart();
   const { t, tr, label, lang } = useLang();
   const { catLabel } = useCatalog();
@@ -33,6 +35,8 @@ export default function ProductDetail() {
   if (error) return <div className="max-w-[1400px] mx-auto px-6 py-24 text-center" data-testid="pd-not-found"><p className="text-[#B8AE95]">{t("pd.notFound")}</p><Link to="/shop" className="btn-outline mt-6">{t("nav.shop")}</Link></div>;
   if (!product) return <div className="max-w-[1400px] mx-auto px-6 py-24 text-center text-[#B8AE95]" aria-live="polite">{t("shop.loading")}</div>;
 
+  const back = shopReturn(location, product.category);
+  const backCategory = new URLSearchParams(back.split("?")[1] || "").get("category");
   const name = tr(product, "name");
   const gallery = [{ url: product.image, alt: product.image_alt || name }, ...(product.images || [])].filter((g) => g.url);
   const out = product.stock_state === "out";
@@ -41,8 +45,8 @@ export default function ProductDetail() {
   return (
     <div data-testid="product-detail-page" className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
       <Seo title={name} description={plainText(tr(product, "description"))} />
-      <Link to={`/shop?category=${encodeURIComponent(product.category)}`} data-testid="pd-back-category" className="inline-flex items-center gap-2 text-sm text-[#B8AE95] link-underline mb-8 focus-ring">
-        <ArrowLeft size={16} /> {t("pd.back", { cat: catLabel(product.category) })}
+      <Link to={back} data-testid="pd-back-category" className="inline-flex items-center gap-2 text-sm text-[#B8AE95] link-underline mb-8 focus-ring">
+        <ArrowLeft size={16} /> {t("pd.back", { cat: !backCategory || backCategory === "All" ? t("shop.all") : catLabel(backCategory) })}
       </Link>
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
         <div>

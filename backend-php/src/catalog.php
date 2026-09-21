@@ -52,7 +52,7 @@ function category_input(array $b): array {
 }
 function category_list(bool $admin=false): array {
     $cats=rows('categories',$admin?'1':'active=1',[],'sort_order ASC');
-    foreach($cats as &$c) $c['count']=(int)sql('SELECT COUNT(*) FROM products WHERE category=? AND status '.($admin?"<> 'archived'":"= 'published'"),[$c['name']])->fetchColumn();
+    foreach($cats as &$c) $c['count']=(int)sql('SELECT COUNT(*) FROM products WHERE category=? AND status '.($admin?"IN ('published','draft','hidden','archived')":"= 'published'"),[$c['name']])->fetchColumn();
     return $cats;
 }
 function products_list(): array {

@@ -62,8 +62,19 @@ function route(string $method,string $path,array $b): mixed {
         $names=$b['names']??null; if(!is_array($names)||count($names)>200) fail(422,'invalid_names');
         foreach($names as $i=>$n) { if(!is_string($n)) fail(422,'invalid_names'); $c=need('categories',$n,true); $c['order']=$i+1; save('categories',$c); } return ['ok'=>true];
     });
-    if($method==='DELETE'&&preg_match('~^/admin/categories/([^/]+)$~',$path,$m)) return tx(function() use($m) {
-        need('categories',$m[1],true); if((int)sql('SELECT COUNT(*) FROM products WHERE category=?',[$m[1]])->fetchColumn()) fail(400,'category_in_use'); remove('categories',$m[1]); return ['ok'=>true];
+    if($method==='DELETE'&&preg_match('~^/admin/categories/([^/]+)$~',$path,$m)) return tx(function() use($m,$b) {
+        $target=text_field($b,'target_category','',191);
+        if($target===$m[1]) fail(422,'invalid_target_category');
+        $locks=array_filter([$m[1],$target],fn($key)=>$key!==''); sort($locks);
+        foreach($locks as $key) need('categories',$key,true);
+        $products=rows('products','category=?',[$m[1]],'product_id');
+        if($products && $target==='') fail(400,'category_in_use:'.count($products));
+        foreach($products as $old) {
+            $p=need('products',$old['product_id'],true);
+            if($p['category']!==$m[1]) continue;
+            $p['category']=$target; $p['updated_at']=now(); save('products',$p);
+        }
+        remove('categories',$m[1]); return ['ok'=>true,'moved'=>count($products)];
     });
     if($method==='GET'&&$path==='/admin/media') return array_reverse(rows('media'));
     if($method==='POST'&&$path==='/admin/media/upload') return media_upload();

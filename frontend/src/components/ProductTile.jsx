@@ -1,13 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { formatPrice, useLang } from "@/context/LangContext";
 import { useCatalog } from "@/context/CatalogContext";
 import { ShoppingBag } from "@phosphor-icons/react";
+import { productLink } from "@/lib/shopNavigation";
 import SmartImage from "@/components/SmartImage";
 
 export default function ProductTile({ product }) {
   const { add } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  const href = productLink(product, location);
   const { t, tr, lang } = useLang();
   const { catLabel } = useCatalog();
   const out = product.stock_state === "out" || Number(product.stock) <= 0;
@@ -17,7 +20,7 @@ export default function ProductTile({ product }) {
 
   return (
     <article data-testid={`product-tile-${product.slug}`} className="product-tile group relative">
-      <Link to={`/shop/${product.slug}`} className="block overflow-hidden bg-[#24221E] aspect-[4/5] border border-[#3d3835] relative" aria-label={name}>
+      <Link to={href} className="block overflow-hidden bg-[#24221E] aspect-[4/5] border border-[#3d3835] relative" aria-label={name}>
         <SmartImage src={product.image} alt={product.image_alt || name} className={`product-image w-full h-full object-cover ${out ? "opacity-40 grayscale" : ""}`} />
         {out && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-3 py-1 bg-[#1A1917]/90 text-[#B8AE95] border border-[#3d3835]">{t("tile.soldOut")}</span>}
         {!out && low && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-3 py-1 bg-[#1A1917]/90 text-[#D4AF6E] border border-[#D4AF6E]/50">{t("tile.low")}</span>}
@@ -25,13 +28,13 @@ export default function ProductTile({ product }) {
       <div className="mt-5 flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="overline mb-1">{catLabel(product.category)}</div>
-          <Link to={`/shop/${product.slug}`} className="font-serif-display text-xl leading-tight link-underline text-[#F0EAD6]">{name}</Link>
+          <Link to={href} className="font-serif-display text-xl leading-tight link-underline text-[#F0EAD6]">{name}</Link>
           <div className="mt-1 text-sm text-[#B8AE95]">{tr(product, "unit")}</div>
         </div>
         <div className="text-right shrink-0">
           <div className="font-serif-display text-lg text-[#D4AF6E]">{formatPrice(product.price)}</div>
           <button
-            onClick={() => product.color_options?.length ? navigate(`/shop/${product.slug}`) : add(product, 1)}
+            onClick={() => product.color_options?.length ? navigate(href) : add(product, 1)}
             disabled={out}
             data-testid={`add-${product.slug}`}
             aria-label={`${actionLabel}: ${name}`}

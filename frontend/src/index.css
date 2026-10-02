@@ -147,3 +147,24 @@ input::placeholder, textarea::placeholder { color: var(--wp-text-2); opacity: 0.
   .product-pager-link.previous { left: 1rem; }
   .product-pager-link.next { right: 1rem; }
 }
+
+/* Preview sold-out products in colour only while the pointer is over the card. */
+.product-tile-sold-out .product-image-frame {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+.product-tile-sold-out .product-image {
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .product-tile-sold-out:hover .product-image-frame {
+    transform: translateY(-4px);
+    border-color: #D4AF6E;
+    box-shadow: 0 10px 24px -12px rgba(212, 175, 110, .35);
+  }
+  .product-tile-sold-out:hover .product-image { opacity: 1; filter: grayscale(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-tile-sold-out .product-image-frame,
+  .product-tile-sold-out .product-image { transition: none; }
+  .product-tile-sold-out:hover .product-image-frame { transform: none; }
+}

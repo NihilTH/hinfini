@@ -19,8 +19,8 @@ export default function ProductTile({ product }) {
   const name = tr(product, "name");
 
   return (
-    <article data-testid={`product-tile-${product.slug}`} className="product-tile group relative">
-      <Link to={href} className="block overflow-hidden bg-[#24221E] aspect-[4/5] border border-[#3d3835] relative" aria-label={name}>
+    <article data-testid={`product-tile-${product.slug}`} className={`product-tile group relative ${out ? "product-tile-sold-out" : ""}`}>
+      <Link to={href} className="product-image-frame block overflow-hidden bg-[#24221E] aspect-[4/5] border border-[#3d3835] relative" aria-label={name}>
         <SmartImage src={product.image} alt={product.image_alt || name} className={`product-image w-full h-full object-contain ${out ? "opacity-40 grayscale" : ""}`} />
         {out && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-3 py-1 bg-[#1A1917]/90 text-[#B8AE95] border border-[#3d3835]">{t("tile.soldOut")}</span>}
         {!out && low && <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-3 py-1 bg-[#1A1917]/90 text-[#D4AF6E] border border-[#D4AF6E]/50">{t("tile.low")}</span>}

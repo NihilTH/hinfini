@@ -34,7 +34,7 @@ const PAGES = {
       ["Right of withdrawal", "Consumers may withdraw within 14 days of receiving the goods without giving reasons (Gov. Decree 45/2014). [Legal review required.]"],
       ["How to withdraw", "Notify us in writing at [SUPPORT_EMAIL] with your order ID. Return the product undamaged in its original packaging to [RETURN ADDRESS]."],
       ["Refund", "We refund the purchase price to the original payment method within 14 days of receiving the returned goods."],
-      ["Exceptions", "Custom-made products and opened fragrance/essential oils may be excluded for hygiene reasons. [To be specified.]"],
+      ["Exceptions", "The right of withdrawal may be restricted for custom-made products or products that cannot be returned for hygiene reasons (opened fragrance oils or essential oils). [To be specified.]"],
     ],
   },
   aszf: {
@@ -48,7 +48,7 @@ const PAGES = {
       ["Panaszkezelés", "Panaszaidat a [SUPPORT_EMAIL] címen fogadjuk. Békéltető testület: [ILLETÉKES BÉKÉLTETŐ TESTÜLET]."],
     ],
     en: [
-      ["Provider details", "Company: [COMPANY] · Registered seat: [ADDRESS] · Registration no.: [REG NO] · Tax no.: [TAX NO] · Email: [SUPPORT_EMAIL] · Hosting: [HOSTING]"],
+      ["Provider details", "Company: [COMPANY] · Registered office: [ADDRESS] · Registration no.: [REG NO] · Tax no.: [TAX NO] · Email: [SUPPORT_EMAIL] · Hosting: [HOSTING]"],
       ["Formation of contract", "Submitting an order is an offer with a payment obligation. The contract is concluded upon receipt of our confirmation email. 'Order received' does not mean payment succeeded."],
       ["Prices", "Prices are in HUF and include VAT. Shipping is shown as a separate line at checkout."],
       ["Payment", "Card payment via SimplePay. A payment is considered successful only upon SimplePay's server-side confirmation."],
@@ -72,7 +72,7 @@ const PAGES = {
       ["Newsletter", "Sent only with separate, voluntary consent, which you can withdraw anytime at [SUPPORT_EMAIL]."],
       ["Processors", "Payment: OTP Mobil Ltd. (SimplePay). Transactional email: [EMAIL PROVIDER, e.g. Resend / SendGrid]. Hosting & database: [PROVIDER]. Image storage: [S3/R2 PROVIDER]. Invoicing: [PROVIDER]. Courier: [COURIER]."],
       ["Retention", "Order data: 8 years per accounting law. Newsletter: until consent is withdrawn."],
-      ["Your rights", "Access, rectification, erasure, restriction, portability, objection. Complaints: Hungarian National Authority for Data Protection (NAIH)."],
+      ["Your rights", "Access, rectification, erasure, restriction, portability, objection. Complaints: Hungarian National Authority for Data Protection and Freedom of Information (NAIH)."],
     ],
   },
   kapcsolat: {

@@ -162,12 +162,12 @@ export const LangProvider = ({ children }) => {
   const tr = useCallback((obj, field) => {
     if (!obj) return "";
     if (lang === "en" && obj[`${field}_en`]) return obj[`${field}_en`];
-    return lang === "hu" ? hungarian(obj[`${field}_hu`] || obj[field]) : obj[field] || "";
+    return lang === "hu" ? hungarian(obj[`${field}_hu`] || obj[field]) : english(obj[field]);
   }, [lang]);
   const catName = useCallback((c) => {
     if (!c) return "";
-    if (typeof c === "string") return lang === "hu" ? hungarian(c) : c;
-    return (lang === "hu" ? c.name_hu : c.name_en) || (lang === "hu" ? hungarian(c.name) : c.name);
+    if (typeof c === "string") return lang === "hu" ? hungarian(c) : english(c);
+    return (lang === "hu" ? c.name_hu : english(c.name_en)) || (lang === "hu" ? hungarian(c.name) : english(c.name));
   }, [lang]);
   const label = useCallback((value) => lang === "hu" ? hungarian(value) : english(value), [lang]);
   const toggle = () => setLang((l) => (l === "hu" ? "en" : "hu"));

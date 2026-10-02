@@ -50,15 +50,15 @@ export default function ProductDetail() {
       </Link>
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
         <div>
-          <div className="bg-[#24221E] aspect-[4/5] overflow-hidden border border-[#3d3835]">
-            <SmartImage eager src={gallery[active]?.url} alt={gallery[active]?.alt || name} className="w-full h-full object-cover" data-testid="pd-main-image" />
+          <div className="bg-[#24221E] overflow-hidden border border-[#3d3835]">
+            <SmartImage eager src={gallery[active]?.url} alt={gallery[active]?.alt || name} className="block w-full h-auto max-h-[80vh] object-contain" data-testid="pd-main-image" />
           </div>
           {gallery.length > 1 && (
             <div className="mt-3 grid grid-cols-5 gap-2">
               {gallery.map((g, i) => (
                 <button key={i} onClick={() => setActive(i)} aria-label={`${name} ${i + 1}`} aria-pressed={active === i} data-testid={`pd-thumb-${i}`}
                   className={`aspect-square overflow-hidden border focus-ring ${active === i ? "border-[#D4AF6E]" : "border-[#3d3835]"}`}>
-                  <SmartImage src={g.url} alt={g.alt || name} className="w-full h-full object-cover" />
+                  <SmartImage src={g.url} alt={g.alt || name} className="w-full h-full object-contain" />
                 </button>
               ))}
             </div>

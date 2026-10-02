@@ -98,7 +98,7 @@ export default function ProductEditor({ product, categories, onClose, onSaved })
               <div className="flex flex-wrap gap-3">
                 {(p.images || []).map((g, i) => (
                   <div key={i} className="w-28 space-y-1" data-testid={`pe-gallery-${i}`}>
-                    <div className="w-28 h-28 bg-[#1A1917] border border-[#3d3835] overflow-hidden"><img src={g.url} alt={g.alt || ""} className="w-full h-full object-cover" /></div>
+                    <div className="w-28 h-28 bg-[#1A1917] border border-[#3d3835] overflow-hidden"><img src={g.url} alt={g.alt || ""} className="w-full h-full object-contain" /></div>
                     <input value={g.alt || ""} onChange={(e) => setP({ ...p, images: p.images.map((x, j) => (j === i ? { ...x, alt: e.target.value } : x)) })} placeholder={a("alt")} aria-label={a("alt")} className="admin-input !py-1 text-xs" />
                     <button type="button" onClick={() => setP({ ...p, images: p.images.filter((_, j) => j !== i) })} className="text-xs text-[#B0413E] underline focus-ring">{a("removeImage")}</button>
                   </div>

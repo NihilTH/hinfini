@@ -84,7 +84,7 @@ export function MediaGrid({ onSelect, selectable = false }) {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6" data-testid="media-grid">
           {items.map((m) => (
             <div key={m.media_id} className="admin-card p-2 flex flex-col gap-2" data-testid={`media-${m.media_id}`}>
-              <div className="aspect-square bg-[#1A1917] overflow-hidden"><SmartImage src={m.url} alt={m.alt || m.filename} className="w-full h-full object-cover" /></div>
+              <div className="aspect-square bg-[#1A1917] overflow-hidden"><SmartImage src={m.url} alt={m.alt || m.filename} className="w-full h-full object-contain" /></div>
               <input value={editAlt[m.media_id] ?? m.alt ?? ""} onChange={(e) => setEditAlt({ ...editAlt, [m.media_id]: e.target.value })} onBlur={() => (editAlt[m.media_id] !== undefined && editAlt[m.media_id] !== m.alt) && saveAlt(m)} placeholder={a("alt")} aria-label={a("alt")} className="admin-input !py-1 text-xs" data-testid={`media-alt-${m.media_id}`} />
               <div className="flex items-center justify-between gap-1 text-[10px] text-[#8a826f]"><span className="truncate">{m.filename}</span><span>{Math.round(m.size / 1024)} KB</span></div>
               <div className="flex gap-2">
@@ -112,7 +112,7 @@ export function ImageField({ label, value, alt, onChange, testId }) {
     <div data-testid={testId}>
       <span className="admin-label">{label}</span>
       <div className="flex gap-3 items-start">
-        <div className="w-24 h-24 bg-[#1A1917] border border-[#3d3835] shrink-0 overflow-hidden">{value ? <SmartImage src={value} alt={alt || ""} className="w-full h-full object-cover" /> : null}</div>
+        <div className="w-24 h-24 bg-[#1A1917] border border-[#3d3835] shrink-0 overflow-hidden">{value ? <SmartImage src={value} alt={alt || ""} className="w-full h-full object-contain" /> : null}</div>
         <div className="flex-1 space-y-2">
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={() => setOpen(true)} className="btn-outline !py-1.5 !px-4 text-xs focus-ring" data-testid={`${testId}-pick`}>{a("pickImage")}</button>

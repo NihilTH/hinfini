@@ -164,6 +164,20 @@ try {
  for(const p of movable) {const x=movedProducts.find(x=>x.product_id===p.product_id);assert.equal(x.category,target);assert.equal(x.status,p.status);assert.equal(x.stock,7);assert.equal(x.price,2500);}
  await ok('POST','/admin/categories',{name:source,name_hu:source},true);
  await ok('DELETE','/admin/categories/'+source,{},true);checks++;
+ // English import is authenticated, repeatable, source-matched and non-destructive.
+ assert.equal((await request('POST','/admin/catalog/english-20261002',{})).status,401);
+ const englishSource={slug:'english-'+tag,name:'Sütőtök erdő',description:'Az ősz illata egyetlen kis gyertyába zárva.',category:cats[0].name,price:3210,stock:8,image:'https://example.test/keep.jpg',attributes:[{key:'wax',label:'Viasz',value:'100% szójaviasz',enabled:true}]};
+ const ep=await ok('POST','/admin/products',englishSource,true);
+ const view=await ok('GET','/products/'+ep.slug);assert.equal(view.name_en,'Pumpkin Forest');assert.equal(view.attributes[0].value_en,'100% soy wax');
+ await ok('POST','/admin/catalog/english-20261002',{},true);
+ let savedEnglish=(await ok('GET','/admin/products',undefined,true)).find(x=>x.product_id===ep.product_id);
+ assert.equal(savedEnglish.name_en,'Pumpkin Forest');assert.equal(savedEnglish.description_en,'The scent of autumn captured in a single little candle.');
+ for(const key of ['name','description','price','stock','image','category']) assert.equal(savedEnglish[key],englishSource[key]);
+ await ok('PUT','/admin/products/'+ep.product_id,{...savedEnglish,name_en:'My later English name',description:'Utólag szerkesztett magyar szöveg',description_en:''},true);
+ await ok('POST','/admin/catalog/english-20261002',{},true);
+ savedEnglish=(await ok('GET','/admin/products',undefined,true)).find(x=>x.product_id===ep.product_id);
+ assert.equal(savedEnglish.name_en,'My later English name');assert.equal(savedEnglish.description_en,'');
+ const englishRepeat=await ok('POST','/admin/catalog/english-20261002',{},true);assert.equal(englishRepeat.products,0);assert.equal(englishRepeat.categories,0);checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

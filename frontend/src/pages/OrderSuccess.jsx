@@ -10,7 +10,7 @@ export default function OrderSuccess() {
   const [params] = useSearchParams();
   const [order, setOrder] = useState(null);
   const [missing, setMissing] = useState(false);
-  const { t, tr } = useLang();
+  const { t, tr, label } = useLang();
 
   useEffect(() => {
     const r = params.get("r"), s = params.get("s");
@@ -47,10 +47,10 @@ export default function OrderSuccess() {
           </div>
           <div className="mt-10 text-left bg-[#24221E] border border-[#3d3835] p-6">
             <div className="overline mb-3">{t("order.summary")}</div>
-            {order.items.map((i) => (<div key={JSON.stringify([i.product_id, i.color || ""])} className="flex justify-between text-sm py-1"><span>{tr(i, "name")}{i.color ? ` · ${i.color}` : ""} × {i.quantity}</span><span>{formatPrice(i.line_total)}</span></div>))}
+            {order.items.map((i) => (<div key={JSON.stringify([i.product_id, i.color || ""])} className="flex justify-between text-sm py-1"><span>{tr(i, "name")}{i.color ? ` · ${label(i.color)}` : ""} × {i.quantity}</span><span>{formatPrice(i.line_total)}</span></div>))}
             <div className="mt-3 pt-3 border-t border-[#3d3835] space-y-1 text-sm text-[#B8AE95]">
               <div className="flex justify-between"><span>{t("cart.subtotal")}</span><span>{formatPrice(order.subtotal)}</span></div>
-              {order.discount>0&&<div className="flex justify-between"><span>Kuponkedvezmény</span><span>−{formatPrice(order.discount)}</span></div>}
+              {order.discount>0&&<div className="flex justify-between"><span>{t("co.discount")}</span><span>−{formatPrice(order.discount)}</span></div>}
               <div className="flex justify-between"><span>{t("cart.shipping")}</span><span>{order.shipping === 0 ? t("cart.free") : formatPrice(order.shipping)}</span></div>
             </div>
             <div className="mt-3 pt-3 border-t border-[#3d3835] flex justify-between font-serif-display text-xl"><span>{t("cart.total")}</span><span className="text-[#D4AF6E]" data-testid="order-total">{formatPrice(order.total)}</span></div>

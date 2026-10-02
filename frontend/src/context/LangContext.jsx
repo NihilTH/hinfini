@@ -2,10 +2,13 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 
 import { hungarian } from "@/lib/hungarian";
 
+import { english } from "@/lib/english";
+
 const LangContext = createContext(null);
 const KEY = "hi_lang";
 
 const HU = {
+"co.coupon": "Kuponkód","co.redeem": "Beváltás","co.validCoupon": "Érvényes kupon","co.discount": "Kuponkedvezmény","co.couponError": "A kupon nem érvényes vagy most nem ellenőrizhető.",
   "nav.home": "Főoldal", "nav.about": "Bemutatkozás", "nav.custom": "Egyedi gyertyák", "nav.events": "Események", "nav.contact": "Elérhetőségek",
   "nav.shop": "Termékek", "nav.candles": "Gyertyák", "nav.fragrances": "Illatok", "nav.tools": "Eszközök",
    "nav.discover": "Felfedezés", "nav.admin": "Kezelőfelület", "nav.cart": "Kosár",
@@ -76,25 +79,26 @@ const HU = {
 };
 
 const EN = {
+"co.coupon": "Coupon code","co.redeem": "Apply","co.validCoupon": "Valid coupon","co.discount": "Coupon discount","co.couponError": "The coupon is invalid or could not be checked right now.",
   "nav.home": "Home", "nav.about": "About us", "nav.custom": "Custom candles", "nav.events": "Events", "nav.contact": "Contact",
-  "nav.shop": "Shop", "nav.candles": "Candles", "nav.fragrances": "Fragrances", "nav.tools": "Tools",
-   "nav.discover": "Discover", "nav.admin": "Kezelőfelület", "nav.cart": "Cart",
+  "nav.shop": "Products", "nav.candles": "Candles", "nav.fragrances": "Fragrances", "nav.tools": "Tools",
+   "nav.discover": "Discover", "nav.admin": "Admin panel", "nav.cart": "Cart",
   "nav.menu": "Menu", "nav.close": "Close", "nav.search": "Search", "nav.lang": "Language",
   "banner": "FREE SHIPPING OVER 25,000 FT — HAND-POURED IN SMALL BATCHES",
   "hero.overline": "Small batch · Est. 2026", "hero.title1": "The infinite", "hero.title2": "craft of candle making.",
   "hero.desc": "Hand-poured candles, carefully composed scents and personalised creations for your home, gifts and special occasions.",
   "hero.shop": "Shop the collection",
   "brand.overline": "About H'INFINI", "brand.title": "Infinite patience, poured by hand.",
-  "brand.p1": "H'INFINI is a small studio where a candle is not a mass product but slow, attentive craft. We pour every piece and tune every scent ourselves.",
+  "brand.p1": "H'INFINI is a small studio where candles are crafted slowly and thoughtfully, rather than mass-produced. We pour every candle and carefully blend every fragrance ourselves.",
   "brand.p2": "Alongside our ready-made candles, we bring personal ideas to life with your choice of scent, container, text or image.",
-  "brand.who": "Who it's for", "brand.whoDesc": "For thoughtful homes, meaningful gifts and people who love personal details.",
+  "brand.who": "Who it's for", "brand.whoDesc": "For anyone decorating their home, looking for a gift or appreciating personal touches.",
   "brand.what": "What we offer", "brand.whatDesc": "Candles, wax melts, shaped candles, table decorations and custom creations.",
   "brand.why": "What makes it special", "brand.whyDesc": "Small batches, hand pouring and personalised details.",
   "featured.overline": "Featured", "featured.title": "Our favourites", "featured.all": "All products",
   "cats.overline": "Categories", "cats.title": "Find your favourite piece.", "cats.desc": "Ready-made candles and decorations for your home or as gifts.",
 
 
-  "tile.add": "Add to cart", "tile.soldOut": "Sold out", "tile.low": "Last pieces",
+  "tile.add": "Add to cart", "tile.soldOut": "Sold out", "tile.low": "Last few available",
   "stock.in": "In stock", "stock.low": "Low stock", "stock.out": "Sold out",
   "shop.title": "Products", "shop.all": "All", "shop.search": "Search products...", "shop.searchBtn": "Search",
   "shop.empty": "No products found.", "shop.sort": "Sort", "shop.sort.recommended": "Recommended", "shop.sort.price_asc": "Price: low to high",
@@ -104,7 +108,7 @@ const EN = {
   "pd.desc": "Description", "pd.related": "Related products", "pd.add": "Add to cart", "pd.qty": "Quantity", "pd.notFound": "Product not found.",
   "pd.details": "Details", "pd.tags": "Tags",
   "cart.overline": "Your cart", "cart.emptyTitle": "Your cart is empty.", "cart.emptyDesc": "Choose a candle or decoration from our products.",
-  "cart.browse": "Browse the shop", "cart.ready": "Your selected products", "cart.subtotal": "Subtotal", "cart.shipping": "Shipping",
+  "cart.browse": "Browse products", "cart.ready": "Your selected products", "cart.subtotal": "Subtotal", "cart.shipping": "Shipping",
   "cart.free": "Free", "cart.total": "Total", "cart.freeMsg": "Add {n} Ft more for free shipping.",
   "cart.checkout": "Proceed to checkout", "cart.remove": "Remove", "cart.qty": "Quantity", "cart.items": "Items", "cart.added": "added to cart",
   "cart.soldOut": "This product is sold out.", "cart.maxStock": "Only {n} available.", "cart.dec": "Less", "cart.inc": "More",
@@ -126,11 +130,11 @@ const EN = {
   "order.failed": "Payment not completed", "order.failedDesc": "The payment was cancelled or failed. Your order is still recorded — contact us and we'll help.",
   "order.summary": "Summary", "order.continue": "Continue shopping", "order.status": "Status", "order.payment": "Payment",
   "order.pay.UNPAID": "Awaiting payment", "order.pay.PAID": "Paid", "order.pay.FAILED": "Failed", "order.pay.RESERVED": "Recorded without payment",
-  "order.notFound": "Order not found.", "order.ship": "Shipping method", "order.emailSent": "An order confirmation has been emailed to you.",
+  "order.notFound": "Order not found.", "order.ship": "Shipping method", "order.emailSent": "We’ll send an order confirmation to the email address you provided.",
 
 
   "disc.overline": "Discover", "disc.title": "Browse the whole catalogue.", "disc.desc": "Random order, every product appears.", "disc.shuffle": "Shuffle again",
-  "footer.tagline": "Hand-poured candles and personalised gifts.", "footer.shop": "Shop",  "footer.info": "Information",
+  "footer.tagline": "Hand-poured candles and personalised gifts.", "footer.shop": "Products",  "footer.info": "Information",
   "footer.notes": "Notes from the studio", "footer.notesDesc": "New products, events and special offers.", "footer.join": "Subscribe",
   "footer.consent": "I agree to receive the newsletter at this email address. I can unsubscribe anytime.", "footer.emailPh": "your email",
   "footer.subscribed": "Thank you, you're subscribed!", "footer.already": "This email is already subscribed.", "footer.consentReq": "Please give consent to subscribe.",
@@ -165,7 +169,7 @@ export const LangProvider = ({ children }) => {
     if (typeof c === "string") return lang === "hu" ? hungarian(c) : c;
     return (lang === "hu" ? c.name_hu : c.name_en) || (lang === "hu" ? hungarian(c.name) : c.name);
   }, [lang]);
-  const label = useCallback((value) => lang === "hu" ? hungarian(value) : value, [lang]);
+  const label = useCallback((value) => lang === "hu" ? hungarian(value) : english(value), [lang]);
   const toggle = () => setLang((l) => (l === "hu" ? "en" : "hu"));
   return <LangContext.Provider value={{ lang, t, tr, catName, label, toggle, setLang }}>{children}</LangContext.Provider>;
 };

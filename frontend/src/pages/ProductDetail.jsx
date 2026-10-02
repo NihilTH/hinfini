@@ -82,7 +82,7 @@ export default function ProductDetail() {
             <label htmlFor="pd-color" className="overline block mb-3">{lang === "en" ? "Colour" : "Szín"}</label>
             <select id="pd-color" className="admin-input" value={color} onChange={e => setColor(e.target.value)} required>
               <option value="">{lang === "en" ? "Choose a colour" : "Válassz színt"}</option>
-              {product.color_options.map(c => <option key={c} value={c}>{c}</option>)}
+              {product.color_options.map(c => <option key={c} value={c}>{label(c)}</option>)}
             </select>
           </div>}
           <div className="mt-10 flex items-center gap-6 flex-wrap">
@@ -98,7 +98,7 @@ export default function ProductDetail() {
 
           <div className="mt-10 grid sm:grid-cols-2 gap-4 text-sm">
             <div className="border border-[#3d3835] p-4 flex gap-3"><Truck size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.shipping")}</div><p className="text-[#B8AE95] leading-relaxed">{t("pd.shippingDesc")}</p></div></div>
-            <div className="border border-[#3d3835] p-4 flex gap-3"><Package size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.stock")}</div><p className="text-[#B8AE95]">{t(`stock.${product.stock_state}`)}{product.stock_state !== "out" ? ` · ${product.stock} db` : ""}</p></div></div>
+            <div className="border border-[#3d3835] p-4 flex gap-3"><Package size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.stock")}</div><p className="text-[#B8AE95]">{t(`stock.${product.stock_state}`)}{product.stock_state !== "out" ? ` · ${product.stock} ${lang === "en" ? "available" : "db"}` : ""}</p></div></div>
           </div>
 
           {((tr(product, "long_description") && tr(product, "description")) || (product.tags || []).length > 0) && (

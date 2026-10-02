@@ -74,9 +74,9 @@ export default function Layout({ children }) {
       <Sheet open={open} onOpenChange={setOpen}>
       <header className="sticky top-0 z-40 bg-[#1A1917]/95 backdrop-blur border-b border-[#3d3835]">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 min-h-20 py-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-5">
-          <Link to="/" data-testid="brand-logo" className="focus-ring rounded-full min-w-0 [&_img]:h-9 [&_img]:w-9 [&_span.font-serif-display]:text-xl" aria-label="H'INFINI – kezdőlap"><Logo /></Link>
+          <Link to="/" data-testid="brand-logo" className="focus-ring rounded-full min-w-0 [&_img]:h-9 [&_img]:w-9 [&_span.font-serif-display]:text-xl" aria-label={`H'INFINI – ${t("nav.home")}`}><Logo /></Link>
 
-          <nav className="hidden lg:flex order-last w-full items-center justify-between gap-x-6 gap-y-3 flex-wrap text-lg xl:text-xl" aria-label="Fő navigáció">
+          <nav className="hidden lg:flex order-last w-full items-center justify-between gap-x-6 gap-y-3 flex-wrap text-lg xl:text-xl" aria-label={lang === "en" ? "Main navigation" : "Fő navigáció"}>
             {NAV.map((n) => (
               <div key={n.id}>{n.id === "shop" ? <ShopMenu /> : <NavLink end={n.to === "/"} to={n.to} data-testid={`nav-${n.id}`} className="nav-link link-underline whitespace-nowrap py-2 focus-ring">{n.label}</NavLink>}</div>
             ))}

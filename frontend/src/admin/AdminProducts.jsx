@@ -4,12 +4,25 @@ import { PencilSimple, Archive, Plus, Star } from "@phosphor-icons/react";
 import { adminApi, useA, errText } from "@/admin/adminApi";
 import { Confirm, Badge } from "@/admin/ui";
 import ProductEditor, { emptyProduct } from "@/admin/ProductEditor";
-import { formatPrice } from "@/context/LangContext";
+import { formatPrice, useLang } from "@/context/LangContext";
 import { productSaveError } from "@/admin/productErrors";
 import SmartImage from "@/components/SmartImage";
 
 export default function AdminProducts({ categories, onChanged }) {
   const a = useA();
+  const { lang } = useLang();
+  const [translating, setTranslating] = useState(false);
+  const [translationMessage, setTranslationMessage] = useState("");
+  const importEnglish = async () => {
+    if (translating) return;
+    setTranslating(true); setTranslationMessage("");
+    try {
+      const { data } = await adminApi.importEnglish();
+      setTranslationMessage(lang === "en" ? `Translations saved: ${data.products} products, ${data.categories} categories. Other records are unchanged.` : `Fordítások mentve: ${data.products} termék, ${data.categories} kategória. A többi rekord változatlan.`);
+      load(); onChanged?.();
+    } catch(e) { setTranslationMessage(errText(e, a)); }
+    finally { setTranslating(false); }
+  };
   const [importing, setImporting] = useState(false);
   const [importMessage, setImportMessage] = useState("");
   const importCatalog = async () => {
@@ -57,6 +70,11 @@ export default function AdminProducts({ categories, onChanged }) {
 
   return (
     <div data-testid="admin-products">
+      <div className="admin-card p-4 mb-5 space-y-3">
+        <p className="text-sm text-[#B8AE95]">{lang === "en" ? "Save the reviewed English translations of the 19 current products and their categories. Only matching Hungarian source text is translated; prices, stock, images and Hungarian text stay unchanged. Later custom English edits are preserved." : "A 19 jelenlegi termék és kategóriáik ellenőrzött angol fordításának mentése. Csak az egyező magyar forrásszövegek fordítása kerül be; az ár, készlet, képek és magyar szövegek megmaradnak. A később egyedileg szerkesztett angol mezőket nem írja felül."}</p>
+        <button className="btn-outline disabled:opacity-50" disabled={translating} onClick={importEnglish}>{translating ? (lang === "en" ? "Saving…" : "Mentés…") : (lang === "en" ? "Save English translations" : "Angol fordítások betöltése")}</button>
+        {translationMessage && <p role="status">{translationMessage}</p>}
+      </div>
       <div className="admin-card p-4 mb-5 space-y-3">
         <p className="text-sm text-[#B8AE95]">A 2026. szeptember 20-án küldött terméklista 19 terméke, a dokumentum kategóriáival. Az új termékek piszkozatként kerülnek be. Meglévő URL-azonosítónál a magyar leírások és termékadatok frissülnek, az ár, készlet és képek megmaradnak. Az ismételt import nem írja felül a későbbi szerkesztéseidet.</p>
         <button type="button" disabled={importing} onClick={importCatalog} className="btn-outline disabled:opacity-50">{importing ? "Importálás…" : "Dokumentum 19 termékének importálása"}</button>

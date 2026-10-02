@@ -12,14 +12,14 @@ const input = "w-full bg-transparent border border-[#3d3835] px-4 py-3 rounded-s
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart();
-  const { t, tr, lang } = useLang();
+  const { t, tr, lang, label } = useLang();
   const { shippingFee, config } = useCatalog();
   const nav = useNavigate();
   const [coupon,setCoupon]=useState(''),[couponResult,setCouponResult]=useState(null),[couponError,setCouponError]=useState(''),[couponBusy,setCouponBusy]=useState(false);
   useEffect(()=>{setCouponResult(null);},[items]);
-  const applyCoupon=async()=>{setCouponBusy(true);setCouponResult(null);setCouponError('');try{const {data}=await api.post('/coupons/validate',{code:coupon,items:items.map(i=>({product_id:i.product_id,quantity:i.quantity}))});setCouponResult(data);}catch(e){setCouponError(e.response?.data?.detail||'A kupon nem ellenőrizhető.');}finally{setCouponBusy(false);}};
+  const applyCoupon=async()=>{setCouponBusy(true);setCouponResult(null);setCouponError('');try{const {data}=await api.post('/coupons/validate',{code:coupon,items:items.map(i=>({product_id:i.product_id,quantity:i.quantity}))});setCouponResult(data);}catch(e){setCouponError(lang === 'en' ? t('co.couponError') : (e.response?.data?.detail||t('co.couponError')));}finally{setCouponBusy(false);}};
   const [busy, setBusy] = useState(false);
-  const [form, setForm] = useState({ full_name: "", email: "", phone: "", address: "", city: "", postal_code: "", country: "Magyarország", notes: "" });
+  const [form, setForm] = useState({ full_name: "", email: "", phone: "", address: "", city: "", postal_code: "", country: lang === "en" ? "Hungary" : "Magyarország", notes: "" });
   const [shipMethod] = useState("home");
   const [terms, setTerms] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
@@ -29,12 +29,12 @@ export default function Checkout() {
 
   const errorMsg = (detail) => {
     if (!detail || typeof detail !== "string") return t("co.failed");
-    if (detail.startsWith("out_of_stock:")) return t("co.outOfStock", { name: detail.split(":")[1] });
+    if (detail.startsWith("out_of_stock:")) return t("co.outOfStock", { name: (() => { const name = detail.slice("out_of_stock:".length); const item = items.find(i => i.name === name || i.product_id === name); return item ? tr(item, "name") : name; })() });
     if (detail.startsWith("unavailable:")) return t("co.unavailable");
     if (detail === "invalid_color") return lang === "en" ? "A selected colour is no longer available. Remove that item from the cart and choose a colour on its product page." : "Egy terméknél hiányzik vagy már nem elérhető a kiválasztott szín. Töröld a kosárból, majd a termékoldalon válassz színt és tedd vissza.";
     if (detail === "terms_required") return t("co.termsReq");
     if (detail === "cart_empty") return t("co.emptyCart");
-    if (detail.includes("kupon")) return detail;
+    if (detail.includes("kupon")) return lang === "en" ? t("co.couponError") : detail;
     return t("co.failed");
   };
 
@@ -118,18 +118,18 @@ export default function Checkout() {
 
         <aside className="bg-[#24221E] border border-[#3d3835] p-8 h-fit" aria-label={t("co.summary")}>
           <div className="overline mb-4">{t("co.summary")}</div>
-          <div className="mb-6"><label htmlFor="coupon-code" className="block mb-2">Kuponkód</label><div className="flex gap-2"><input id="coupon-code" className="admin-input min-w-0" maxLength={40} value={coupon} onChange={e=>{setCoupon(e.target.value);setCouponResult(null);setCouponError('');}}/><button type="button" className="btn-outline !px-3" disabled={couponBusy||!coupon.trim()} onClick={applyCoupon}>{couponBusy?'…':'Beváltás'}</button></div>{couponError&&<p role="alert" className="text-red-300 mt-2">{couponError}</p>}{couponResult&&<p role="status" className="text-[#D4AF6E] mt-2">Érvényes kupon: −{formatPrice(couponResult.discount)}</p>}</div>
+          <div className="mb-6"><label htmlFor="coupon-code" className="block mb-2">{t("co.coupon")}</label><div className="flex gap-2"><input id="coupon-code" className="admin-input min-w-0" maxLength={40} value={coupon} onChange={e=>{setCoupon(e.target.value);setCouponResult(null);setCouponError('');}}/><button type="button" className="btn-outline !px-3" disabled={couponBusy||!coupon.trim()} onClick={applyCoupon}>{couponBusy?'…':t('co.redeem')}</button></div>{couponError&&<p role="alert" className="text-red-300 mt-2">{couponError}</p>}{couponResult&&<p role="status" className="text-[#D4AF6E] mt-2">{t("co.validCoupon")}: −{formatPrice(couponResult.discount)}</p>}</div>
           <table className="w-full text-sm" data-testid="co-items">
             <thead className="sr-only"><tr><th>{t("co.item")}</th><th>{t("co.quantity")}</th><th>{t("cart.total")}</th></tr></thead>
             <tbody>
               {items.map((i) => (
-                <tr key={JSON.stringify([i.product_id, i.color || ""])} className="align-top"><td className="py-1.5 pr-2">{tr(i, "name")}{i.color ? ` · ${i.color}` : ""}</td><td className="py-1.5 px-3 text-[#B8AE95] whitespace-nowrap">× {i.quantity}</td><td className="py-1.5 text-right whitespace-nowrap">{formatPrice(i.price * i.quantity)}</td></tr>
+                <tr key={JSON.stringify([i.product_id, i.color || ""])} className="align-top"><td className="py-1.5 pr-2">{tr(i, "name")}{i.color ? ` · ${label(i.color)}` : ""}</td><td className="py-1.5 px-3 text-[#B8AE95] whitespace-nowrap">× {i.quantity}</td><td className="py-1.5 text-right whitespace-nowrap">{formatPrice(i.price * i.quantity)}</td></tr>
               ))}
             </tbody>
           </table>
           <div className="border-t border-[#3d3835] mt-4 pt-4 space-y-2 text-sm">
             <div className="flex justify-between"><span>{t("cart.subtotal")}</span><span data-testid="co-subtotal">{formatPrice(subtotal)}</span></div>
-            {couponResult&&<div className="flex justify-between"><span>Kuponkedvezmény</span><span>−{formatPrice(couponResult.discount)}</span></div>}
+            {couponResult&&<div className="flex justify-between"><span>{t("co.discount")}</span><span>−{formatPrice(couponResult.discount)}</span></div>}
             <div className="flex justify-between"><span>{t("cart.shipping")}</span><span data-testid="co-shipping">{shipping === 0 ? t("cart.free") : formatPrice(shipping)}</span></div>
             <div className="flex justify-between font-serif-display text-xl pt-2 border-t border-[#3d3835]"><span>{t("cart.total")}</span><span data-testid="co-total" className="text-[#D4AF6E]">{formatPrice(total)}</span></div>
           </div>

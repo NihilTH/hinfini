@@ -8,7 +8,7 @@ import Seo from "@/components/Seo";
 
 export default function Cart() {
   const { items, updateQty, remove, subtotal } = useCart();
-  const { t, tr } = useLang();
+  const { t, tr, label } = useLang();
   const { shippingFee, config } = useCatalog();
 
   if (items.length === 0) {
@@ -34,7 +34,7 @@ export default function Cart() {
             <div key={cartLineKey(i)} data-testid={`cart-item-${i.product_id}`} className="py-6 flex flex-wrap sm:flex-nowrap gap-5 items-center">
               <Link to={`/shop/${i.slug}`} className="w-24 h-28 bg-[#24221E] overflow-hidden shrink-0 border border-[#3d3835] focus-ring"><SmartImage src={i.image} alt={i.image_alt || tr(i, "name")} className="w-full h-full object-contain" /></Link>
               <div className="flex-1 min-w-[140px]">
-                <Link to={`/shop/${i.slug}`} className="font-serif-display text-xl link-underline focus-ring">{tr(i, "name")}{i.color ? ` · ${i.color}` : ""}</Link>
+                <Link to={`/shop/${i.slug}`} className="font-serif-display text-xl link-underline focus-ring">{tr(i, "name")}{i.color ? ` · ${label(i.color)}` : ""}</Link>
                 <div className="text-xs text-[#B8AE95] mt-1">{tr(i, "unit")}</div>
                 <div className="text-sm mt-2 text-[#D4AF6E]">{formatPrice(i.price)}</div>
               </div>

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/english.php';
 function public_product(array $p, bool $admin=false): array {
+    if (!$admin) $p=english_product($p);
     if (!$admin) $p['attributes']=array_values(array_filter($p['attributes']??[],fn($a)=>($a['enabled']??false)===true));
     $stock=(int)($p['stock']??0); $p['stock_state']=$stock<=0?'out':($stock<=(int)cfg('LOW_STOCK_THRESHOLD',5)?'low':'in'); return $p;
 }
@@ -53,13 +55,14 @@ function category_input(array $b): array {
 function category_list(bool $admin=false): array {
     $cats=rows('categories',$admin?'1':'active=1',[],'sort_order ASC');
     foreach($cats as &$c) $c['count']=(int)sql('SELECT COUNT(*) FROM products WHERE category=? AND status '.($admin?"IN ('published','draft','hidden','archived')":"= 'published'"),[$c['name']])->fetchColumn();
-    return $cats;
+    return $admin ? $cats : array_map('english_category',$cats);
 }
 function products_list(): array {
     $where="status='published'"; $args=[];
     if (!empty($_GET['category'])) { $where.=' AND category=?'; $args[]=(string)$_GET['category']; }
     if (isset($_GET['featured'])) { $v=filter_var($_GET['featured'],FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE); if($v===null) fail(422,'invalid_featured'); $where.=' AND featured=?'; $args[]=(int)$v; }
     $items=rows('products',$where,$args);
+    $items=array_map('english_product',$items);
     if (!empty($_GET['q'])) { $q=mb_strtolower((string)$_GET['q']); $items=array_values(array_filter($items,fn($p)=>str_contains(mb_strtolower(implode(' ',[$p['name'],$p['name_en']??'',$p['description']??'',implode(' ',$p['tags']??[])])),$q))); }
     usort($items,fn($a,$b)=>match($_GET['sort']??'recommended') {
         'price_asc'=>$a['price']<=>$b['price'], 'price_desc'=>$b['price']<=>$a['price'], 'newest'=>strcmp($b['created_at']??'',$a['created_at']??''),

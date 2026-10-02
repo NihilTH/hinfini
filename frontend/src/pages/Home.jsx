@@ -10,7 +10,7 @@ import { useLang } from "@/context/LangContext";
 import { useCatalog } from "@/context/CatalogContext";
 
 export default function Home() {
-  const { t, tr, catName } = useLang();
+  const { t, tr, catName, lang } = useLang();
   const { categories } = useCatalog();
   const [featured, setFeatured] = useState([]);
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Home() {
           </div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="lg:col-span-6 relative">
             <div className="relative aspect-[4/5] overflow-hidden bg-[#24221E] border border-[#3d3835]">
-              <SmartImage eager src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?w=1200&q=80" alt="Kézzel öntött H'INFINI gyertya meleg fényben" className="w-full h-full object-cover opacity-90" />
+              <SmartImage eager src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?w=1200&q=80" alt={lang === "en" ? "Hand-poured H'INFINI candle in warm light" : "Kézzel öntött H'INFINI gyertya meleg fényben"} className="w-full h-full object-cover opacity-90" />
             </div>
           </motion.div>
         </div>
@@ -95,7 +95,7 @@ export default function Home() {
             {categories.map((c, i) => (
               <Link key={c.name} to={`/shop?category=${encodeURIComponent(c.name)}`} data-testid={`category-tile-${c.name.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`group relative overflow-hidden bg-[#1A1917] border border-[#3d3835] focus-ring ${i % 5 === 0 ? "row-span-2 aspect-[4/5]" : "aspect-square"}`}>
-                <SmartImage src={c.image || "/hinfini-logo.png"} alt={c.image_alt || catName(c)} className="w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90" />
+                <SmartImage src={c.image || "/hinfini-logo.png"} alt={lang === "en" ? catName(c) : (c.image_alt || catName(c))} className="w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1917] via-[#1A1917]/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <div className="overline text-[#D4AF6E]">{tr(c, "description") || c.tagline}</div>

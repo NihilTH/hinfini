@@ -13,3 +13,14 @@ test('direct product links fall back to their category',()=>{
 test.each(['https://example.com','//example.com','/admin','/shop/other','/shop?x=\\evil'])('rejects unsafe return URL %s',from=>{
  expect(shopReturn({pathname:'/shop/gyertya',search:'?from='+encodeURIComponent(from)})).toBe('/shop');
 });
+
+test('product paging wraps in both directions and respects list order', () => {
+ const { adjacentProducts } = require('./shopNavigation');
+ const products = [{slug:'b'}, {slug:'a'}, {slug:'c'}];
+ expect(adjacentProducts(products, 'b').map(p=>p.slug)).toEqual(['c','a']);
+ expect(adjacentProducts(products, 'c').map(p=>p.slug)).toEqual(['a','b']);
+ expect(adjacentProducts(products, 'a').map(p=>p.slug)).toEqual(['b','c']);
+ expect(adjacentProducts(products, 'missing')).toBeNull();
+ expect(adjacentProducts([{slug:'a'}], 'a')).toBeNull();
+ expect(adjacentProducts([], 'a')).toBeNull();
+});

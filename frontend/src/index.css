@@ -133,3 +133,17 @@ input::placeholder, textarea::placeholder { color: var(--wp-text-2); opacity: 0.
 .badge-gold { border-color: var(--wp-primary); color: var(--wp-primary); }
 .badge-green { border-color: #4f9a6a; color: #7cc79a; }
 .badge-red { border-color: #B0413E; color: #d9736f; }
+
+/* Persistent navigation state and unobtrusive product browsing controls. */
+.nav-link { color: #F0EAD6; }
+.nav-link:hover, .nav-link[aria-current="page"] { color: #D4AF6E; }
+.nav-link[aria-current="page"]::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+.product-pager { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+.product-pager-link { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border: 1px solid #3d3835; border-radius: 999px; color: #D4AF6E; background: #1A1917; font-size: .875rem; transition: background .2s, border-color .2s; }
+.product-pager-link:hover { background: #24221E; border-color: #D4AF6E; }
+@media (min-width: 1700px) {
+  .product-pager { margin: 0; }
+  .product-pager-link { position: fixed; top: 50%; z-index: 30; flex-direction: column; border-radius: 1rem; padding: 1rem .5rem; min-width: 100px; }
+  .product-pager-link.previous { left: 1rem; }
+  .product-pager-link.next { right: 1rem; }
+}

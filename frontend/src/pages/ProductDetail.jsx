@@ -10,6 +10,7 @@ import SmartImage from "@/components/SmartImage";
 import FormattedText, { plainText } from "@/components/FormattedText";
 import ProductAttributes from "@/components/ProductAttributes";
 import { shopReturn } from "@/lib/shopNavigation";
+import ProductPager from "@/components/ProductPager";
 import Seo from "@/components/Seo";
 
 const STOCK_STYLE = { in: "text-emerald-400 border-emerald-400/40", low: "text-[#D4AF6E] border-[#D4AF6E]/50", out: "text-[#B8AE95] border-[#3d3835]" };
@@ -28,8 +29,10 @@ export default function ProductDetail() {
 
   useEffect(() => {
     setColor(""); setProduct(null); setError(false); setQty(1); setActive(0);
-    api.get(`/products/${slug}`).then(({ data }) => setProduct(data)).catch(() => setError(true));
+    let live = true;
+    api.get(`/products/${slug}`).then(({ data }) => { if (live) setProduct(data); }).catch(() => { if (live) setError(true); });
     window.scrollTo({ top: 0 });
+    return () => { live = false; };
   }, [slug]);
 
   if (error) return <div className="max-w-[1400px] mx-auto px-6 py-24 text-center" data-testid="pd-not-found"><p className="text-[#B8AE95]">{t("pd.notFound")}</p><Link to="/shop" className="btn-outline mt-6">{t("nav.shop")}</Link></div>;
@@ -48,6 +51,7 @@ export default function ProductDetail() {
       <Link to={back} data-testid="pd-back-category" className="inline-flex items-center gap-2 text-sm text-[#B8AE95] link-underline mb-8 focus-ring">
         <ArrowLeft size={16} /> {t("pd.back", { cat: !backCategory || backCategory === "All" ? t("shop.all") : catLabel(backCategory) })}
       </Link>
+      <ProductPager product={product} back={back} />
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
         <div>
           <div className="bg-[#24221E] overflow-hidden border border-[#3d3835]">

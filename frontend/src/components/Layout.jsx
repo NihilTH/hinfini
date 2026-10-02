@@ -1,10 +1,12 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, List, X, MagnifyingGlass, Compass } from "@phosphor-icons/react";
 import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LangContext";
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Sheet, SheetTrigger, SheetPortal, SheetOverlay, SheetClose, SheetTitle } from "@/components/ui/sheet";
+import ShopMenu from "@/components/ShopMenu";
+import { useCatalog } from "@/context/CatalogContext";
 import NewsletterForm from "@/components/NewsletterForm";
 
 export const LOGO_URL = "/hinfini-logo.png";
@@ -40,7 +42,8 @@ function LangSwitch({ lang, setLang, t }) {
 
 export default function Layout({ children }) {
   const { count } = useCart();
-  const { t, lang, setLang } = useLang();
+  const { t, lang, setLang, catName } = useLang();
+  const { categories } = useCatalog();
   const [open, setOpen] = useState(false);
   const nav = useNavigate();
   const loc = useLocation();
@@ -75,7 +78,7 @@ export default function Layout({ children }) {
 
           <nav className="hidden lg:flex order-last w-full items-center justify-between gap-x-6 gap-y-3 flex-wrap text-lg xl:text-xl" aria-label="Fő navigáció">
             {NAV.map((n) => (
-              <Link key={n.id} to={n.to} data-testid={`nav-${n.id}`} className="link-underline whitespace-nowrap py-2 text-[#F0EAD6] hover:text-[#D4AF6E] focus-ring">{n.label}</Link>
+              <div key={n.id}>{n.id === "shop" ? <ShopMenu /> : <NavLink end={n.to === "/"} to={n.to} data-testid={`nav-${n.id}`} className="nav-link link-underline whitespace-nowrap py-2 focus-ring">{n.label}</NavLink>}</div>
             ))}
           </nav>
 
@@ -108,7 +111,7 @@ export default function Layout({ children }) {
             <div className="px-6 pt-4 flex"><LangSwitch lang={lang} setLang={setLang} t={t} /></div>
             <nav className="px-6 py-8 flex flex-col gap-1" aria-label={t("nav.menu")}>
               {NAV.map((n) => (
-                <Link key={n.id} to={n.to} onClick={() => setOpen(false)} data-testid={`mobile-nav-${n.id}`} className="font-serif-display text-3xl py-3 border-b border-[#3d3835] text-[#F0EAD6] hover:text-[#D4AF6E] focus-ring">{n.label}</Link>
+                <div key={n.id}><NavLink end={n.to === "/"} to={n.to} onClick={() => setOpen(false)} data-testid={`mobile-nav-${n.id}`} className="nav-link link-underline font-serif-display text-3xl py-3 focus-ring">{n.label}</NavLink>{n.id === "shop" && <details className="mb-3 text-sm text-[#B8AE95]"><summary className="cursor-pointer py-2 focus-ring">{t("shop.filters")}</summary><div className="pl-3 border-l border-[#D4AF6E]/40">{categories.map(c => <Link key={c.name} to={`/shop?category=${encodeURIComponent(c.name)}`} onClick={() => setOpen(false)} className="block py-2 hover:text-[#D4AF6E] focus-ring">{catName(c)}</Link>)}</div></details>}</div>
               ))}
               <Link to="/shop?focus=1" onClick={() => setOpen(false)} data-testid="mobile-nav-search" className="py-3 border-b border-[#3d3835] text-sm uppercase tracking-widest text-[#B8AE95] flex items-center gap-2 focus-ring"><MagnifyingGlass size={16} /> {t("nav.search")}</Link>
               <Link to="/cart" onClick={() => setOpen(false)} data-testid="mobile-nav-cart" className="py-3 border-b border-[#3d3835] text-sm uppercase tracking-widest text-[#B8AE95] flex items-center gap-2 focus-ring"><ShoppingBag size={16} /> {t("nav.cart")} ({count})</Link>

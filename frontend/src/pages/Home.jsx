@@ -42,7 +42,7 @@ export default function Home() {
           </div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="lg:col-span-6 relative">
             <div className="relative aspect-[4/5] overflow-hidden bg-[#24221E] border border-[#3d3835]">
-              <SmartImage eager src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?w=1200&q=80" alt={lang === "en" ? "Hand-poured H'INFINI candle in warm light" : "Kézzel öntött H'INFINI gyertya meleg fényben"} className="w-full h-full object-cover opacity-90" />
+              <SmartImage eager src="/hero-candle-pouring.webp" alt={lang === "en" ? "Candle pouring into a black and gold glass container" : "Gyertyaöntés fekete-arany üvegtégelybe"} className="w-full h-full object-cover opacity-90" />
             </div>
           </motion.div>
         </div>

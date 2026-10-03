@@ -12,6 +12,8 @@ import { useCatalog } from "@/context/CatalogContext";
 export default function Home() {
   const { t, tr, catName, lang } = useLang();
   const { categories } = useCatalog();
+  const [homepage, setHomepage] = useState(null);
+  useEffect(() => { let live = true; api.get("/homepage").then(({data}) => { if (live) setHomepage(data); }).catch(() => {}); return () => { live = false; }; }, []);
   const [featured, setFeatured] = useState([]);
   useEffect(() => {
     api.get("/products", { params: { featured: true } }).then(({ data }) => setFeatured(data.slice(0, 6))).catch(() => {});
@@ -42,7 +44,7 @@ export default function Home() {
           </div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="lg:col-span-6 relative">
             <div className="relative aspect-[4/5] overflow-hidden bg-[#24221E] border border-[#3d3835]">
-              <SmartImage eager src="/hero-candle-pouring.webp" alt={lang === "en" ? "Candle pouring into a black and gold glass container" : "Gyertyaöntés fekete-arany üvegtégelybe"} className="w-full h-full object-cover opacity-90" />
+              <SmartImage key={homepage?.image || "/hero-candle-pouring.webp"} eager src={homepage?.image || "/hero-candle-pouring.webp"} alt={homepage ? (lang === "en" ? homepage.alt_en : homepage.alt) : (lang === "en" ? "Candle pouring into a black and gold glass container" : "Gyertyaöntés fekete-arany üvegtégelybe")} className="w-full h-full object-contain opacity-90" />
             </div>
           </motion.div>
         </div>

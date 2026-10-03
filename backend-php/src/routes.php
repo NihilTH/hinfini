@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/homepage.php';
 function route(string $method,string $path,array $b): mixed {
     $admin=str_starts_with($path,'/admin/'); if($admin) admin_auth();
     $studio=studio_route($method,$path,$b);if($studio!==null)return $studio;
@@ -7,6 +8,8 @@ function route(string $method,string $path,array $b): mixed {
     if($method==='GET'&&$path==='/config') return ['free_shipping_from'=>(int)cfg('FREE_SHIPPING_FROM',25000),'shipping_home'=>(int)cfg('SHIPPING_FEE_HOME',1990),
         'shipping_pickup'=>(int)cfg('SHIPPING_FEE_PICKUP',1290),'payment_mode'=>str_contains((string)cfg('SIMPLEPAY_BASE_URL','https://sandbox.simplepay.hu/payment/v2'),'sandbox')?'sandbox':'live','support_email'=>cfg('SUPPORT_EMAIL')];
     if($method==='GET'&&str_starts_with($path,'/uploads/')) serve_upload(substr($path,9));
+    if($method==='GET'&&in_array($path,['/homepage','/admin/homepage'],true)) return homepage_settings();
+    if($method==='PUT'&&$path==='/admin/homepage') return homepage_save($b);
     if($method==='GET'&&$path==='/products') return products_list();
     if($method==='GET'&&$path==='/products/random') { $p=rows('products',"status='published'"); shuffle($p); return array_map('public_product',array_slice($p,0,max(0,min(1000,(int)($_GET['limit']??100))))); }
     if($method==='GET'&&preg_match('~^/products/([^/]+)$~',$path,$m)) {

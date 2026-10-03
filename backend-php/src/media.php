@@ -42,7 +42,7 @@ function media_upload(): array {
 }
 function media_delete(string $id): array {
     $m=need('media',$id); $url=$m['url'];
-    foreach(['products','categories','guides','orders'] as $t) foreach(rows($t) as $d) if(str_contains(json($d),json_encode($url,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE))) fail(400,'media_in_use');
+    foreach(['products','categories','guides','orders','settings'] as $t) foreach(rows($t) as $d) if(str_contains(json($d),json_encode($url,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE))) fail(400,'media_in_use');
     $key=safe_key($m['key']);
     if($m['driver']==='s3') s3_request('DELETE',$key);
     else { $path=upload_dir().'/'.$key; if(is_file($path)&&!unlink($path)) throw new RuntimeException('Cannot delete upload'); }

@@ -178,6 +178,19 @@ try {
  savedEnglish=(await ok('GET','/admin/products',undefined,true)).find(x=>x.product_id===ep.product_id);
  assert.equal(savedEnglish.name_en,'My later English name');assert.equal(savedEnglish.description_en,'');
  const englishRepeat=await ok('POST','/admin/catalog/english-20261002',{},true);assert.equal(englishRepeat.products,0);assert.equal(englishRepeat.categories,0);checks++;
+ // Home image settings: public reads, authenticated writes, validated media and deletion protection.
+ assert.equal((await request('GET','/admin/homepage')).status,401);
+ assert.equal((await request('PUT','/admin/homepage',{media_id:''})).status,401);
+ const initialHome=await ok('GET','/homepage');assert.equal(initialHome.image,'/hero-candle-pouring.webp');
+ assert.equal((await request('PUT','/admin/homepage',{media_id:'missing'},true)).status,404);
+ assert.equal((await ok('GET','/homepage')).image,initialHome.image);
+ sqlPHP(`save('media',['media_id'=>'med_home_test','url'=>'https://example.test/home.png','key'=>'home.png','driver'=>'local','filename'=>'home.png','alt'=>'','size'=>100],true);`);
+ const homeSaved=await ok('PUT','/admin/homepage',{media_id:'med_home_test',image:'javascript:alert(1)',alt:'Gyertya 🕯️',alt_en:'Candle',secret:'not-public'},true);
+ assert.equal(homeSaved.image,'https://example.test/home.png');
+ assert.deepEqual(await ok('GET','/homepage'),homeSaved);assert(!('secret' in homeSaved));assert(!('key' in homeSaved));
+ assert.equal((await request('DELETE','/admin/media/med_home_test',{},true)).data.detail,'media_in_use');
+ await ok('PUT','/admin/homepage',{media_id:'',alt:'Alap',alt_en:'Default'},true);
+ assert.equal((await ok('GET','/homepage')).image,'/hero-candle-pouring.webp');checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

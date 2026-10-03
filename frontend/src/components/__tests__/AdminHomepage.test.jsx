@@ -1,0 +1,23 @@
+import React, {act} from 'react';
+import {createRoot} from 'react-dom/client';
+import {LangProvider} from '@/context/LangContext';
+import AdminHomepage from '@/admin/AdminHomepage';
+import {adminApi} from '@/admin/adminApi';
+jest.mock('@/admin/adminApi',()=>({adminApi:{homepage:jest.fn(),saveHomepage:jest.fn()}}));
+jest.mock('@/admin/Media',()=>({ImagePickerModal:({onPick,onClose})=><button data-testid="test-select" onClick={()=>{onPick({media_id:'med_new',url:'https://example.test/new.png',alt:'Új kép'});onClose();}}>Select</button>}));
+let host, root;
+beforeEach(()=>{global.IS_REACT_ACT_ENVIRONMENT=true;localStorage.clear();host=document.createElement('div');document.body.append(host);root=createRoot(host);adminApi.homepage.mockResolvedValue({data:{media_id:'',image:'/hero-candle-pouring.webp',alt:'Eredeti',alt_en:'Original'}});adminApi.saveHomepage.mockReset();});
+afterEach(async()=>{await act(async()=>root.unmount());host.remove();});
+const click=async sel=>act(async()=>host.querySelector(sel).click());
+test('selecting previews an image but only save persists it; failure is retryable',async()=>{
+ await act(async()=>root.render(<LangProvider><AdminHomepage/></LangProvider>));
+ await click('[data-testid="homepage-pick"]');await click('[data-testid="test-select"]');
+ expect(host.querySelector('img').getAttribute('src')).toBe('https://example.test/new.png');
+ expect(adminApi.saveHomepage).not.toHaveBeenCalled();
+ adminApi.saveHomepage.mockRejectedValueOnce(new Error('offline'));
+ await click('[data-testid="homepage-save"]');expect(host.querySelector('[role="alert"]')).not.toBeNull();expect(host.querySelector('[role="status"]')).toBeNull();
+ adminApi.saveHomepage.mockImplementation(async body=>({data:body}));
+ await click('[data-testid="homepage-save"]');
+ expect(adminApi.saveHomepage).toHaveBeenLastCalledWith({media_id:'med_new',image:'https://example.test/new.png',alt:'Új kép',alt_en:''});
+ expect(host.querySelector('[role="status"]').textContent).toContain('Mentve');
+});

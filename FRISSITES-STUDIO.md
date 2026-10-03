@@ -82,3 +82,17 @@ A SimplePay bankkártyás fizetés és a számlakiállítás külön funkció. A
 5. Frissítsd az oldalt (Ctrl+F5), válts EN nyelvre, majd ellenőrizd a termékeket és az egyedi ajánlatkérő űrlapot.
 
 A fordításcsomag az október 2-án elérhető 19 termék magyar szövegének fordítása. Pontos forrásszöveg-egyezést ellenőriz: az azóta átírt magyar szövegre nem tesz rá régi fordítást. A később egyedileg javított angol mezőket ismételt betöltéskor megőrzi. Új termékhez vagy új magyar szöveghez továbbra is ki kell tölteni a megfelelő angol mezőket a szerkesztőben. Az angol vásárlói nézet a csomag ismert fordításait már a mentés előtt is megjeleníti, az admin gomb ezek adatbázisba mentését végzi.
+
+
+## 2026. október 3. — Főoldali kép cseréje az adminból
+
+Ehhez a frissítéshez a csomag **public_html és backend-php mappáját is** fel kell tölteni a tárhely megfelelő mappájába. A saját config.local.php fájlt és az uploads mappát ne töröld. Új SQL-import nem kell.
+
+1. Frissítsd az oldalt Ctrl+F5-tel, majd lépj be az adminba.
+2. Nyisd meg az új **Főoldal** fület (közvetlenül: /admin?tab=homepage).
+3. Kattints a **Kép kiválasztása / feltöltése** gombra.
+4. Válassz a médiatárból, vagy válassz fájlt a gépedről, majd nyomd meg a **Feltöltés** gombot. Legfeljebb 5 MB-os JPG, PNG, WebP vagy GIF használható.
+5. Nézd meg az előnézetet, majd kattints a **Főoldali kép mentése** gombra. A kép kiválasztása önmagában még nem cseréli le a főoldali képet.
+6. Nyisd meg vagy frissítsd a főoldalt. A kép az adatbázisban tárolt beállításból töltődik be, így a későbbi kódfrissítések után is megmarad.
+
+A főoldalon használt képet a médiatár nem engedi törölni. Előbb cseréld másikra és mentsd el. Az **Alapértelmezett kép visszaállítása**, majd a mentés az eredeti fekete-arany gyertyaöntős képre vált vissza.

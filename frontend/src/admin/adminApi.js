@@ -8,6 +8,8 @@ export const setToken = (t) => (t ? sessionStorage.setItem(TOKEN_KEY, t) : sessi
 const h = () => ({ headers: { "X-Admin-Token": getToken() } });
 
 export const adminApi = {
+  homepage: () => api.get("/admin/homepage", h()),
+  saveHomepage: (b) => api.put("/admin/homepage", b, h()),
   importEnglish: () => api.post("/admin/catalog/english-20261002", {}, h()),
   importCatalog: () => api.post("/admin/catalog/import-20260920", {}, h()),
   verify: (token) => api.post("/admin/verify", null, { headers: { "X-Admin-Token": token } }),
@@ -38,6 +40,7 @@ export const adminApi = {
 
 const A = {
   hu: {
+    homepage: "Főoldal",
     dashboard: "Áttekintés", products: "Termékek", categories: "Kategóriák", orders: "Rendelések", media: "Médiatár", newsletter: "Hírlevél", emails: "E-mail napló",
     search: "Keresés…", all: "Összes", add: "Új termék", addCat: "Új kategória", edit: "Szerkesztés", save: "Mentés", cancel: "Mégse", close: "Bezárás",
     saved: "Sikeresen mentve.", failed: "Hiba történt. Kérlek ellenőrizd az adatokat.", confirm: "Megerősítés", yes: "Igen", no: "Nem",
@@ -86,6 +89,7 @@ const A = {
     help: "Használati útmutató", helpText: "Termék felvitele: Termékek → Új termék → töltsd ki az alapadatokat, árat, készletet, válassz képet a Médiatárból vagy tölts fel újat → Mentés és publikálás. Kategória: Kategóriák → Új kategória. Rendelés: Rendelések → Részletek → Státusz módosítása. Részletes leírás a README-ben.",
   },
   en: {
+    homepage: "Home page",
     dashboard: "Overview", products: "Products", categories: "Categories", orders: "Orders", media: "Media library", newsletter: "Newsletter", emails: "Email log",
     search: "Search…", all: "All", add: "New product", addCat: "New category", edit: "Edit", save: "Save", cancel: "Cancel", close: "Close",
     saved: "Saved successfully.", failed: "Something went wrong. Please check the data.", confirm: "Confirm", yes: "Yes", no: "No",

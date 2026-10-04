@@ -88,6 +88,8 @@ require __DIR__.'/catalog.php';
 require __DIR__.'/mail.php';
 require __DIR__.'/orders.php';
 require __DIR__.'/payments.php';
+require __DIR__.'/barion.php';
+require __DIR__.'/invoices.php';
 require __DIR__.'/media.php';
 require __DIR__.'/studio.php';
 require __DIR__.'/routes.php';

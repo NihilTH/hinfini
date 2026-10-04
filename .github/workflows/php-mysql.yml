@@ -27,6 +27,7 @@ jobs:
       ADMIN_TOKEN: integration-test-admin-token-not-production
       EMAIL_PROVIDER: none
       ORDER_NOTIFY_EMAIL: admin@example.test
+      PAYMENT_PROVIDER: simplepay
       SIMPLEPAY_SECRET_KEY: integration-test-signing-key-not-production
       SIMPLEPAY_MERCHANT_ID: TESTMERCHANT
       PUBLIC_SITE_URL: http://127.0.0.1:8001
@@ -44,6 +45,7 @@ jobs:
       - run: php backend-php/bin/console.php migrate
       - run: php backend-php/bin/console.php seed
       - run: node backend-php/tests/integration.mjs
+      - run: php backend-php/tests/barion-invoices.php
   package:
     runs-on: ubuntu-latest
     steps:

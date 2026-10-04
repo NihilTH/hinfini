@@ -91,7 +91,7 @@ export default function Admin() {
           {[["dash_orders", stats.orders_new], ["dash_products", stats.products], ["dash_low", stats.low_stock], ["dash_subs", stats.subscribers]].map(([k, v]) => (
             <div key={k} className="admin-card p-4"><div className="overline">{a(k)}</div><div className="font-serif-display text-3xl text-[#D4AF6E] mt-1">{v}</div></div>
           ))}
-          <div className="admin-card p-4 col-span-2 lg:col-span-1"><div className="overline">{a("env")}</div><div className="text-xs mt-2 space-y-0.5 text-[#B8AE95]"><div>{stats.payment_mode === "sandbox" ? a("sandbox") : a("live")}</div><div>E-mail: {a(stats.email_provider)}</div><div>{a("storage")}: {a(stats.storage)}</div></div></div>
+          <div className="admin-card p-4 col-span-2 lg:col-span-1"><div className="overline">{a("env")}</div><div className="text-xs mt-2 space-y-0.5 text-[#B8AE95]"><div>{stats.payment_enabled === false ? "Fizetés: kikapcsolva" : stats.payment_mode === "sandbox" ? a("sandbox") : a("live")}</div><div>E-mail: {a(stats.email_provider)}</div><div>{a("storage")}: {a(stats.storage)}</div></div></div>
         </div>
       )}
 

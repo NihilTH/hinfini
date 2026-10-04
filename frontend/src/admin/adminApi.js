@@ -76,17 +76,17 @@ const A = {
     changeStatus: "Státusz módosítása", tracking: "Csomagkövetés", carrier: "Szállító", trackingNo: "Nyomkövetési szám", trackingUrl: "Követési link", eta: "Várható kézbesítés",
     adminNote: "Belső megjegyzés", shipping: "Szállítás", items: "Tételek", address: "Szállítási cím", noDelete: "A rendelések nem törölhetők, csak Törölve státuszba állíthatók.",
     cancelConfirm: "Biztosan Törölve állapotba állítod? A készlet visszakerül, a vevő e-mailt kap.", invoice: "Számla", invoiceStatus: "Számla státusz", invoiceNo: "Számlaszám", invoiceUrl: "Számla link",
-    inv_NONE: "Nincs", inv_NOT_CONFIGURED: "Számlázó nincs beállítva", inv_PENDING_PROVIDER: "Számlázónál folyamatban", inv_ISSUED: "Kiállítva", inv_ERROR: "Hiba", inv_MANUAL: "Kézzel rögzítve",
+    inv_QUEUED: "Számlázásra vár", inv_PROCESSING: "Feldolgozás alatt – ne számlázd újra", inv_REVIEW: "Kézi ellenőrzés szükséges", inv_NONE: "Nincs", inv_NOT_CONFIGURED: "Számlázó nincs beállítva", inv_PENDING_PROVIDER: "Számlázónál folyamatban", inv_ISSUED: "Kiállítva", inv_ERROR: "Hiba", inv_MANUAL: "Kézzel rögzítve",
     history: "Előzmények", emailsForOrder: "Kiküldött e-mailek", noOrders: "Nincs rendelés.",
     // emails
     event: "Esemény", recipient: "Címzett", subject: "Tárgy", sentAt: "Időpont", resend: "Újraküldés", resendConfirm: "Biztosan újraküldöd ezt az e-mailt a címzettnek?",
-    paymentReview: "A fizetés kézi ellenőrzést igényel: törlés után vagy több tranzakcióból érkezett sikeres fizetés. Ellenőrizd a SimplePay-fiókot és az esetleges visszatérítést.",
+    paymentReview: "A fizetés kézi ellenőrzést igényel: törlés után vagy több tranzakcióból érkezett sikeres fizetés. Ellenőrizd a Barion-fiókot és az esetleges visszatérítést.",
     es_QUEUED: "Küldésre vár", es_SENDING: "Küldés folyamatban", es_SENT: "Elküldve", es_FAILED: "Sikertelen", es_SKIPPED: "Kihagyva (nincs szolgáltató)", providerNote: "E-mail szolgáltató: {p}. Kikapcsolt szolgáltatónál a rendszer naplóz, de nem küld.",
     // newsletter
     subscribers: "Feliratkozók", consentedAt: "Hozzájárulás", source: "Forrás", removeSub: "Eltávolítás", removeSubConfirm: "Eltávolítod ezt a feliratkozót?", noSubs: "Nincs feliratkozó.",
     // dashboard
-    dash_products: "Aktív termék", dash_orders: "Kezelendő rendelés", dash_low: "Alacsony készlet", dash_subs: "Hírlevél-feliratkozó", env: "Környezet", sandbox: "SimplePay: teszt (sandbox)", live: "SimplePay: éles",
-    help: "Használati útmutató", helpText: "Termék felvitele: Termékek → Új termék → töltsd ki az alapadatokat, árat, készletet, válassz képet a Médiatárból vagy tölts fel újat → Mentés és publikálás. Kategória: Kategóriák → Új kategória. Rendelés: Rendelések → Részletek → Státusz módosítása. Részletes leírás a README-ben.",
+    dash_products: "Aktív termék", dash_orders: "Kezelendő rendelés", dash_low: "Alacsony készlet", dash_subs: "Hírlevél-feliratkozó", env: "Környezet", sandbox: "Barion: teszt (sandbox)", live: "Barion: éles",
+    help: "Használati útmutató", helpText: "Termék felvitele: Termékek → Új termék → töltsd ki az alapadatokat, árat, készletet, válassz képet a Médiatárból vagy tölts fel újat → Mentés és publikálás. Kategória: Kategóriák → Új kategória. Rendelés: Rendelések → Részletek → Státusz módosítása. Barion és Számlázz.hu: a frissítőcsomag BARION-SZAMLAZZ-BEALLITAS.md fájljában találod a lépéseket. A kulcsok a védett config.local.php fájlba kerülnek. A meglévő mail:send cron a számlázást is elvégzi. Élesítés előtt tesztelj, és várd meg a Barion jóváhagyását.",
   },
   en: {
     homepage: "Home page",
@@ -121,13 +121,13 @@ const A = {
     changeStatus: "Change status", tracking: "Tracking", carrier: "Carrier", trackingNo: "Tracking number", trackingUrl: "Tracking link", eta: "Expected delivery",
     adminNote: "Internal note", shipping: "Shipping", items: "Items", address: "Shipping address", noDelete: "Orders cannot be deleted, only set to Cancelled.",
     cancelConfirm: "Set to Cancelled? Stock is restored and the customer is emailed.", invoice: "Invoice", invoiceStatus: "Invoice status", invoiceNo: "Invoice number", invoiceUrl: "Invoice link",
-    inv_NONE: "None", inv_NOT_CONFIGURED: "Provider not configured", inv_PENDING_PROVIDER: "Pending at provider", inv_ISSUED: "Issued", inv_ERROR: "Error", inv_MANUAL: "Recorded manually",
+    inv_QUEUED: "Queued", inv_PROCESSING: "Processing – do not issue again", inv_REVIEW: "Manual review required", inv_NONE: "None", inv_NOT_CONFIGURED: "Provider not configured", inv_PENDING_PROVIDER: "Pending at provider", inv_ISSUED: "Issued", inv_ERROR: "Error", inv_MANUAL: "Recorded manually",
     history: "History", emailsForOrder: "Sent emails", noOrders: "No orders.",
     event: "Event", recipient: "Recipient", subject: "Subject", sentAt: "Time", resend: "Resend", resendConfirm: "Resend this email to the recipient?",
-    paymentReview: "Payment needs review: a successful payment arrived after cancellation or from multiple transactions. Check SimplePay and any required refund.",
+    paymentReview: "Payment needs review: a successful payment arrived after cancellation or from multiple transactions. Check Barion and any required refund.",
     es_QUEUED: "Queued", es_SENDING: "Sending", es_SENT: "Sent", es_FAILED: "Failed", es_SKIPPED: "Skipped (no provider)", providerNote: "Email provider: {p}. With “none” the system logs but does not send.",
     subscribers: "Subscribers", consentedAt: "Consent", source: "Source", removeSub: "Remove", removeSubConfirm: "Remove this subscriber?", noSubs: "No subscribers.",
-    dash_products: "Active products", dash_orders: "Orders to handle", dash_low: "Low stock", dash_subs: "Newsletter subscribers", env: "Environment", sandbox: "SimplePay: test (sandbox)", live: "SimplePay: live",
+    dash_products: "Active products", dash_orders: "Orders to handle", dash_low: "Low stock", dash_subs: "Newsletter subscribers", env: "Environment", sandbox: "Barion: test (sandbox)", live: "Barion: live",
     help: "How to use", helpText: "Add a product: Products → New product → fill basics, price, stock, pick an image from the Media library or upload → Save & publish. Category: Categories → New category. Order: Orders → Details → Change status. Full guide in README.",
   },
 };

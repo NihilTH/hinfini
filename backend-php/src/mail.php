@@ -3,9 +3,10 @@ declare(strict_types=1);
 function http_request(string $url,string $body,array $headers=[],string $method='POST'): array {
     if(!str_starts_with($url,'https://')) throw new RuntimeException('HTTPS required');
     $responseHeaders=[]; $ch=curl_init($url);
-    curl_setopt_array($ch,[CURLOPT_CUSTOMREQUEST=>$method,CURLOPT_POSTFIELDS=>$body,CURLOPT_HTTPHEADER=>$headers,CURLOPT_RETURNTRANSFER=>true,
+    curl_setopt_array($ch,[CURLOPT_CUSTOMREQUEST=>$method,CURLOPT_HTTPHEADER=>$headers,CURLOPT_RETURNTRANSFER=>true,
         CURLOPT_CONNECTTIMEOUT=>5,CURLOPT_TIMEOUT=>20,CURLOPT_PROTOCOLS=>CURLPROTO_HTTPS,CURLOPT_FOLLOWLOCATION=>false,
         CURLOPT_HEADERFUNCTION=>function($ch,$line) use(&$responseHeaders) { if(str_contains($line,':')) { [$k,$v]=explode(':',$line,2); $responseHeaders[strtolower(trim($k))]=trim($v); } return strlen($line); }]);
+    if($method!=='GET')curl_setopt($ch,CURLOPT_POSTFIELDS,$body);
     $response=curl_exec($ch); $status=curl_getinfo($ch,CURLINFO_HTTP_CODE);
     if($response===false) { curl_close($ch); throw new RuntimeException('Provider connection failed'); }
     curl_close($ch); return ['body'=>$response,'status'=>$status,'headers'=>$responseHeaders];
@@ -17,6 +18,7 @@ function mail_template(string $event,array $e): array {
     if(!isset($titles[$event])) throw new LogicException('Unknown email event');
     $title=$titles[$event]; $id=$e['order_id']??$e['product_id'];
     $text=$title." – H'INFINI #".$id."\n\n";
+    if(($e['payment_environment']??'')==='sandbox')$text.="TESZTRENDELÉS – nincs valódi pénzmozgás, ne add fel.\n\n";
     if(in_array($event,['custom_received','admin_custom','custom_quote'],true)) {
         $text.='Név: '.$e['full_name']."\nE-mail: ".$e['email']."\nIllat: ".$e['scent']."\nTartó: ".$e['container']."\nFelirat: ".$e['text']."\nSzövegszín: ".$e['color']."\nElképzelés: ".$e['idea']."\n";
         if($event==='custom_quote')$text.="\nAjánlat: ".$e['quote']['amount']." Ft (teljes fizetendő összeg)\n".$e['quote']['message']."\n\nFizetés kizárólag átutalással.\nKedvezményezett: ".cfg('BANK_ACCOUNT_NAME')."\nBankszámlaszám: ".cfg('BANK_ACCOUNT_NUMBER')."\nKözlemény: ".$id;
@@ -31,7 +33,7 @@ function mail_template(string $event,array $e): array {
         if($event==='invoice_ready')$text.="\nSzámlaszám: ".$e['invoice']['number']."\nSzámla letöltése: ".$e['invoice']['url']."\n";
         $text.="\nSzállítás: ".$e['shipping']." Ft\nVégösszeg: ".$e['total']." Ft\nFizetési állapot: ".(['PAID'=>'Fizetve','UNPAID'=>'Fizetésre vár','FAILED'=>'Sikertelen fizetés','RESERVED'=>'Fizetés nélkül rögzítve'][$e['payment_status']]??'Feldolgozás alatt')."\n";
         if($event==='order_created') $text.="A rendelés rögzítése nem igazolja a sikeres fizetést. A fizetésről külön értesítést küldünk.\n";
-        if($event==='payment_success') $text.="A SimplePay visszaigazolta a fizetést. A csomag feladásáról külön értesítést küldünk.\n";
+        if($event==='payment_success') $text.="A fizetési szolgáltató visszaigazolta a fizetést. A csomag feladásáról külön értesítést küldünk.\n";
         if($event==='payment_failed') $text.="A rendelésed megmaradt. A fizetés folytatásához kérd ügyfélszolgálatunk segítségét.\n";
         if($event==='cancelled'&&$e['payment_status']==='PAID') $text.="A visszatérítést ügyfélszolgálatunkkal kell egyeztetni; a törlés nem indít automatikus visszatérítést.\n";
         if($event==='shipped') $text.="Nyomkövetés: ".implode(' ',array_filter($e['tracking']??[]))."\n";
@@ -63,6 +65,10 @@ function mail_design(string $title,string $text,string $event,array $entity): st
     return '<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;padding:0;background:#0F0E0C"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#0F0E0C"><tr><td align="center" style="padding:24px 12px"><table role="presentation" width="600" cellspacing="0" cellpadding="0" bgcolor="#1A1917" style="width:100%;max-width:600px;border:1px solid #3d3835"><tr><td align="center" style="padding:32px 24px;border-bottom:1px solid #3d3835">'.($logo!==''?'<img src="'.mail_escape($logo).'" alt="H’INFINI Candles" width="88" height="88" style="display:block;border-radius:50%;margin-bottom:16px">':'').'<div style="color:#D4AF6E;font:28px Georgia,serif">H’INFINI</div><div style="color:#B8AE95;font:12px Arial;letter-spacing:3px;margin-top:8px">KÉZZEL ÖNTÖTT GYERTYÁK</div></td></tr><tr><td style="padding:28px 24px"><h1 style="margin:0 0 24px;color:#D4AF6E;font:30px Georgia,serif">'.mail_escape($title).'</h1><p style="color:#B8AE95;font:14px Arial;overflow-wrap:anywhere">Azonosító: '.mail_escape((string)($entity['order_id']??$entity['product_id'])).'</p>'.($products!==''?'<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:24px">'.$products.'</table>':'').'<div style="color:#F0EAD6;font:16px/1.7 Arial;overflow-wrap:anywhere">'.nl2br(mail_escape($text)).'</div>'.$button.'</td></tr><tr><td align="center" style="padding:20px 24px;color:#B8AE95;border-top:1px solid #3d3835;font:13px/1.6 Arial">Kis szériás gyertyák · Személyes figyelemmel<br>H’INFINI Candles</td></tr></table></td></tr></table></body></html>';
 }
 function queue_event(string $event,array $entity,?string $to=null,bool $force=false,string $suffix=''): ?array {
+    if($to===null&&str_starts_with($event,'admin_')){
+        $recipients=array_unique(array_filter(array_map('trim',explode(',',(string)cfg('ORDER_NOTIFY_EMAIL').','.(string)cfg('ORDER_NOTIFY_COPY_EMAIL')))));
+        $first=null;foreach($recipients as $recipient){if(!filter_var($recipient,FILTER_VALIDATE_EMAIL))continue;$sent=queue_event($event,$entity,$recipient,$force,$suffix);$first??=$sent;}return $first;
+    }
     $recipient=$to??(str_starts_with($event,'admin_')?(string)cfg('ORDER_NOTIFY_EMAIL'):($entity['email']??''));
     if($recipient==='') return null;
     $idem=hash('sha256',$event.':'.($entity['order_id']??$entity['product_id']).':'.$recipient.$suffix.($force?':'.uid('retry'):''));

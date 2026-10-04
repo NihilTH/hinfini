@@ -12,7 +12,7 @@ try {
                 foreach(json_decode(file_get_contents(dirname(__DIR__).'/database/seed.json'),true,512,JSON_THROW_ON_ERROR)[$t] as $d) save($t,$d,true);
             }
         }); echo "Seed complete (existing tables preserved).\n";
-    } elseif($cmd==='mail:send') echo 'Processed: '.mail_worker(50)."\n";
+    } elseif(in_array($cmd,['mail:send','tasks:run'],true)) { echo 'Payments checked: '.barion_reconcile()."\n"; echo 'Invoices processed: '.invoice_worker(10)."\n"; echo 'Mail processed: '.mail_worker(50)."\n"; }
     elseif($cmd==='import') {
         $dir=$argv[2]??''; if(!is_dir($dir)) throw new RuntimeException('Supply MongoDB JSON export directory');
         tx(function() use($dir) {
@@ -35,5 +35,5 @@ try {
                 }
             }
         }); echo "Import complete. Copy local image files separately; existing S3 URLs remain intact.\n";
-    } else echo "Commands: migrate | seed | import /private/export-directory | mail:send\n";
+    } else echo "Commands: migrate | seed | import /private/export-directory | mail:send | tasks:run\n";
 } catch(Throwable $e) { fwrite(STDERR,$e->getMessage()."\n"); exit(1); }

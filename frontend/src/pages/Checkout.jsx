@@ -20,6 +20,8 @@ export default function Checkout() {
   const applyCoupon=async()=>{setCouponBusy(true);setCouponResult(null);setCouponError('');try{const {data}=await api.post('/coupons/validate',{code:coupon,items:items.map(i=>({product_id:i.product_id,quantity:i.quantity}))});setCouponResult(data);}catch(e){setCouponError(lang === 'en' ? t('co.couponError') : (e.response?.data?.detail||t('co.couponError')));}finally{setCouponBusy(false);}};
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({ full_name: "", email: "", phone: "", address: "", city: "", postal_code: "", country: lang === "en" ? "Hungary" : "Magyarország", notes: "" });
+  const [separateBilling,setSeparateBilling]=useState(false);
+  const [billing,setBilling]=useState({full_name:"",address:"",city:"",postal_code:"",tax_number:""});
   const [shipMethod] = useState("home");
   const [terms, setTerms] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
@@ -32,6 +34,9 @@ export default function Checkout() {
     if (detail.startsWith("out_of_stock:")) return t("co.outOfStock", { name: (() => { const name = detail.slice("out_of_stock:".length); const item = items.find(i => i.name === name || i.product_id === name); return item ? tr(item, "name") : name; })() });
     if (detail.startsWith("unavailable:")) return t("co.unavailable");
     if (detail === "invalid_color") return lang === "en" ? "A selected colour is no longer available. Remove that item from the cart and choose a colour on its product page." : "Egy terméknél hiányzik vagy már nem elérhető a kiválasztott szín. Töröld a kosárból, majd a termékoldalon válassz színt és tedd vissza.";
+    if (detail === "payment_not_configured") return lang === "en" ? "Card payments are not available yet." : "A bankkártyás fizetés még nem elérhető.";
+    if (detail === "hungary_only") return lang === "en" ? "Delivery is currently available only within Hungary." : "Jelenleg csak Magyarországra szállítunk.";
+    if (detail === "invalid_tax_number") return lang === "en" ? "Enter the tax number in this format: 12345678-1-12." : "Az adószám formátuma: 12345678-1-12.";
     if (detail === "terms_required") return t("co.termsReq");
     if (detail === "cart_empty") return t("co.emptyCart");
     if (detail.includes("kupon")) return lang === "en" ? t("co.couponError") : detail;
@@ -40,12 +45,13 @@ export default function Checkout() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (config.payment_enabled === false) { toast.error(lang === "en" ? "Card payments are not available yet." : "A bankkártyás fizetés még nem elérhető."); return; }
     if (items.length === 0) { toast.error(t("co.emptyCart")); return; }
     if (!terms) { toast.error(t("co.termsReq")); return; }
     setBusy(true);
     let order;
     try {
-      const res = await api.post("/orders", { ...form, coupon_code: couponResult?.coupon_code || "", shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity, color: i.color || "" })) });
+      const res = await api.post("/orders", { ...form, billing: separateBilling ? billing : {...form,tax_number:""}, coupon_code: couponResult?.coupon_code || "", shipping_method: shipMethod, accepted_terms: terms, newsletter_opt_in: newsletter, lang, items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity, color: i.color || "" })) });
       order = res.data;
     } catch (err) { toast.error(errorMsg(err?.response?.data?.detail)); setBusy(false); return; }
     clear();
@@ -81,6 +87,11 @@ export default function Checkout() {
             <Field label={t("co.country")} id="co-country"><input id="co-country" required autoComplete="country-name" data-testid="co-country" value={form.country} onChange={on("country")} className={input} /></Field>
           </div>
 
+          <div className="space-y-4 border-t border-[#3d3835] pt-5">
+            <label className="flex gap-3"><input type="checkbox" checked={separateBilling} onChange={e=>setSeparateBilling(e.target.checked)}/>{lang==='en'?'Different billing details / company invoice':'Eltérő számlázási adatok / céges számla'}</label>
+            {!separateBilling&&<p className="text-sm text-[#B8AE95]">{lang==='en'?'The invoice will use the name and address above.':'A számla a fent megadott névre és címre készül.'}</p>}
+            {separateBilling&&<div className="grid md:grid-cols-2 gap-4">{[['full_name',lang==='en'?'Billing name / company':'Számlázási név / cégnév'],['postal_code',lang==='en'?'Postal code':'Irányítószám'],['city',lang==='en'?'City':'Település'],['address',lang==='en'?'Billing address':'Számlázási cím'],['tax_number',lang==='en'?'Hungarian tax number (required for companies)':'Magyar adószám (cég esetén töltsd ki)']].map(([k,label])=><Field key={k} label={label} id={'billing-'+k}><input id={'billing-'+k} className={input} required={k!=='tax_number'} value={billing[k]} onChange={e=>setBilling({...billing,[k]:e.target.value})} pattern={k==='tax_number'?'[0-9]{8}-[0-9]-[0-9]{2}':undefined}/></Field>)}</div>}
+          </div>
           <fieldset className="pt-2">
             <legend className="overline mb-3">{t("co.shipMethod")}</legend>
             <div className="grid md:grid-cols-2 gap-3">
@@ -112,7 +123,7 @@ export default function Checkout() {
           </div>
 
           <div className="p-4 bg-[#24221E] border border-[#3d3835] text-sm text-[#B8AE95] leading-relaxed flex gap-3" data-testid="co-pay-info">
-            <LockSimple size={18} className="text-[#D4AF6E] shrink-0 mt-0.5" /> <span>{lang === "hu" ? "Bankkártyás fizetés a SimplePay rendszerén keresztül, forintban." : "Pay by card via SimplePay, in HUF."} {config.payment_mode === "sandbox" ? (lang === "hu" ? "Jelenleg tesztüzemmódban." : "Currently in test mode.") : ""}</span>
+            <LockSimple size={18} className="text-[#D4AF6E] shrink-0 mt-0.5" /> <span>{config.payment_enabled === false ? (lang === "en" ? "Card payments are not available yet. Please check back later." : "A bankkártyás fizetés még nem elérhető. Kérjük, nézz vissza később.") : lang === "hu" ? "Bankkártyás fizetés a Barion rendszerén keresztül, forintban." : "Pay by card via Barion, in HUF."} {config.payment_mode === "sandbox" ? (lang === "hu" ? "Jelenleg tesztüzemmódban." : "Currently in test mode.") : ""}</span>
           </div>
         </div>
 
@@ -133,7 +144,7 @@ export default function Checkout() {
             <div className="flex justify-between"><span>{t("cart.shipping")}</span><span data-testid="co-shipping">{shipping === 0 ? t("cart.free") : formatPrice(shipping)}</span></div>
             <div className="flex justify-between font-serif-display text-xl pt-2 border-t border-[#3d3835]"><span>{t("cart.total")}</span><span data-testid="co-total" className="text-[#D4AF6E]">{formatPrice(total)}</span></div>
           </div>
-          <button type="submit" disabled={busy || items.length === 0} data-testid="co-submit" className="btn-primary w-full justify-center mt-8 disabled:opacity-60 focus-ring">{busy ? t("co.submitting") : t("co.submit")}</button>
+          <button type="submit" disabled={busy || items.length === 0 || config.payment_enabled === false} data-testid="co-submit" className="btn-primary w-full justify-center mt-8 disabled:opacity-60 focus-ring">{busy ? t("co.submitting") : t("co.submit")}</button>
           <p className="mt-3 text-[11px] text-[#B8AE95] text-center">{t("co.legalNote")}</p>
         </aside>
       </form>

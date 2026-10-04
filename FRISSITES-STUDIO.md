@@ -109,3 +109,7 @@ A frissítéshez a csomag **public_html és backend-php** mappájának tartalmá
 5. Nyisd meg az Események oldalt: a kép az esemény szövege fölött, levágás nélkül jelenik meg. Kép nélkül is menthetsz eseményt.
 
 A kép később cserélhető vagy eltávolítható. A médiatár védi az eseményben használt képet a törléstől; először az eseménynél távolítsd el vagy cseréld ki, majd mentsd el.
+
+## 2026-10-04 – Barion, Számlázz.hu, két belső értesítési cím
+
+Mindkét mappa frissítendő. SQL-import nincs. A részletes beállítások a BARION-SZAMLAZZ-BEALLITAS.md fájlban találhatók. A config.local.php-t őrizd meg és egészítsd ki; a fizetés és a számlázás alapból kikapcsolva marad.

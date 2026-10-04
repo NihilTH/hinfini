@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import BarionPixel from "@/components/BarionPixel";
 import api from "@/lib/api";
 import { useLang } from "@/context/LangContext";
 
@@ -7,7 +8,7 @@ const CatalogContext = createContext(null);
 export const CatalogProvider = ({ children }) => {
   const { catName } = useLang();
   const [categories, setCategories] = useState([]);
-  const [config, setConfig] = useState({ free_shipping_from: 25000, shipping_home: 1990, shipping_pickup: 1290, payment_mode: "sandbox" });
+  const [config, setConfig] = useState({ free_shipping_from: 25000, shipping_home: 1990, shipping_pickup: 1290, payment_mode: "sandbox", payment_enabled: false, payment_provider: "barion" });
 
   const reload = useCallback(() => {
     api.get("/categories").then(({ data }) => setCategories(data)).catch(() => {});
@@ -24,7 +25,7 @@ export const CatalogProvider = ({ children }) => {
     return method === "pickup" ? config.shipping_pickup : config.shipping_home;
   }, [config]);
 
-  return <CatalogContext.Provider value={{ categories, catLabel, config, shippingFee, reload }}>{children}</CatalogContext.Provider>;
+  return <CatalogContext.Provider value={{ categories, catLabel, config, shippingFee, reload }}><BarionPixel config={config}/>{children}</CatalogContext.Provider>;
 };
 
 export const useCatalog = () => useContext(CatalogContext);

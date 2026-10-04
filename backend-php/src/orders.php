@@ -2,12 +2,19 @@
 declare(strict_types=1);
 function order_create(array $b): array {
     public_limit('orders',60);
+    if(payment_provider()==='barion'&&!payment_enabled())fail(503,'payment_not_configured');
     if(!boolean($b,'accepted_terms')) fail(400,'terms_required');
     $o=['email'=>email_value($b)];
     $code=text_field($b,'coupon_code','',40);
     foreach(['full_name','address','city','postal_code'] as $k) $o[$k]=required($b,$k);
     foreach(['phone','notes'] as $k) $o[$k]=isset($b[$k])?text_field($b,$k):null;
-    $o['country']=text_field($b,'country','Magyarország'); $o['lang']=text_field($b,'lang','hu');
+    $o['billing']=[];
+    $billing=$b['billing']??$b;if(!is_array($billing))fail(422,'invalid_billing');
+    foreach(['full_name','address','city','postal_code'] as $k)$o['billing'][$k]=required($billing,$k);
+    $o['billing']['tax_number']=text_field($billing,'tax_number','',13);
+    if($o['billing']['tax_number']!==''&&!preg_match('/^[0-9]{8}-[0-9]-[0-9]{2}$/',$o['billing']['tax_number']))fail(422,'invalid_tax_number');
+    $o['country']=text_field($b,'country','Magyarország');
+    if(!in_array(mb_strtolower($o['country']),['magyarország','hungary','hu'],true))fail(422,'hungary_only'); $o['lang']=text_field($b,'lang','hu');
     $o['shipping_method']=text_field($b,'shipping_method','home');
     if($o['shipping_method']!=='home') fail(400,'pickup_not_available');
     $o['newsletter_opt_in']=boolean($b,'newsletter_opt_in');
@@ -52,12 +59,14 @@ function order_create(array $b): array {
 }
 function public_order(array $o): array {
     // Guest URLs are unguessable bearer references. Never expose addresses or admin data.
-    return array_intersect_key($o,array_flip(['order_id','items','subtotal','discount','coupon_code','shipping','total','status','payment_status','fulfillment_status','shipping_method','created_at']));
+    return array_intersect_key($o,array_flip(['order_id','items','subtotal','discount','coupon_code','shipping','total','status','payment_status','fulfillment_status','shipping_method','created_at','payment_environment']));
 }
 function invoice_check(array &$o,string $trigger): void {
-    if($trigger!==cfg('INVOICE_TRIGGER','paid')||in_array($o['invoice']['status']??'', ['ISSUED','MANUAL','PENDING_PROVIDER'],true)) return;
-    $o['invoice']=['status'=>cfg('INVOICE_PROVIDER','none')==='none'?'NOT_CONFIGURED':'PENDING_PROVIDER','provider'=>cfg('INVOICE_PROVIDER','none'),
-        'number'=>null,'url'=>null,'issued_at'=>null,'trigger'=>$trigger,'checked_at'=>now(),'error'=>'Automatikus számlázó nincs bekötve; állítsd ki és rögzítsd kézzel a számlát.'];
+    if($trigger!==cfg('INVOICE_TRIGGER','paid')||!in_array($o['invoice']['status']??'NONE',['NONE','NOT_CONFIGURED'],true))return;
+    $mode=$o['payment_environment']??'live';
+    $ready=invoice_ready_config($mode)&&$o['payment_status']==='PAID'&&($o['payment_provider']??'')==='barion';
+    $o['invoice']=['status'=>$ready?'QUEUED':'NOT_CONFIGURED','provider'=>cfg('INVOICE_PROVIDER','none'),'number'=>null,'url'=>null,'trigger'=>$trigger,'checked_at'=>now(),
+        'error'=>$ready?null:'Az automatikus számlázás nincs engedélyezve vagy hiányzik a megfelelő környezet kulcsa.'];
 }
 function order_status(string $id,array $b): array {
     $next=required($b,'fulfillment_status');

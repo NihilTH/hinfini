@@ -6,7 +6,7 @@ function route(string $method,string $path,array $b): mixed {
     $studio=studio_route($method,$path,$b);if($studio!==null)return $studio;
     if($method==='GET'&&$path==='/') return ['message'=>"H'INFINI Candles PHP API",'status'=>'ok'];
     if($method==='GET'&&$path==='/config') return ['free_shipping_from'=>(int)cfg('FREE_SHIPPING_FROM',25000),'shipping_home'=>(int)cfg('SHIPPING_FEE_HOME',1990),
-        'shipping_pickup'=>(int)cfg('SHIPPING_FEE_PICKUP',1290),'payment_mode'=>str_contains((string)cfg('SIMPLEPAY_BASE_URL','https://sandbox.simplepay.hu/payment/v2'),'sandbox')?'sandbox':'live','support_email'=>cfg('SUPPORT_EMAIL')];
+        'shipping_pickup'=>(int)cfg('SHIPPING_FEE_PICKUP',1290),...payment_config(),'support_email'=>cfg('SUPPORT_EMAIL')];
     if($method==='GET'&&str_starts_with($path,'/uploads/')) serve_upload(substr($path,9));
     if($method==='GET'&&in_array($path,['/homepage','/admin/homepage'],true)) return homepage_settings();
     if($method==='PUT'&&$path==='/admin/homepage') return homepage_save($b);
@@ -23,6 +23,11 @@ function route(string $method,string $path,array $b): mixed {
     if($method==='POST'&&$path==='/newsletter/subscribe') { public_limit('newsletter',10); return subscribe($b); }
     if($method==='POST'&&$path==='/orders') return order_create($b);
     if($method==='GET'&&preg_match('~^/orders/([^/]+)$~',$path,$m)) return public_order(need('orders',$m[1]));
+    if($method==='GET'&&preg_match('~^/invoices/(ord_[a-f0-9]{32})/([a-f0-9]{64})$~',$path,$m))invoice_download($m[1],$m[2]);
+    if($method==='POST'&&$path==='/payments/barion/callback'){
+        public_limit('barion_callback',300);barion_refresh(required($b,'PaymentId',36));return ['ok'=>true];
+    }
+    if($method==='POST'&&$path==='/payments/status')return barion_poll($b);
     if($method==='POST'&&$path==='/payments/start') return payment_start($b);
     if($method==='POST'&&$path==='/payments/return') return payment_return($b);
     if($method==='POST'&&$path==='/admin/verify') return ['ok'=>true];
@@ -31,7 +36,7 @@ function route(string $method,string $path,array $b): mixed {
         'orders_new'=>(int)sql("SELECT COUNT(*) FROM orders WHERE fulfillment_status IN ('NEW','AWAITING_PAYMENT','PAID')")->fetchColumn(),
         'low_stock'=>(int)sql("SELECT COUNT(*) FROM products WHERE status<>'archived' AND stock<=?",[(int)cfg('LOW_STOCK_THRESHOLD',5)])->fetchColumn(),
         'subscribers'=>(int)sql('SELECT COUNT(*) FROM newsletter')->fetchColumn(),'email_provider'=>cfg('EMAIL_PROVIDER','none'),'storage'=>cfg('STORAGE_DRIVER','local'),
-        'payment_mode'=>str_contains((string)cfg('SIMPLEPAY_BASE_URL','sandbox'),'sandbox')?'sandbox':'live'];
+        ...payment_config(),'invoice_provider'=>cfg('INVOICE_PROVIDER','none'),'invoice_enabled'=>invoice_ready_config(barion_mode())];
     if($method==='GET'&&$path==='/admin/products') return array_map(fn($p)=>public_product($p,true),rows('products',filter_var($_GET['include_archived']??false,FILTER_VALIDATE_BOOLEAN)?'1':"status<>'archived'"));
     if($method==='POST'&&$path==='/admin/catalog/english-20261002') return import_english_catalog();
     if($method==='POST'&&$path==='/admin/catalog/import-20260920') { require_once __DIR__.'/catalog_import.php'; return import_catalog_20260920(); }
@@ -94,7 +99,7 @@ function route(string $method,string $path,array $b): mixed {
     }
     if($method==='PATCH'&&preg_match('~^/admin/orders/([^/]+)/status$~',$path,$m)) return order_status($m[1],$b);
     if($method==='PATCH'&&preg_match('~^/admin/orders/([^/]+)/invoice$~',$path,$m)) return tx(function() use($m,$b) {
-        $o=need('orders',$m[1],true); $status=required($b,'status'); if(!in_array($status,['NONE','NOT_CONFIGURED','PENDING_PROVIDER','PENDING','ISSUED','MANUAL','ERROR','CANCELLED'],true)) fail(422,'invalid_invoice_status');
+        $o=need('orders',$m[1],true); if(($o['invoice']['provider']??'')==='szamlazz'&&in_array($o['invoice']['status']??'',['QUEUED','PROCESSING','ISSUED'],true))fail(409,'Az automatikus számla itt nem írható felül.'); $status=required($b,'status'); if(!in_array($status,['NONE','NOT_CONFIGURED','PENDING_PROVIDER','PENDING','ISSUED','MANUAL','ERROR','CANCELLED'],true)) fail(422,'invalid_invoice_status');
         $o['invoice']=['status'=>$status,'number'=>text_field($b,'number'),'url'=>web_url(text_field($b,'url')),'provider'=>'manual','issued_at'=>now()]; save('orders',$o); return ['ok'=>true];
     });
     if($method==='POST'&&preg_match('~^/admin/orders/([^/]+)/invoice/send$~',$path,$m)) return tx(function()use($m){$o=need('orders',$m[1],true);if(empty($o['invoice']['number'])||empty($o['invoice']['url']))fail(422,'Előbb add meg a számlaszámot és a számla letöltési címét.');if(cfg('EMAIL_PROVIDER','none')==='none')fail(422,'Az e-mail-küldés nincs beállítva.');queue_event('invoice_ready',$o,null,false,':'.$o['invoice']['number']);return ['ok'=>true];});

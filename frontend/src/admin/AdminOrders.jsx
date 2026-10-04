@@ -118,7 +118,8 @@ function OrderDetail({ orderId, onClose, onChanged }) {
         <aside className="space-y-5">
           <Section title={a("status")}>
             <div className="flex flex-wrap gap-2"><Badge value={o.payment_status} label={`${a("payment")}: ${a("ps_" + o.payment_status)}`} testId="od-payment" /><Badge value={o.fulfillment_status} label={a("fs_" + o.fulfillment_status)} testId="od-fs" /></div>
-            {o.transaction_id && <p className="admin-help">SimplePay: {o.transaction_id}</p>}
+            {o.payment_environment === "sandbox" && <p className="admin-help">TESZTRENDELÉS / TEST ORDER — ne add fel / do not ship</p>}
+            {o.transaction_id && <p className="admin-help">{o.payment_provider === "barion" ? "Barion" : "SimplePay"}: {o.transaction_id}</p>}
             <Field label={a("changeStatus")} id="od-fs-select"><select id="od-fs-select" className="admin-input" value={fs} onChange={(e) => setFs(e.target.value)} data-testid="od-fs-select">{FS.map((s) => <option key={s} value={s}>{a("fs_" + s)}</option>)}</select></Field>
             {fs === "SHIPPED" && (
               <div className="space-y-3 border-t border-[#3d3835] pt-3">
@@ -133,6 +134,7 @@ function OrderDetail({ orderId, onClose, onChanged }) {
           </Section>
           <Section title={a("invoice")}>
             <p className="admin-help">{a("inv_" + (o.invoice?.status || "NONE"))}{o.invoice?.error ? ` — ${o.invoice.error}` : ""}</p>
+            {o.invoice?.provider==='szamlazz'&&<p className="admin-help">Az automatikus számla a háttérben készül. Ellenőrzést igénylő állapotnál keresd meg a rendelésazonosítót a Számlázz.hu-ban, mielőtt új számlát készítenél.</p>}
             <Field label={a("invoiceStatus")} id="od-inv-status"><select id="od-inv-status" className="admin-input" value={inv.status} onChange={(e) => setInv({ ...inv, status: e.target.value })} data-testid="od-inv-status">{["NONE", "ISSUED", "MANUAL", "ERROR"].map((s) => <option key={s} value={s}>{a("inv_" + s)}</option>)}</select></Field>
             <Field label={a("invoiceNo")} id="od-inv-no"><input id="od-inv-no" className="admin-input" value={inv.number || ""} onChange={(e) => setInv({ ...inv, number: e.target.value })} data-testid="od-inv-no" /></Field>
             <Field label={a("invoiceUrl")} id="od-inv-url"><input id="od-inv-url" className="admin-input" value={inv.url || ""} onChange={(e) => setInv({ ...inv, url: e.target.value })} data-testid="od-inv-url" /></Field>

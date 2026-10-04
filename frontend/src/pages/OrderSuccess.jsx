@@ -10,17 +10,23 @@ export default function OrderSuccess() {
   const [params] = useSearchParams();
   const [order, setOrder] = useState(null);
   const [missing, setMissing] = useState(false);
-  const { t, tr, label } = useLang();
+  const { t, tr, label, lang } = useLang();
 
   useEffect(() => {
     const r = params.get("r"), s = params.get("s");
     if (r && s) api.post("/payments/return", { r, s }).catch(() => {});
-    let tries = 0;
-    const load = () => api.get(`/orders/${orderId}`).then(({ data }) => {
-      setOrder(data);
-      if (data.payment_status === "UNPAID" && r && tries < 5) { tries += 1; setTimeout(load, 3000); }
-    }).catch(() => setMissing(true));
-    load();
+    let tries=0, timer, cancelled=false;
+    const load=async()=>{
+      if(cancelled)return;
+      if(params.get('barion'))await api.post('/payments/status',{order_id:orderId}).catch(()=>{});
+      try {
+        const {data}=await api.get(`/orders/${orderId}`);
+        if(cancelled)return;
+        setOrder(data);
+        if(!['PAID','FAILED'].includes(data.payment_status)&&tries++<12)timer=setTimeout(load,5000);
+      } catch {if(!cancelled)setMissing(true);}
+    };
+    load();return ()=>{cancelled=true;clearTimeout(timer);};
   }, [orderId, params]);
 
   const pay = order?.payment_status;
@@ -39,6 +45,7 @@ export default function OrderSuccess() {
       <div className="overline mt-6 mb-3">#{orderId}</div>
       <h1 className="font-serif-display text-5xl" data-testid="order-title">{title}</h1>
       <p className="mt-4 text-[#B8AE95] leading-relaxed" data-testid="order-desc">{desc}</p>
+      {order?.payment_environment === "sandbox" && <p role="status" className="mt-4 text-[#D4AF6E]">{lang === "en" ? "Test order — no real payment was made." : "Tesztrendelés – nem történt valódi pénzmozgás."}</p>}
       {order && (
         <>
           <div className="mt-6 flex justify-center gap-3 text-xs uppercase tracking-[0.2em]">

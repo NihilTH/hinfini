@@ -3,6 +3,8 @@ declare(strict_types=1);
 function sp_sign(string $raw): string { return base64_encode(hash_hmac('sha384',$raw,(string)cfg('SIMPLEPAY_SECRET_KEY'),true)); }
 function sp_valid(string $raw,string $signature): bool { return cfg('SIMPLEPAY_SECRET_KEY')!=='' && hash_equals(sp_sign($raw),$signature); }
 function payment_start(array $b): array {
+    if(payment_provider()==='barion')return barion_start($b);
+    if(payment_provider()!=='simplepay')fail(503,'payment_not_configured');
     $id=required($b,'order_id',80);
     if(!cfg('SIMPLEPAY_MERCHANT_ID')||!cfg('SIMPLEPAY_SECRET_KEY')||!cfg('PUBLIC_SITE_URL')) fail(503,'payment_not_configured');
     $reservation=tx(function() use($id) {

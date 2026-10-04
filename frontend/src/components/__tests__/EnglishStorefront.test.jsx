@@ -28,3 +28,19 @@ test('English events page has an English empty state',async()=>{
  expect(host.textContent).toContain('There are no upcoming events');
  expect(host.textContent).not.toContain('Események');
 });
+
+test('events display their own uncropped image and omit empty images',async()=>{
+ api.get.mockResolvedValue({data:[
+  {event_id:'a',title:'Vásár',title_en:'Fair',image:'/fair.png',image_alt:'Fair poster'},
+  {event_id:'b',title:'Másik',title_en:'Workshop',image:'/workshop.png'},
+  {event_id:'c',title:'Kép nélkül',title_en:'No image'}
+ ]});
+ await mount(<Events/>);
+ const images=host.querySelectorAll('article img');
+ expect(images).toHaveLength(2);
+ expect(images[0].getAttribute('src')).toBe('/fair.png');
+ expect(images[0].alt).toBe('Fair poster');
+ expect(images[1].getAttribute('src')).toBe('/workshop.png');
+ expect(images[1].alt).toBe('Workshop');
+ expect(images[0].className).toContain('object-contain');
+});

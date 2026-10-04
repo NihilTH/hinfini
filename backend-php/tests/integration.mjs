@@ -191,6 +191,21 @@ try {
  assert.equal((await request('DELETE','/admin/media/med_home_test',{},true)).data.detail,'media_in_use');
  await ok('PUT','/admin/homepage',{media_id:'',alt:'Alap',alt_en:'Default'},true);
  assert.equal((await ok('GET','/homepage')).image,'/hero-candle-pouring.webp');checks++;
+ // Each event owns its optional image; only validated media may be selected.
+ const eventBody={title:'Vásár',location:'Budapest',description:'Gyertyák',starts_at:'2026-12-01T10:00',active:true};
+ assert.equal((await request('POST','/admin/events',eventBody)).status,401);
+ const eventA=await ok('POST','/admin/events',{...eventBody,image_media_id:'med_home_test',image:'javascript:alert(1)',image_alt:'Vásár 🕯️'},true);
+ const eventB=await ok('POST','/admin/events',{...eventBody,title:'Másik esemény'},true);
+ assert.equal(eventA.image,'https://example.test/home.png');assert.equal(eventB.image,'');
+ assert.equal((await request('DELETE','/admin/media/med_home_test',{},true)).data.detail,'media_in_use');
+ const eventEdited=await ok('PUT','/admin/events/'+eventA.event_id,{...eventBody,title:'Új cím'},true);
+ assert.equal(eventEdited.image,eventA.image);assert.equal(eventEdited.image_alt,'Vásár 🕯️');
+ assert.equal((await request('PUT','/admin/events/'+eventA.event_id,{...eventBody,image_media_id:'missing'},true)).status,404);
+ const publicEvents=await ok('GET','/events');
+ assert.equal(publicEvents.find(e=>e.event_id===eventA.event_id).image,eventA.image);
+ assert.equal(publicEvents.find(e=>e.event_id===eventB.event_id).image,'');
+ const eventCleared=await ok('PUT','/admin/events/'+eventA.event_id,{...eventBody,image_media_id:''},true);
+ assert.equal(eventCleared.image,'');assert.equal(eventCleared.image_alt,'');checks++;
  console.log(`PASS: ${checks} integration scenarios (including concurrent inventory, signed payments, admin CRUD, upload validation).`);
 } catch(e) { console.error(stderr.slice(-4000));throw e; }
 finally { try{process.kill(-server.pid,'SIGTERM');}catch{server.kill();} }

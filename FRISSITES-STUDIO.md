@@ -96,3 +96,16 @@ Ehhez a frissítéshez a csomag **public_html és backend-php mappáját is** fe
 6. Nyisd meg vagy frissítsd a főoldalt. A kép az adatbázisban tárolt beállításból töltődik be, így a későbbi kódfrissítések után is megmarad.
 
 A főoldalon használt képet a médiatár nem engedi törölni. Előbb cseréld másikra és mentsd el. Az **Alapértelmezett kép visszaállítása**, majd a mentés az eredeti fekete-arany gyertyaöntős képre vált vissza.
+
+
+## 2026. október 4. — Eseményképek
+
+A frissítéshez a csomag **public_html és backend-php** mappájának tartalmát is töltsd fel a megfelelő helyre. A saját config.local.php fájlt és a feltöltött képeket őrizd meg. SQL-import nem szükséges.
+
+1. Ctrl+F5 után az adminban nyisd meg az **Események** fület.
+2. Válaszd az **Új esemény** vagy egy meglévő eseménynél a **Szerkesztés** gombot.
+3. **Kép kiválasztása / feltöltése**: válassz a médiatárból, vagy tölts fel új képet (JPG, PNG, WebP vagy GIF, legfeljebb 5 MB).
+4. Az előnézet ellenőrzése után kattints az esemény **Mentés** gombjára. A feltöltés önmagában még nem teszi a képet az eseményhez.
+5. Nyisd meg az Események oldalt: a kép az esemény szövege fölött, levágás nélkül jelenik meg. Kép nélkül is menthetsz eseményt.
+
+A kép később cserélhető vagy eltávolítható. A médiatár védi az eseményben használt képet a törléstől; először az eseménynél távolítsd el vagy cseréld ki, majd mentsd el.

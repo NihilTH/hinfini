@@ -84,7 +84,14 @@ function studio_route(string $method,string $path,array $b): mixed {
     if($method==='PUT'&&preg_match('~^/admin/coupons/([^/]+)$~',$path,$m))return tx(function()use($b,$m){$old=need('coupons',$m[1],true);$d=coupon_input($b);if($d['code']!==$old['code'])fail(422,'A kuponkód nem módosítható.');$d['used']=$old['used'];save('coupons',$d);return $d;});
     if($method==='GET'&&$path==='/admin/events')return rows('events','1',[],'starts_at ASC');
     if(in_array($method,['POST','PUT'],true)&&preg_match('~^/admin/events(?:/([^/]+))?$~',$path,$m)){
-        $d=['event_id'=>$m[1]??uid('evt'),'title'=>required($b,'title'),'location'=>required($b,'location'),'description'=>text_field($b,'description','',5000),'starts_at'=>required($b,'starts_at'),'active'=>boolean($b,'active',true)];if(strtotime($d['starts_at'])===false)fail(422,'Érvénytelen időpont.');$d['starts_at']=gmdate('Y-m-d\TH:i:s\Z',strtotime($d['starts_at']));if(isset($m[1]))need('events',$m[1]);save('events',$d,!isset($m[1]));return $d;
+        $d=['event_id'=>$m[1]??uid('evt'),'title'=>required($b,'title'),'location'=>required($b,'location'),'description'=>text_field($b,'description','',5000),'starts_at'=>required($b,'starts_at'),'active'=>boolean($b,'active',true)];if(strtotime($d['starts_at'])===false)fail(422,'Érvénytelen időpont.');$d['starts_at']=gmdate('Y-m-d\TH:i:s\Z',strtotime($d['starts_at']));return tx(function()use($d,$b,$m){
+            $old=isset($m[1])?need('events',$m[1],true):[];
+            $id=array_key_exists('image_media_id',$b)?text_field($b,'image_media_id','',191):($old['image_media_id']??'');
+            $media=$id!==''?need('media',$id,true):null;
+            $d['image_media_id']=$id; $d['image']=$media?$media['url']:'';
+            $d['image_alt']=$media?text_field($b,'image_alt',(string)($old['image_alt']??''),500):'';
+            save('events',$d,!isset($m[1]));return $d;
+        });
     }
     if($method==='DELETE'&&preg_match('~^/admin/events/([^/]+)$~',$path,$m)){remove('events',$m[1]);return ['ok'=>true];}
     return null;

@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import CookieChoices from "@/components/CookieChoices";
 import BarionPixel from "@/components/BarionPixel";
 import api from "@/lib/api";
 import { useLang } from "@/context/LangContext";
@@ -25,7 +26,7 @@ export const CatalogProvider = ({ children }) => {
     return method === "pickup" ? config.shipping_pickup : config.shipping_home;
   }, [config]);
 
-  return <CatalogContext.Provider value={{ categories, catLabel, config, shippingFee, reload }}><BarionPixel config={config}/>{children}</CatalogContext.Provider>;
+  return <CatalogContext.Provider value={{ categories, catLabel, config, shippingFee, reload }}><BarionPixel config={config}/><CookieChoices config={config}/>{children}</CatalogContext.Provider>;
 };
 
 export const useCatalog = () => useContext(CatalogContext);

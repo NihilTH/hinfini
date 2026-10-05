@@ -1,0 +1,385 @@
+{
+  "version": "2026-10-05",
+  "merchant": {
+    "name": "Sopronyi Dominik egyéni vállalkozó",
+    "office": "4287 Vámospércs, Temető utca 25., Magyarország",
+    "returns": "4287 Vámospércs, Béke utca 59., Magyarország",
+    "tax": "91463928-1-29",
+    "registration": "61196429",
+    "email": "hinfinicandles@hinfinicandles.hu",
+    "copyEmail": "hinfinicandles@gmail.com",
+    "phone": "+36 30 161 2484"
+  },
+  "pages": {
+    "elallas": {
+      "key": "legal.returns",
+      "hu": [
+        [
+          "14 napos elállási jog",
+          "Fogyasztóként az áru átvételétől számított 14 napon belül indokolás nélkül elállhatsz. Külön érkező termékek egy rendelése esetén az utolsó áru átvétele számít. Az elállást az átvétel előtt is közölheted. Elég, ha a határidő lejárta előtt elküldöd az egyértelmű nyilatkozatot."
+        ],
+        [
+          "Hogyan jelezd?",
+          "Az alábbi „Elállás a szerződéstől” űrlapon, a hinfinicandles@hinfinicandles.hu e-mail-címen vagy a székhelyre küldött levélben jelezheted. Add meg a nevedet, a rendelés azonosítóját vagy más azonosító adatait és az érintett termékeket. Az űrlap használata nem kötelező. Az online bejelentés tartalmáról és időpontjáról e-mailes átvételi elismervényt küldünk."
+        ],
+        [
+          "Visszaküldés",
+          "Címzett: Sopronyi Dominik egyéni vállalkozó. Visszaküldési cím: 4287 Vámospércs, Béke utca 59., Magyarország. A közléstől számított 14 napon belül küldd vissza az árut. A visszaküldés közvetlen költségét te viseled. Gondoskodj biztonságos csomagolásról; az eredeti csomagolás nem feltétele az elállásnak. Csak a jelleg, tulajdonságok és működés megállapításához szükséges vizsgálatot meghaladó használatból eredő értékcsökkenésért felelsz."
+        ],
+        [
+          "Visszatérítés",
+          "Az elállásról való tudomásszerzéstől számított legfeljebb 14 napon belül visszatérítjük a megfizetett összeget, teljes elálláskor a legolcsóbb szokásos kiszállítás költségét is. A visszatérítést az áru visszaérkezéséig vagy a visszaküldés igazolásáig visszatarthatjuk; a korábbi időpont számít. Az eredeti fizetési módot használjuk, kivéve, ha kifejezetten másban állapodunk meg, többletdíj nélkül."
+        ],
+        [
+          "Egyedi termékek és hibás teljesítés",
+          "A kifejezetten a vásárló utasítása alapján, személyre szabottan készített termékekre a 45/2014. (II. 26.) Korm. rendelet 29. § (1) c) pontja szerinti kivétel alkalmazható. Egy szokásos készletváltozat kiválasztása önmagában nem tesz minden terméket kivétellé. Az elállási kivétel nem érinti a hibás teljesítés miatti jogaidat."
+        ],
+        [
+          "Elállási nyilatkozatminta",
+          "Címzett: Sopronyi Dominik egyéni vállalkozó, 4287 Vámospércs, Temető utca 25.; hinfinicandles@hinfinicandles.hu.\nAlulírott kijelentem, hogy elállok az alábbi áru adásvételére irányuló szerződésemtől:\nTermék(ek): …\nRendelés dátuma / átvétel dátuma: …\nRendelésazonosító: …\nFogyasztó neve és címe: …\nDátum: …\nAláírás (kizárólag papíron): …"
+        ]
+      ],
+      "en": [
+        [
+          "14-day right of withdrawal",
+          "As a consumer, you may withdraw without giving a reason within 14 days of receiving the goods. For one order delivered in separate shipments, the period starts when the last goods arrive. You may also withdraw before delivery. Sending an unambiguous notice before the deadline is sufficient."
+        ],
+        [
+          "How to notify us",
+          "Use the “Withdraw from the contract” form below, email hinfinicandles@hinfinicandles.hu or send a letter to our registered office. Include your name, order reference or other details identifying the contract, and the goods concerned. Use of the form is optional. Online notices receive an email acknowledgement containing the notice and submission time."
+        ],
+        [
+          "Returning goods",
+          "Recipient: Sopronyi Dominik egyéni vállalkozó. Return address: 4287 Vámospércs, Béke utca 59., Hungary. Send the goods back within 14 days of notifying us. You bear the direct cost of returning them. Package them securely; original packaging is not a condition of withdrawal. You are responsible only for diminished value resulting from handling beyond what is necessary to establish their nature, characteristics and functioning."
+        ],
+        [
+          "Refunds",
+          "We refund payments within 14 days of learning of your withdrawal, including the least expensive standard outbound delivery charge when you withdraw from the entire order. We may withhold reimbursement until we receive the goods or proof of return, whichever is earlier. Refunds use the original payment method unless you expressly agree otherwise, without additional fees."
+        ],
+        [
+          "Personalised goods and defects",
+          "The exception in Section 29(1)(c) of Hungarian Government Decree 45/2014 may apply to goods made to your specifications or clearly personalised. Choosing a standard stock variant does not automatically make a product exempt. An exception to withdrawal does not affect your rights regarding defective goods."
+        ],
+        [
+          "Model withdrawal notice",
+          "To: Sopronyi Dominik egyéni vállalkozó, 4287 Vámospércs, Temető utca 25., Hungary; hinfinicandles@hinfinicandles.hu.\nI hereby withdraw from my contract for the sale of the following goods:\nGoods: …\nOrdered on / received on: …\nOrder reference: …\nConsumer name and address: …\nDate: …\nSignature (paper notices only): …"
+        ]
+      ]
+    },
+    "kapcsolat": {
+      "key": "legal.contact",
+      "hu": [
+        [
+          "A webshop üzemeltetője",
+          "Sopronyi Dominik egyéni vállalkozó (H’INFINI Candles).\nSzékhely: 4287 Vámospércs, Temető utca 25., Magyarország.\nEgyéni vállalkozói nyilvántartási szám: 61196429. Adószám: 91463928-1-29.\nFőtevékenység: 329910 – Gyertyaöntés, gyertyamártás. Alanyi adómentes vállalkozás.\nE-mail: hinfinicandles@hinfinicandles.hu. Telefon: +36 30 161 2484."
+        ],
+        [
+          "Ügyfélszolgálat és visszaküldés",
+          "Rendeléssel, panasszal és adatkezeléssel kapcsolatos megkeresés: hinfinicandles@hinfinicandles.hu. Másodlagos e-mail: hinfinicandles@gmail.com. Kérjük, rendelés esetén add meg az azonosítót.\nVisszaküldés: Sopronyi Dominik egyéni vállalkozó, 4287 Vámospércs, Béke utca 59. Ez a székhelytől eltérő visszaküldési cím; nem meghirdetett üzlet vagy személyes átvételi pont."
+        ]
+      ],
+      "en": [
+        [
+          "Webshop operator",
+          "Sopronyi Dominik egyéni vállalkozó, a Hungarian sole trader trading as H’INFINI Candles.\nRegistered office: 4287 Vámospércs, Temető utca 25., Hungary.\nSole trader registration number: 61196429. Tax number: 91463928-1-29.\nPrincipal activity: 329910 – candle casting and dipping. Hungarian small-business VAT exemption (AAM).\nEmail: hinfinicandles@hinfinicandles.hu. Telephone: +36 30 161 2484."
+        ],
+        [
+          "Customer service and returns",
+          "For orders, complaints and privacy enquiries: hinfinicandles@hinfinicandles.hu. Alternative email: hinfinicandles@gmail.com. Please include your order reference where relevant.\nReturns: Sopronyi Dominik egyéni vállalkozó, 4287 Vámospércs, Béke utca 59., Hungary. This differs from our registered office and is not an advertised shop or collection point."
+        ]
+      ]
+    },
+    "szallitas": {
+      "key": "legal.shipping",
+      "hu": [
+        [
+          "Szállítás és díjak",
+          "Házhozszállítás Magyarország területén. Díja: {shipping_home} Ft. A termékek kuponlevonás előtti részösszegének {free_shipping_from} Ft-os értékétől a szállítás ingyenes (a határértéket is beleértve). Csomagpontos és személyes átvétel jelenleg nem választható. A pénztár a teljes fizetendő összeget elküldés előtt megmutatja."
+        ],
+        [
+          "Teljesítés",
+          "A készlet és az elérhetőség a termékoldalon látható. A konkrét feladási időről és a fuvarozóról rendeléshez kapcsolódó tájékoztatást adunk. Eltérő megállapodás hiányában a fogyasztói adásvétel törvényi teljesítési határideje legfeljebb 30 nap. Egyedi gyertya esetén a vállalt elkészítési és szállítási idő az elfogadásra küldött ajánlat része."
+        ],
+        [
+          "Fizetés és számla",
+          "Az online bankkártyás fizetést a Barion Payment Zrt. biztosítja, forintban. A kártyaadatokat a Barion kezeli, azokhoz a webshop nem fér hozzá. Csak a pénztárban ténylegesen elérhető fizetési mód használható. Az éles fizetés jóváhagyás és beállítás után indul; a tesztfizetés nem valódi pénzmozgás. A számlázáshoz a Számlázz.hu rendszert használjuk; a kiállított számlához e-mailben biztosítunk hozzáférést."
+        ]
+      ],
+      "en": [
+        [
+          "Shipping and charges",
+          "Home delivery within Hungary costs HUF {shipping_home}. Shipping is free when the product subtotal before coupon discounts reaches HUF {free_shipping_from}, including the threshold itself. Parcel-point collection and personal collection are currently unavailable. Checkout shows the complete total before submission."
+        ],
+        [
+          "Fulfilment",
+          "Stock and availability are shown on the product page. We provide order-specific dispatch and carrier information. Unless agreed otherwise, the statutory delivery period for consumer sales is no more than 30 days. For personalised candles, production and delivery times are included in the quotation before acceptance."
+        ],
+        [
+          "Payment and invoices",
+          "Online card payments in HUF are processed by Barion Payment Zrt. The shop does not receive card details. Only payment methods actually available at checkout can be used. Live payments require approval and activation; test payments do not transfer real money. We use Számlázz.hu for invoicing and provide access to issued invoices by email."
+        ]
+      ]
+    },
+    "aszf": {
+      "key": "legal.terms",
+      "hu": [
+        [
+          "A webshop üzemeltetője",
+          "Sopronyi Dominik egyéni vállalkozó (H’INFINI Candles).\nSzékhely: 4287 Vámospércs, Temető utca 25., Magyarország.\nEgyéni vállalkozói nyilvántartási szám: 61196429. Adószám: 91463928-1-29.\nFőtevékenység: 329910 – Gyertyaöntés, gyertyamártás. Alanyi adómentes vállalkozás.\nE-mail: hinfinicandles@hinfinicandles.hu. Telefon: +36 30 161 2484."
+        ],
+        [
+          "Termékek és szerződési nyelv",
+          "Kézzel öntött gyertyákat, illatviaszt, formagyertyákat, asztali díszeket és a katalógusban feltüntetett kapcsolódó termékeket értékesítünk. A tulajdonságokat, használatot, képet és elérhetőséget a termék adatlapja tartalmazza. A szerződés nyelve magyar; az angol felület tájékoztatást segítő fordítás. Az elektronikus rendelést megőrizzük; annak adatait az ügyfélszolgálattól kérheted."
+        ],
+        [
+          "Rendelés menete és adatjavítás",
+          "Válaszd ki a terméket, változatot és mennyiséget, majd tedd kosárba. A kosárban módosíthatsz vagy törölhetsz. A pénztárban add meg a szállítási és számlázási adatokat, ellenőrizd az összesítést, és fogadd el az ÁSZF-et. Az adatokat elküldés előtt javíthatod. A megrendelő gomb fizetési kötelezettséggel járó ajánlatot küld. Téves adat esetén haladéktalanul keress minket e-mailben."
+        ],
+        [
+          "Visszaigazolás",
+          "A rendelés e-mailes visszaigazolásával jön létre a szerződés; a visszaigazolás önmagában nem igazolja a sikeres fizetést. Ha az elektronikus visszaigazolás legkésőbb 48 órán belül nem érkezik meg, mentesülsz az ajánlati kötöttség alól. A fizetési állapotot külön jelezzük."
+        ],
+        [
+          "Árak és kuponok",
+          "Az árak forintban értendő végső fogyasztói árak. Az eladó alanyi adómentes (AAM), áfát nem számít fel. A szállítás külön tétel. A kupon érvényességét és kedvezményét a rendszer ellenőrzi; a kedvezmény az összesítésben látható. A szerver a rendeléskor ismét ellenőrzi az árakat és a készletet. Nyilvánvaló árhiba esetén egyeztetünk; magasabb árat beleegyezésed nélkül nem terhelünk."
+        ],
+        [
+          "Szállítás és díjak",
+          "Házhozszállítás Magyarország területén. Díja: {shipping_home} Ft. A termékek kuponlevonás előtti részösszegének {free_shipping_from} Ft-os értékétől a szállítás ingyenes (a határértéket is beleértve). Csomagpontos és személyes átvétel jelenleg nem választható. A pénztár a teljes fizetendő összeget elküldés előtt megmutatja."
+        ],
+        [
+          "Fizetés és számla",
+          "Az online bankkártyás fizetést a Barion Payment Zrt. biztosítja, forintban. A kártyaadatokat a Barion kezeli, azokhoz a webshop nem fér hozzá. Csak a pénztárban ténylegesen elérhető fizetési mód használható. Az éles fizetés jóváhagyás és beállítás után indul; a tesztfizetés nem valódi pénzmozgás. A számlázáshoz a Számlázz.hu rendszert használjuk; a kiállított számlához e-mailben biztosítunk hozzáférést."
+        ],
+        [
+          "Egyedi gyertyák",
+          "Az egyedi gyertya űrlap ajánlatkérés, nem fizetendő megrendelés. A kiválasztott illatot, tartót, feliratot, képet, színt és elképzelést figyelembe véve e-mailben adunk ajánlatot, árral és határidővel. Az elfogadás módját és a személyre szabás miatti elállási kivételt az ajánlat tartalmazza. Átutalás csak a később megadott, ellenőrzött vállalkozói bankszámlára, elfogadott ajánlat alapján kérhető."
+        ],
+        [
+          "Szállítási határidő",
+          "Eltérő megállapodás hiányában a teljesítés törvényi határideje legfeljebb 30 nap. A feladásról tájékoztatunk. Ha a teljesítés akadályba ütközik, egyeztetünk; megszüntetett rendelés esetén a megfizetett összeget visszatérítjük."
+        ],
+        [
+          "14 napos elállási jog",
+          "Fogyasztóként az áru átvételétől számított 14 napon belül indokolás nélkül elállhatsz. Külön érkező termékek egy rendelése esetén az utolsó áru átvétele számít. Az elállást az átvétel előtt is közölheted. Elég, ha a határidő lejárta előtt elküldöd az egyértelmű nyilatkozatot."
+        ],
+        [
+          "Hogyan jelezd?",
+          "Az alábbi „Elállás a szerződéstől” űrlapon, a hinfinicandles@hinfinicandles.hu e-mail-címen vagy a székhelyre küldött levélben jelezheted. Add meg a nevedet, a rendelés azonosítóját vagy más azonosító adatait és az érintett termékeket. Az űrlap használata nem kötelező. Az online bejelentés tartalmáról és időpontjáról e-mailes átvételi elismervényt küldünk."
+        ],
+        [
+          "Visszaküldés",
+          "Címzett: Sopronyi Dominik egyéni vállalkozó. Visszaküldési cím: 4287 Vámospércs, Béke utca 59., Magyarország. A közléstől számított 14 napon belül küldd vissza az árut. A visszaküldés közvetlen költségét te viseled. Gondoskodj biztonságos csomagolásról; az eredeti csomagolás nem feltétele az elállásnak. Csak a jelleg, tulajdonságok és működés megállapításához szükséges vizsgálatot meghaladó használatból eredő értékcsökkenésért felelsz."
+        ],
+        [
+          "Visszatérítés",
+          "Az elállásról való tudomásszerzéstől számított legfeljebb 14 napon belül visszatérítjük a megfizetett összeget, teljes elálláskor a legolcsóbb szokásos kiszállítás költségét is. A visszatérítést az áru visszaérkezéséig vagy a visszaküldés igazolásáig visszatarthatjuk; a korábbi időpont számít. Az eredeti fizetési módot használjuk, kivéve, ha kifejezetten másban állapodunk meg, többletdíj nélkül."
+        ],
+        [
+          "Egyedi termékek és hibás teljesítés",
+          "A kifejezetten a vásárló utasítása alapján, személyre szabottan készített termékekre a 45/2014. (II. 26.) Korm. rendelet 29. § (1) c) pontja szerinti kivétel alkalmazható. Egy szokásos készletváltozat kiválasztása önmagában nem tesz minden terméket kivétellé. Az elállási kivétel nem érinti a hibás teljesítés miatti jogaidat."
+        ],
+        [
+          "Hibás termék, kellékszavatosság",
+          "Fogyasztói adásvételnél főszabály szerint az átadástól számított 2 éven belül érvényesíthető kellékszavatossági igény. Az egy éven belül felismert hibáról főszabály szerint vélelmezni kell, hogy már az átadáskor fennállt. Elsődlegesen kijavítást vagy kicserélést kérhetsz, a jogszabály feltételei szerint árleszállítás vagy a szerződés megszüntetése is kérhető. A hiba bejelentéséhez írj az ügyfélszolgálatnak; a szükséges költségek az eladót terhelik."
+        ],
+        [
+          "Termékszavatosság és jótállás",
+          "A gyártóval szemben termékszavatosság keretében kijavítás vagy csere kérhető, a termék forgalomba hozatalától számított 2 éven belül, a törvényi feltételekkel. Ugyanazon hiba miatt a két szavatossági jog párhuzamosan nem érvényesíthető. A gyertyákra külön önkéntes jótállást nem vállalunk; ez nem korlátozza a törvényből eredő jogaidat."
+        ],
+        [
+          "Panaszkezelés és jogorvoslat",
+          "Panaszt e-mailben, telefonon vagy a székhelyre küldött levélben tehetsz. A szóbeli panaszt lehetőség szerint azonnal rendezzük, az írásbeli panaszra 30 napon belül érdemben, írásban válaszolunk. Elutasítás esetén indokolást és jogorvoslati tájékoztatást adunk. Fogyasztói jogvita esetén békéltető testülethez vagy bírósághoz fordulhatsz; az eljárásban együttműködünk. Fogyasztóvédelmi hatósági panasz is tehető."
+        ],
+        [
+          "Békéltető testület",
+          "A székhely szerinti testület: Hajdú-Bihar Vármegyei Békéltető Testület, 4025 Debrecen, Vörösmarty u. 13–15.; bekelteto@hbkik.hu; +36 52 500 743; https://www.hbmbekeltetes.hu/. A fogyasztó lakóhelye szerint illetékes testülethez is fordulhatsz. A testületek és az eljárás elérhetősége: https://www.bekeltetes.hu/."
+        ]
+      ],
+      "en": [
+        [
+          "Webshop operator",
+          "Sopronyi Dominik egyéni vállalkozó, a Hungarian sole trader trading as H’INFINI Candles.\nRegistered office: 4287 Vámospércs, Temető utca 25., Hungary.\nSole trader registration number: 61196429. Tax number: 91463928-1-29.\nPrincipal activity: 329910 – candle casting and dipping. Hungarian small-business VAT exemption (AAM).\nEmail: hinfinicandles@hinfinicandles.hu. Telephone: +36 30 161 2484."
+        ],
+        [
+          "Products and contract language",
+          "We sell hand-poured candles, wax melts, moulded candles, table decorations and related products listed in our catalogue. Each product page describes its features, use, image and availability. Contracts are concluded in Hungarian; the English interface is provided for convenience. Electronic order records are retained and can be requested from customer service."
+        ],
+        [
+          "Ordering and correcting details",
+          "Choose a product, variant and quantity and add it to your basket. You can change or remove items there. At checkout, enter delivery and billing details, check the summary and accept the terms. You can correct details before submitting. The order button submits an offer with an obligation to pay. Contact us promptly by email if you discover an error."
+        ],
+        [
+          "Confirmation",
+          "The contract is concluded by our order confirmation email; that email alone does not confirm successful payment. If the electronic acknowledgement does not arrive within 48 hours, you are released from your offer. Payment status is reported separately."
+        ],
+        [
+          "Prices and coupons",
+          "Prices are final consumer prices in HUF. The seller uses the Hungarian small-business VAT exemption (AAM) and does not charge VAT. Shipping is separate. Coupons are validated by the system and any discount is shown in the summary. Prices and stock are checked again on the server when ordering. We contact you about obvious pricing errors and never charge a higher price without your agreement."
+        ],
+        [
+          "Shipping and charges",
+          "Home delivery within Hungary costs HUF {shipping_home}. Shipping is free when the product subtotal before coupon discounts reaches HUF {free_shipping_from}, including the threshold itself. Parcel-point collection and personal collection are currently unavailable. Checkout shows the complete total before submission."
+        ],
+        [
+          "Payment and invoices",
+          "Online card payments in HUF are processed by Barion Payment Zrt. The shop does not receive card details. Only payment methods actually available at checkout can be used. Live payments require approval and activation; test payments do not transfer real money. We use Számlázz.hu for invoicing and provide access to issued invoices by email."
+        ],
+        [
+          "Personalised candles",
+          "The custom-candle form requests a quotation and does not place a payable order. We quote by email based on your scent, container, text, image, colour and idea, specifying price and timing. The quotation explains acceptance and any withdrawal exception for personalisation. Bank transfers are requested only to a subsequently supplied, verified business bank account after acceptance."
+        ],
+        [
+          "Delivery period",
+          "Unless agreed otherwise, the statutory delivery deadline is no more than 30 days. We notify you of dispatch. If fulfilment becomes impossible, we contact you; payments for cancelled orders are refunded."
+        ],
+        [
+          "14-day right of withdrawal",
+          "As a consumer, you may withdraw without giving a reason within 14 days of receiving the goods. For one order delivered in separate shipments, the period starts when the last goods arrive. You may also withdraw before delivery. Sending an unambiguous notice before the deadline is sufficient."
+        ],
+        [
+          "How to notify us",
+          "Use the “Withdraw from the contract” form below, email hinfinicandles@hinfinicandles.hu or send a letter to our registered office. Include your name, order reference or other details identifying the contract, and the goods concerned. Use of the form is optional. Online notices receive an email acknowledgement containing the notice and submission time."
+        ],
+        [
+          "Returning goods",
+          "Recipient: Sopronyi Dominik egyéni vállalkozó. Return address: 4287 Vámospércs, Béke utca 59., Hungary. Send the goods back within 14 days of notifying us. You bear the direct cost of returning them. Package them securely; original packaging is not a condition of withdrawal. You are responsible only for diminished value resulting from handling beyond what is necessary to establish their nature, characteristics and functioning."
+        ],
+        [
+          "Refunds",
+          "We refund payments within 14 days of learning of your withdrawal, including the least expensive standard outbound delivery charge when you withdraw from the entire order. We may withhold reimbursement until we receive the goods or proof of return, whichever is earlier. Refunds use the original payment method unless you expressly agree otherwise, without additional fees."
+        ],
+        [
+          "Personalised goods and defects",
+          "The exception in Section 29(1)(c) of Hungarian Government Decree 45/2014 may apply to goods made to your specifications or clearly personalised. Choosing a standard stock variant does not automatically make a product exempt. An exception to withdrawal does not affect your rights regarding defective goods."
+        ],
+        [
+          "Defective goods and legal guarantee",
+          "For consumer sales, claims for non-conforming goods can generally be made within two years of delivery. A defect identified within one year is generally presumed to have existed at delivery. You may primarily request repair or replacement; price reduction or termination is available under the statutory conditions. Report defects to customer service; necessary remedy costs are borne by the seller."
+        ],
+        [
+          "Producer liability and additional warranties",
+          "Under Hungarian product-warranty rules, repair or replacement may be sought from the producer within two years of the product being placed on the market, subject to statutory conditions. The two warranty remedies cannot be exercised simultaneously for the same defect. We do not offer an additional voluntary warranty for candles; your statutory rights remain unaffected."
+        ],
+        [
+          "Complaints and remedies",
+          "Complaints may be made by email, phone or post to our registered office. We aim to resolve oral complaints immediately and respond substantively in writing to written complaints within 30 days. A rejection includes reasons and information on remedies. Consumers may approach a conciliation board or court; we cooperate with the conciliation process. Complaints may also be submitted to the consumer protection authority."
+        ],
+        [
+          "Conciliation board",
+          "The board for our registered office is the Hajdú-Bihar County Conciliation Board, 4025 Debrecen, Vörösmarty u. 13–15., Hungary; bekelteto@hbkik.hu; +36 52 500 743; https://www.hbmbekeltetes.hu/. You may also contact the board competent for your residence. Board directory and procedure: https://www.bekeltetes.hu/."
+        ]
+      ]
+    },
+    "adatkezeles": {
+      "key": "legal.privacy",
+      "hu": [
+        [
+          "A webshop üzemeltetője",
+          "Sopronyi Dominik egyéni vállalkozó (H’INFINI Candles).\nSzékhely: 4287 Vámospércs, Temető utca 25., Magyarország.\nEgyéni vállalkozói nyilvántartási szám: 61196429. Adószám: 91463928-1-29.\nFőtevékenység: 329910 – Gyertyaöntés, gyertyamártás. Alanyi adómentes vállalkozás.\nE-mail: hinfinicandles@hinfinicandles.hu. Telefon: +36 30 161 2484."
+        ],
+        [
+          "Rendelés és fizetés",
+          "A név, e-mail, telefonszám, szállítási és számlázási cím, céges vásárlásnál adószám, termékek, árak és tranzakcióazonosítók a rendelés és kapcsolattartás célját szolgálják. Jogalap: GDPR 6. cikk (1) b) pont, szerződés teljesítése. A kötelező adatok nélkül nem tudjuk teljesíteni a rendelést. Kártyaadatokat nem tárolunk."
+        ],
+        [
+          "Ajánlatkérés és feltöltött kép",
+          "Az egyedi gyertyához megadott elérhetőséget, választásokat, szöveget és feltöltött képet az ajánlat és az elfogadott rendelés elkészítésére kezeljük, a GDPR 6. cikk (1) b) pontja alapján. A képet nem tesszük nyilvánossá és nem használjuk reklámként külön engedély nélkül. Csak olyan képet küldj, amelynek használatára jogosult vagy."
+        ],
+        [
+          "Számlázás, panasz és elállás",
+          "A számla adatait az adózási és bizonylatmegőrzési kötelezettségek teljesítésére kezeljük (GDPR 6. cikk (1) c)). A panasz és elállás neve, elérhetősége, azonosítója, tartalma és időpontja az ügy rendezését, a jogszabályi kötelezettséget és szükség esetén a jogi igények védelmét szolgálja (6. cikk (1) b), c), f))."
+        ],
+        [
+          "Hírlevél",
+          "Hírlevelet csak külön, önkéntes hozzájárulás alapján küldünk (GDPR 6. cikk (1) a)). Az e-mail-címet, nyelvet, hozzájárulás idejét és forrását kezeljük. A hozzájárulás bármikor visszavonható az ügyfélszolgálati e-mailen; ez a rendelést nem érinti."
+        ],
+        [
+          "Szolgáltatók és címzettek",
+          "Tárhely, adatbázis, helyi képtárolás és tárhelyi e-mail: Rackhost Zrt. (https://www.rackhost.hu/). Számlázás: KBOSS.hu Kft., Számlázz.hu (https://www.szamlazz.hu/adatvedelem/); jogszabály szerinti adatszolgáltatás a NAV részére. Fizetés: Barion Payment Zrt., önálló adatkezelő (https://www.barion.com/hu/adatvedelmi-tajekoztato/). A kiszállító a kézbesítéshez szükséges nevet, címet és elérhetőséget kapja meg; az adott fuvarozóról a szállítási tájékoztatásban adunk információt."
+        ],
+        [
+          "Belső értesítések és Gmail",
+          "A rendelési értesítések a hinfinicandles@hinfinicandles.hu címre érkeznek, és külön másolatot kap a hinfinicandles@gmail.com postafiók. A másolat így a Google levelezési rendszerébe is bekerül. A Google szolgáltatása EGT-n kívüli adatkezeléssel is járhat; részletek és garanciák: https://policies.google.com/privacy. A vásárlók e-mail-címeit nem adjuk át más vásárlóknak."
+        ],
+        [
+          "Megőrzés",
+          "A rendeléshez és jogi igényekhez szükséges adatokat főszabály szerint a teljesítéstől számított 5 évig, a panaszjegyzőkönyvet és választ 3 évig kezeljük. A számlákra az eladóra irányadó adózási bizonylatmegőrzési határidő vonatkozik; ahol számviteli megőrzés alkalmazandó, legalább 8 év. A meg nem rendelt egyedi ajánlat és képe legfeljebb 1 évig szükséges. A hírlevéladatot a hozzájárulás visszavonásáig kezeljük. Folyamatban lévő jogvita vagy törvényi kötelezettség a szükséges adatok megőrzését meghosszabbíthatja."
+        ],
+        [
+          "Böngészőtárolás és követés",
+          "A kosár (hi_cart_v1) és a nyelv (hi_lang) helyi böngészőtárolásban marad a törlésig. Ezek az általad kért működést biztosítják. A sütiválasztást 6 hónapig őrizzük. Opcionális Barion Pixel csak külön engedéllyel töltődik be; a döntés a Süti beállítások oldalon módosítható. Hírlevélhez külön hozzájárulás kell. Nem alkalmazunk a webshopban automatikus, joghatással járó profilalapú döntést."
+        ],
+        [
+          "Adatvédelmi jogok",
+          "Kérhetsz hozzáférést, helyesbítést, a feltételek fennállásakor törlést, korlátozást és adathordozhatóságot; jogos érdeken alapuló kezelés ellen tiltakozhatsz. Hozzájárulásodat visszavonhatod, ami a korábbi kezelés jogszerűségét nem érinti. Írj a hinfinicandles@hinfinicandles.hu címre. Főszabály szerint 1 hónapon belül válaszolunk. Panasszal a NAIH-hoz fordulhatsz: 1055 Budapest, Falk Miksa utca 9–11.; postacím: 1363 Budapest, Pf. 9.; https://www.naih.hu/. Bírósági jogorvoslat is igénybe vehető."
+        ]
+      ],
+      "en": [
+        [
+          "Webshop operator",
+          "Sopronyi Dominik egyéni vállalkozó, a Hungarian sole trader trading as H’INFINI Candles.\nRegistered office: 4287 Vámospércs, Temető utca 25., Hungary.\nSole trader registration number: 61196429. Tax number: 91463928-1-29.\nPrincipal activity: 329910 – candle casting and dipping. Hungarian small-business VAT exemption (AAM).\nEmail: hinfinicandles@hinfinicandles.hu. Telephone: +36 30 161 2484."
+        ],
+        [
+          "Orders and payment",
+          "Names, email addresses, telephone numbers, delivery and billing addresses, business tax numbers where applicable, products, prices and transaction references are used to fulfil orders and communicate with you. Legal basis: performance of a contract, Article 6(1)(b) GDPR. Required details are necessary to fulfil your order. We do not store card details."
+        ],
+        [
+          "Quotations and uploaded images",
+          "Contact details, choices, text and images supplied for custom candles are used to prepare quotations and fulfil accepted orders under Article 6(1)(b) GDPR. Images are not published or used for advertising without separate permission. Only upload images you are entitled to use."
+        ],
+        [
+          "Invoices, complaints and withdrawal",
+          "Invoice data is processed to meet tax and record-keeping obligations (Article 6(1)(c) GDPR). Names, contact details, references, contents and timestamps of complaints and withdrawal notices are used to resolve the matter, meet legal obligations and, where necessary, defend legal claims (Article 6(1)(b), (c) and (f))."
+        ],
+        [
+          "Newsletter",
+          "Newsletters require separate, voluntary consent (Article 6(1)(a) GDPR). We process your email address, language and the time and source of consent. You may withdraw consent at any time by emailing customer service, without affecting your order."
+        ],
+        [
+          "Service providers and recipients",
+          "Hosting, database, local image storage and hosting-based email: Rackhost Zrt. (https://www.rackhost.hu/). Invoicing: KBOSS.hu Kft., Számlázz.hu (https://www.szamlazz.hu/adatvedelem/), including legally required reporting to the Hungarian tax authority NAV. Payments: Barion Payment Zrt., an independent controller (https://www.barion.com/hu/adatvedelmi-tajekoztato/). The delivery carrier receives the name, address and contact details needed for delivery; the particular carrier is identified in shipping information."
+        ],
+        [
+          "Internal notifications and Gmail",
+          "Order notifications are sent to hinfinicandles@hinfinicandles.hu and separately copied to hinfinicandles@gmail.com. This places a copy in Google’s email service, which may involve processing outside the EEA. Details and safeguards: https://policies.google.com/privacy. Customer email addresses are not disclosed to other customers."
+        ],
+        [
+          "Retention",
+          "Data needed for orders and legal claims is generally retained for five years after fulfilment; complaint records and responses for three years. Invoices follow the seller’s applicable tax record-retention rules; where accounting retention applies, the period is at least eight years. Unaccepted custom quotations and their images are needed for no more than one year. Newsletter data is retained until consent is withdrawn. An ongoing dispute or legal obligation may extend retention of necessary records."
+        ],
+        [
+          "Browser storage and tracking",
+          "The basket (hi_cart_v1) and language (hi_lang) remain in local browser storage until cleared and support functionality you request. Cookie preferences are retained for six months. The optional Barion Pixel loads only with separate permission; change your choice on the Cookie settings page. Newsletter consent is separate. The shop does not make automated profile-based decisions with legal effects."
+        ],
+        [
+          "Your data protection rights",
+          "You may request access, correction and, where applicable, erasure, restriction and portability, and object to processing based on legitimate interests. You may withdraw consent without affecting earlier lawful processing. Contact hinfinicandles@hinfinicandles.hu; we normally respond within one month. You can complain to NAIH, 1055 Budapest, Falk Miksa utca 9–11., Hungary; postal address: 1363 Budapest, Pf. 9.; https://www.naih.hu/. Judicial remedies are also available."
+        ]
+      ]
+    },
+    "sutik": {
+      "key": "legal.cookies",
+      "hu": [
+        [
+          "Szükséges tárolás",
+          "A kosár és a választott nyelv működéséhez helyi böngészőtárolást használunk. Ezeket a böngésződben törölheted. A döntésedet hi_privacy_v1 néven, 6 hónapig őrizzük. A kezelőfelület belépési adatai csak az adminisztrátor munkamenetéhez szükségesek."
+        ],
+        [
+          "Opcionális Barion Pixel",
+          "A külön engedélyezhető Barion Pixel a fizetési visszaélések felismerését támogatja. Csak akkor töltjük be, ha az üzemeltető bekapcsolta és te engedélyezted. Elutasítása nem akadályozza a vásárlást. Marketinges Full Pixel eseményeket nem küldünk. A Barion által használt azonosítókról és megőrzésről: https://www.barion.com/hu/adatvedelmi-tajekoztato/. Visszavonáskor az oldal újratöltődik, további pixelbetöltés nem történik; a már elhelyezett harmadik féltől származó sütiket a böngészőben is törölheted."
+        ]
+      ],
+      "en": [
+        [
+          "Necessary storage",
+          "Local browser storage supports your basket and language choice. You can clear it in your browser. Your privacy choice is stored as hi_privacy_v1 for six months. Administration login data is needed only for the administrator’s session."
+        ],
+        [
+          "Optional Barion Pixel",
+          "The optional Barion Pixel supports payment-fraud detection. It loads only if enabled by the operator and accepted by you. Rejecting it does not prevent shopping. We do not send marketing Full Pixel events. Barion explains its identifiers and retention at https://www.barion.com/hu/adatvedelmi-tajekoztato/. Withdrawing permission reloads the page and prevents further loading; existing third-party cookies can also be cleared through your browser."
+        ]
+      ]
+    }
+  }
+}

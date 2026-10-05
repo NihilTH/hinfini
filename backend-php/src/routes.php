@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__.'/homepage.php';
+require_once __DIR__.'/legal.php';
 function route(string $method,string $path,array $b): mixed {
     $admin=str_starts_with($path,'/admin/'); if($admin) admin_auth();
+    if($method==='POST'&&$path==='/withdrawals')return withdrawal_create($b);
+    if($method==='GET'&&$path==='/admin/withdrawals')return rows('settings',"`key` LIKE 'withdrawal\_%'");
     $studio=studio_route($method,$path,$b);if($studio!==null)return $studio;
     if($method==='GET'&&$path==='/') return ['message'=>"H'INFINI Candles PHP API",'status'=>'ok'];
     if($method==='GET'&&$path==='/config') return ['free_shipping_from'=>(int)cfg('FREE_SHIPPING_FROM',25000),'shipping_home'=>(int)cfg('SHIPPING_FEE_HOME',1990),
@@ -108,7 +111,7 @@ function route(string $method,string $path,array $b): mixed {
     if($method==='GET'&&$path==='/admin/emails') return array_map('mail_public',rows('email_logs',empty($_GET['order_id'])?'1':'order_id=?',empty($_GET['order_id'])?[]:[(string)$_GET['order_id']],'created_at DESC'));
     if($method==='POST'&&preg_match('~^/admin/emails/([^/]+)/resend$~',$path,$m)) {
         $log=need('email_logs',$m[1]); if($log['event']==='admin_low_stock') fail(400,'not_resendable');
-        $o=str_starts_with($log['order_id']??'','custom_')?custom_mail_entity(need('custom_requests',$log['order_id'])):need('orders',$log['order_id']); return mail_public(queue_event($log['event'],$o,$log['recipient'],true)??['ok'=>false]);
+        $o=str_starts_with($log['order_id']??'','withdrawal_')?need('settings',$log['order_id']): (str_starts_with($log['order_id']??'','custom_')?custom_mail_entity(need('custom_requests',$log['order_id'])):need('orders',$log['order_id'])); return mail_public(queue_event($log['event'],$o,$log['recipient'],true)??['ok'=>false]);
     }
     fail(404,'Not found');
 }

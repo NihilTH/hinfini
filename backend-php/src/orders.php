@@ -47,7 +47,7 @@ function order_create(array $b): array {
         }
         $shipping=$subtotal>=(int)cfg('FREE_SHIPPING_FROM',25000)?0:(int)cfg('SHIPPING_FEE_HOME',1990);
         $discount=coupon_discount($code,$subtotal,true);if($subtotal-$discount['discount']+$shipping<=0)fail(400,'A kuponnal a fizetendő összegnek pozitívnak kell maradnia.');$o+=$discount;
-        $o+=['order_id'=>uid('ord'),'items'=>$lines,'subtotal'=>$subtotal,'shipping'=>$shipping,'total'=>$subtotal-$discount['discount']+$shipping,'accepted_terms_at'=>now(),
+        $o+=['order_id'=>uid('ord'),'items'=>$lines,'subtotal'=>$subtotal,'shipping'=>$shipping,'total'=>$subtotal-$discount['discount']+$shipping,'accepted_terms_at'=>now(),'terms_version'=>'2026-10-05','terms_text'=>legal_text($o['lang']??'hu'),
             'status'=>'PENDING','payment_status'=>'UNPAID','fulfillment_status'=>'AWAITING_PAYMENT','invoice'=>['status'=>'NONE'],
             'history'=>[['at'=>now(),'event'=>'created']],'created_at'=>now(),'stock_released'=>false];
         save('orders',$o,true);

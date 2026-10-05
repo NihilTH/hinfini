@@ -12,14 +12,17 @@ function http_request(string $url,string $body,array $headers=[],string $method=
     curl_close($ch); return ['body'=>$response,'status'=>$status,'headers'=>$responseHeaders];
 }
 function mail_template(string $event,array $e): array {
-    $titles=['order_created'=>'Rendelésed megérkezett','payment_success'=>'Sikeres fizetés','payment_failed'=>'A fizetés nem fejeződött be',
+    $titles=['withdrawal_received'=>'Elállási nyilatkozat átvétele','admin_withdrawal'=>'Új elállási nyilatkozat','order_created'=>'Rendelésed megérkezett','payment_success'=>'Sikeres fizetés','payment_failed'=>'A fizetés nem fejeződött be',
         'shipped'=>'Úton van a rendelésed','cancelled'=>'Rendelés törölve','admin_new_order'=>'Új rendelés','admin_paid'=>'Sikeres fizetés',
         'admin_payment_failed'=>'Sikertelen fizetés','admin_cancel_request'=>'Törölt rendelés','admin_low_stock'=>'Alacsony készlet','custom_received'=>'Megkaptuk az egyedi ajánlatkérésedet','admin_custom'=>'Új egyedi gyertya ajánlatkérés','custom_quote'=>'Ajánlat az egyedi gyertyádra','invoice_ready'=>'Elkészült a számlád'];
     if(!isset($titles[$event])) throw new LogicException('Unknown email event');
     $title=$titles[$event]; $id=$e['order_id']??$e['product_id'];
     $text=$title." – H'INFINI #".$id."\n\n";
     if(($e['payment_environment']??'')==='sandbox')$text.="TESZTRENDELÉS – nincs valódi pénzmozgás, ne add fel.\n\n";
-    if(in_array($event,['custom_received','admin_custom','custom_quote'],true)) {
+    if(in_array($event,['withdrawal_received','admin_withdrawal'],true)) {
+        $text.=$e['statement']."\n\nBeérkezés / Received: ".$e['received_at']."\n";
+    }
+    elseif(in_array($event,['custom_received','admin_custom','custom_quote'],true)) {
         $text.='Név: '.$e['full_name']."\nE-mail: ".$e['email']."\nIllat: ".$e['scent']."\nTartó: ".$e['container']."\nFelirat: ".$e['text']."\nSzövegszín: ".$e['color']."\nElképzelés: ".$e['idea']."\n";
         if($event==='custom_quote')$text.="\nAjánlat: ".$e['quote']['amount']." Ft (teljes fizetendő összeg)\n".$e['quote']['message']."\n\nFizetés kizárólag átutalással.\nKedvezményezett: ".cfg('BANK_ACCOUNT_NAME')."\nBankszámlaszám: ".cfg('BANK_ACCOUNT_NUMBER')."\nKözlemény: ".$id;
         elseif($event==='custom_received')$text.="\nEz egy ajánlatkérés. Az árat és az átutalási adatokat külön e-mailben küldjük; most még nem kell fizetned.";
@@ -39,6 +42,7 @@ function mail_template(string $event,array $e): array {
         if($event==='shipped') $text.="Nyomkövetés: ".implode(' ',array_filter($e['tracking']??[]))."\n";
         $text.="\n".rtrim((string)cfg('PUBLIC_SITE_URL'),'/').(str_starts_with($event,'admin_')?'/admin?order=':'/order/').$id;
     }
+    if($event==='order_created'&&!empty($e['terms_text']))$text.="\n\n".$e['terms_text'];
     $text.="\n\nÜgyfélszolgálat: ".cfg('SUPPORT_EMAIL');
     $html=mail_design($title,$text,$event,$e);
     return [$title." – H'INFINI #".$id,$html,$text];

@@ -34,3 +34,5 @@ await cp(join(root,'SECURITY-REVIEW.md'),join(target,'SECURITY-REVIEW.md'));
 for (const dest of [target, update]) await cp(join(root,'TERMEKADATOK.md'),join(dest,'TERMEKADATOK.md'));
 
 for (const dest of [target, update]) await cp(join(root,'BARION-SZAMLAZZ-BEALLITAS.md'),join(dest,'BARION-SZAMLAZZ-BEALLITAS.md'));
+
+for (const dest of [target, update]) await cp(join(root,'JOGI-OLDALAK-ELLENORZES.md'),join(dest,'JOGI-OLDALAK-ELLENORZES.md'));

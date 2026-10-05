@@ -46,6 +46,7 @@ jobs:
       - run: php backend-php/bin/console.php seed
       - run: node backend-php/tests/integration.mjs
       - run: php backend-php/tests/barion-invoices.php
+      - run: php backend-php/tests/legal.php
   package:
     runs-on: ubuntu-latest
     steps:

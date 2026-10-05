@@ -7,13 +7,14 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Sheet, SheetTrigger, SheetPortal, SheetOverlay, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import ShopMenu from "@/components/ShopMenu";
 import { useCatalog } from "@/context/CatalogContext";
+import legal from "@/data/legal.json";
 import NewsletterForm from "@/components/NewsletterForm";
 
 export const LOGO_URL = "/hinfini-logo.png";
 
 const LEGAL = [
   { to: "/szallitas", key: "legal.shipping" }, { to: "/elallas", key: "legal.returns" }, { to: "/aszf", key: "legal.terms" },
-  { to: "/adatkezeles", key: "legal.privacy" }, { to: "/kapcsolat", key: "legal.contact" },
+  { to: "/sutik", key: "legal.cookies" }, { to: "/adatkezeles", key: "legal.privacy" }, { to: "/kapcsolat", key: "legal.contact" },
 ];
 
 function Logo({ small }) {
@@ -43,7 +44,7 @@ function LangSwitch({ lang, setLang, t }) {
 export default function Layout({ children }) {
   const { count } = useCart();
   const { t, lang, setLang, catName } = useLang();
-  const { categories } = useCatalog();
+  const { categories, config = {free_shipping_from:25000} } = useCatalog();
   const [open, setOpen] = useState(false);
   const nav = useNavigate();
   const loc = useLocation();
@@ -69,7 +70,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="bg-[#0F0E0C] text-[#D4AF6E] text-[11px] tracking-[0.24em] text-center py-2 px-4 border-b border-[#3d3835]">{t("banner")}</div>
+      <div className="bg-[#0F0E0C] text-[#D4AF6E] text-[11px] tracking-[0.24em] text-center py-2 px-4 border-b border-[#3d3835]">{lang === "hu" ? `INGYENES SZÁLLÍTÁS ${config.free_shipping_from.toLocaleString("hu-HU")} FT-TÓL – KÉZZEL ÖNTÖTT KIS SZÉRIÁKBAN` : `FREE SHIPPING FROM HUF ${config.free_shipping_from.toLocaleString("en-GB")} – HAND-POURED IN SMALL BATCHES`}</div>
 
       <Sheet open={open} onOpenChange={setOpen}>
       <header className="sticky top-0 z-40 bg-[#1A1917]/95 backdrop-blur border-b border-[#3d3835]">
@@ -131,7 +132,7 @@ export default function Layout({ children }) {
           <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             <div>
               <Link to="/" className="inline-block mb-4 focus-ring rounded-full" aria-label="H'INFINI Candles"><Logo small /></Link>
-              <p className="text-sm max-w-xs leading-relaxed">{t("footer.tagline")}</p>
+              <p className="text-sm max-w-xs leading-relaxed">{t("footer.tagline")}</p><p className="text-xs leading-relaxed mt-4">{legal.merchant.name}<br/>{legal.merchant.office}<br/>{lang === "hu" ? "Adószám" : "Tax number"}: {legal.merchant.tax}<br/><a className="underline" href={`mailto:${legal.merchant.email}`}>{legal.merchant.email}</a><br/><a href="tel:+36301612484">{legal.merchant.phone}</a></p>
             </div>
             <div>
               <div className="overline mb-4 text-[#D4AF6E]">{t("footer.shop")}</div>
@@ -142,6 +143,7 @@ export default function Layout({ children }) {
             <div>
               <div className="overline mb-4 text-[#D4AF6E]">{t("footer.info")}</div>
               <ul className="space-y-2 text-sm">
+                <li><Link to="/elallas#elallas-urlap" className="underline">{lang === "hu" ? "Elállás a szerződéstől" : "Withdraw from the contract"}</Link></li>
                 {LEGAL.map((l) => <li key={l.to}><Link to={l.to} data-testid={`footer-link-${l.to.slice(1)}`} className="link-underline focus-ring">{t(l.key)}</Link></li>)}
               </ul>
             </div>

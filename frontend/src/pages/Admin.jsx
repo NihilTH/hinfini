@@ -10,11 +10,13 @@ import AdminCategories from "@/admin/AdminCategories";
 import AdminOrders from "@/admin/AdminOrders";
 import { MediaGrid } from "@/admin/Media";
 import { AdminNewsletter, AdminEmailLog } from "@/admin/AdminMisc";
+import AdminWithdrawals from "@/admin/AdminWithdrawals";
 import AdminHomepage from "@/admin/AdminHomepage";
 import AdminStudio from "@/admin/AdminStudio";
 import Seo from "@/components/Seo";
 
 const TABS = [
+ {id:"withdrawals",icon:Receipt,key:"withdrawals"},
   {id:"homepage",icon:Images,key:"homepage"},
   {id:"custom",icon:Package,key:"Egyedi kérések"},{id:"coupons",icon:Tag,key:"Kuponok"},{id:"events",icon:ListChecks,key:"Események"},{id:"studio",icon:Tag,key:"Egyedi lehetőségek"},
   { id: "orders", icon: Receipt, key: "orders" }, { id: "products", icon: Package, key: "products" }, { id: "categories", icon: Tag, key: "categories" },
@@ -105,6 +107,7 @@ export default function Admin() {
       </nav>
 
       {["custom","coupons","events","studio"].includes(tab) && <AdminStudio key={tab} mode={tab} />}
+      {tab === "withdrawals" && <AdminWithdrawals />}
       {tab === "homepage" && <AdminHomepage />}
       {tab === "orders" && <AdminOrders initialOrder={params.get("order")} onChanged={loadStats} />}
       {tab === "products" && <AdminProducts categories={cats} onChanged={refresh} />}

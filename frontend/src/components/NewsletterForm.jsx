@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import api from "@/lib/api";
 import { toast } from "sonner";
@@ -35,7 +36,7 @@ export default function NewsletterForm() {
       </div>
       <label className="flex items-start gap-2 text-xs leading-relaxed cursor-pointer">
         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} data-testid="footer-consent" className="mt-0.5 accent-[#D4AF6E] focus-ring" />
-        <span>{t("footer.consent")}</span>
+        <span>{t("footer.consent")} <Link to="/adatkezeles" className="underline">{t("legal.privacy")}</Link></span>
       </label>
     </form>
   );

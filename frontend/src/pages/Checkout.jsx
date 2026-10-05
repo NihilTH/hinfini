@@ -144,6 +144,7 @@ export default function Checkout() {
             <div className="flex justify-between"><span>{t("cart.shipping")}</span><span data-testid="co-shipping">{shipping === 0 ? t("cart.free") : formatPrice(shipping)}</span></div>
             <div className="flex justify-between font-serif-display text-xl pt-2 border-t border-[#3d3835]"><span>{t("cart.total")}</span><span data-testid="co-total" className="text-[#D4AF6E]">{formatPrice(total)}</span></div>
           </div>
+          <p className="text-xs text-[#B8AE95] mt-4">{lang === "hu" ? "Végső fogyasztói árak, alanyi adómentes (AAM) értékesítés. Eladó: Sopronyi Dominik egyéni vállalkozó." : "Final consumer prices; Hungarian VAT exemption (AAM). Seller: Sopronyi Dominik egyéni vállalkozó."}</p>
           <button type="submit" disabled={busy || items.length === 0 || config.payment_enabled === false} data-testid="co-submit" className="btn-primary w-full justify-center mt-8 disabled:opacity-60 focus-ring">{busy ? t("co.submitting") : t("co.submit")}</button>
           <p className="mt-3 text-[11px] text-[#B8AE95] text-center">{t("co.legalNote")}</p>
         </aside>

@@ -34,6 +34,7 @@ export const adminApi = {
   orderInvoice: (id, b) => api.patch(`/admin/orders/${id}/invoice`, b, h()),
   newsletter: () => api.get("/admin/newsletter", h()),
   deleteSubscriber: (email) => api.delete(`/admin/newsletter/${encodeURIComponent(email)}`, h()),
+  withdrawals: () => api.get("/admin/withdrawals", h()),
   emails: (order_id) => api.get("/admin/emails", { ...h(), params: order_id ? { order_id } : {} }),
   resendEmail: (id) => api.post(`/admin/emails/${id}/resend`, null, h()),
 };
@@ -41,7 +42,7 @@ export const adminApi = {
 const A = {
   hu: {
     homepage: "Főoldal",
-    dashboard: "Áttekintés", products: "Termékek", categories: "Kategóriák", orders: "Rendelések", media: "Médiatár", newsletter: "Hírlevél", emails: "E-mail napló",
+    withdrawals: "Elállások", withdrawal_received: "Elállás visszaigazolása", admin_withdrawal: "Új elállás", dashboard: "Áttekintés", products: "Termékek", categories: "Kategóriák", orders: "Rendelések", media: "Médiatár", newsletter: "Hírlevél", emails: "E-mail napló",
     search: "Keresés…", all: "Összes", add: "Új termék", addCat: "Új kategória", edit: "Szerkesztés", save: "Mentés", cancel: "Mégse", close: "Bezárás",
     saved: "Sikeresen mentve.", failed: "Hiba történt. Kérlek ellenőrizd az adatokat.", confirm: "Megerősítés", yes: "Igen", no: "Nem",
     status: "Állapot", published: "Publikált", draft: "Piszkozat", hidden: "Elrejtve", archived: "Archivált", archive: "Archiválás",
@@ -90,7 +91,7 @@ const A = {
   },
   en: {
     homepage: "Home page",
-    dashboard: "Overview", products: "Products", categories: "Categories", orders: "Orders", media: "Media library", newsletter: "Newsletter", emails: "Email log",
+    withdrawals: "Withdrawals", withdrawal_received: "Withdrawal acknowledgement", admin_withdrawal: "New withdrawal", dashboard: "Overview", products: "Products", categories: "Categories", orders: "Orders", media: "Media library", newsletter: "Newsletter", emails: "Email log",
     search: "Search…", all: "All", add: "New product", addCat: "New category", edit: "Edit", save: "Save", cancel: "Cancel", close: "Close",
     saved: "Saved successfully.", failed: "Something went wrong. Please check the data.", confirm: "Confirm", yes: "Yes", no: "No",
     status: "Status", published: "Published", draft: "Draft", hidden: "Hidden", archived: "Archived", archive: "Archive",

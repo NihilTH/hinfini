@@ -20,7 +20,7 @@ export default function ProductDetail() {
   const location = useLocation();
   const { add } = useCart();
   const { t, tr, label, lang } = useLang();
-  const { catLabel } = useCatalog();
+  const { catLabel, config } = useCatalog();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [color, setColor] = useState("");
@@ -97,7 +97,7 @@ export default function ProductDetail() {
           </div>
 
           <div className="mt-10 grid sm:grid-cols-2 gap-4 text-sm">
-            <div className="border border-[#3d3835] p-4 flex gap-3"><Truck size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.shipping")}</div><p className="text-[#B8AE95] leading-relaxed">{t("pd.shippingDesc")}</p></div></div>
+            <div className="border border-[#3d3835] p-4 flex gap-3"><Truck size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.shipping")}</div><p className="text-[#B8AE95] leading-relaxed">{lang === "hu" ? `Házhozszállítás: ${config?.shipping_home ?? 1990} Ft. Ingyenes ${config?.free_shipping_from ?? 25000} Ft-tól. Az árak alanyi adómentesek (AAM).` : `Home delivery: HUF ${config?.shipping_home ?? 1990}. Free from HUF ${config?.free_shipping_from ?? 25000}. Prices are VAT-exempt (AAM).`} <Link to="/szallitas" className="underline">{t("legal.shipping")}</Link></p></div></div>
             <div className="border border-[#3d3835] p-4 flex gap-3"><Package size={22} className="text-[#D4AF6E] shrink-0" /><div><div className="overline mb-1">{t("pd.stock")}</div><p className="text-[#B8AE95]">{t(`stock.${product.stock_state}`)}{product.stock_state !== "out" ? ` · ${product.stock} ${lang === "en" ? "available" : "db"}` : ""}</p></div></div>
           </div>
 

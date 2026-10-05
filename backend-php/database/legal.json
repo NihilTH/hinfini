@@ -311,6 +311,10 @@
           "A kosár (hi_cart_v1) és a nyelv (hi_lang) helyi böngészőtárolásban marad a törlésig. Ezek az általad kért működést biztosítják. A sütiválasztást 6 hónapig őrizzük. Opcionális Barion Pixel csak külön engedéllyel töltődik be; a döntés a Süti beállítások oldalon módosítható. Hírlevélhez külön hozzájárulás kell. Nem alkalmazunk a webshopban automatikus, joghatással járó profilalapú döntést."
         ],
         [
+          "Külső betűkészletek, képek és biztonsági adatok",
+          "A megjelenéshez Google Fonts betűkészletek és – az adott termékhez beállított kép URL-jétől függően – külső képszolgáltatók is lekérdezhetők. Ezek a szolgáltatók a kérés során IP-címet és böngészőadatokat kapnak. A cél a kért tartalom megjelenítése; jogalapunk a webshop megjelenítéséhez fűződő jogos érdek (GDPR 6. cikk (1) f)). A visszaélések korlátozásához IP-címből képzett azonosítót, időpontot és próbálkozásszámot kezelünk ugyanilyen jogalapon. Ezek nem marketingcélú adatok. A jogos érdeken alapuló adatkezeléssel szemben tiltakozhatsz."
+        ],
+        [
           "Adatvédelmi jogok",
           "Kérhetsz hozzáférést, helyesbítést, a feltételek fennállásakor törlést, korlátozást és adathordozhatóságot; jogos érdeken alapuló kezelés ellen tiltakozhatsz. Hozzájárulásodat visszavonhatod, ami a korábbi kezelés jogszerűségét nem érinti. Írj a hinfinicandles@hinfinicandles.hu címre. Főszabály szerint 1 hónapon belül válaszolunk. Panasszal a NAIH-hoz fordulhatsz: 1055 Budapest, Falk Miksa utca 9–11.; postacím: 1363 Budapest, Pf. 9.; https://www.naih.hu/. Bírósági jogorvoslat is igénybe vehető."
         ]
@@ -351,6 +355,10 @@
         [
           "Browser storage and tracking",
           "The basket (hi_cart_v1) and language (hi_lang) remain in local browser storage until cleared and support functionality you request. Cookie preferences are retained for six months. The optional Barion Pixel loads only with separate permission; change your choice on the Cookie settings page. Newsletter consent is separate. The shop does not make automated profile-based decisions with legal effects."
+        ],
+        [
+          "External fonts, images and security data",
+          "Rendering the site may request Google Fonts and, depending on the image URL configured for a product, external image services. These providers receive IP addresses and browser details with the request. The purpose is to display requested content, based on our legitimate interest in presenting the shop (Article 6(1)(f) GDPR). To limit abuse, we also process an identifier derived from the IP address, timestamps and attempt counts on the same legal basis. These are not used for marketing. You may object to processing based on legitimate interests."
         ],
         [
           "Your data protection rights",

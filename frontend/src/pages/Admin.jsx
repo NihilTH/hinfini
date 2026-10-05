@@ -10,6 +10,7 @@ import AdminCategories from "@/admin/AdminCategories";
 import AdminOrders from "@/admin/AdminOrders";
 import { MediaGrid } from "@/admin/Media";
 import { AdminNewsletter, AdminEmailLog } from "@/admin/AdminMisc";
+import AdminReadiness from "@/admin/AdminReadiness";
 import AdminWithdrawals from "@/admin/AdminWithdrawals";
 import AdminHomepage from "@/admin/AdminHomepage";
 import AdminStudio from "@/admin/AdminStudio";
@@ -86,6 +87,7 @@ export default function Admin() {
           <button onClick={logout} className="btn-outline !py-2 !px-4 text-sm focus-ring" data-testid="admin-signout"><SignOut size={16} /> {t("admin.signOut")}</button>
         </div>
       </div>
+      <AdminReadiness/>
       {help && <div className="admin-card p-4 mb-6 text-sm text-[#B8AE95] leading-relaxed" data-testid="admin-help">{a("helpText")}</div>}
 
       {stats && (

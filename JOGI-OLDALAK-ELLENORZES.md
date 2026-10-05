@@ -29,3 +29,6 @@ Források (ellenőrizve 2026-10-05):
 - https://www.hbmbekeltetes.hu/
 - https://www.naih.hu/ugyfelszolgalat-kapcsolat
 - https://www.barion.com/hu/adatvedelmi-tajekoztato/
+
+## Élő katalógus ellenőrzése – 2026-10-05
+A nyilvános API alapján 19 termék látható, 16 ára 0 Ft, 19 készlete nulla. Az adatokat nem írtuk felül. Admin → Termékadatok ellenőrzése megmutatja az aktuális hiányokat.
